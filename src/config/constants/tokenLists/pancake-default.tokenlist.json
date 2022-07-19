@@ -16,7 +16,7 @@
       "address": "0xDdFa329d373b3EC762Ec3D238712508BBC8F0b3D",
       "chainId": 56,
       "decimals": 6,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F.png"
+      "logoURI": "https://pancakeswap.finance/images/tokens/TTC.png"
     },
     {
       "name": "ETI",
@@ -24,7 +24,7 @@
       "address": "0x5aed6c786979a07a2fc6aea5b34d89c32880e109",
       "chainId": 56,
       "decimals": 6,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F.png"
+      "logoURI": "https://pancakeswap.finance/images/tokens/ETI.png"
     },
     {
       "name": "WBNB Token",
