@@ -1,9 +1,9 @@
 {
-  "short_name": "PancakeSwap",
-  "name": "PancakeSwap",
+  "short_name": "TTCSwap",
+  "name": "TTCSwap",
   "description": "Farm CAKE with Pancake LP Tokens",
-  "homepage_url": "https://pancakeswap.finance",
-  "start_url": ".",
+  "homepage_url": "https://ttcswap.finance/",
+  "start_url": "./swap",
   "display": "standalone",
   "theme_color": "#1FC7D4",
   "background_color": "#ffffff",
