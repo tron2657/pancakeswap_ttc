@@ -7,7 +7,7 @@
     "patch": 0
   },
   "tags": {},
-  "logoURI": "https://pancakeswap.finance/logo.png",
+  "logoURI": "https://ttcswap.finance/logo.png",
   "keywords": ["pancake", "default"],
   "tokens": [
     {
@@ -16,7 +16,7 @@
       "address": "0xDdFa329d373b3EC762Ec3D238712508BBC8F0b3D",
       "chainId": 56,
       "decimals": 6,
-      "logoURI": "https://pancakeswap.finance/images/tokens/TTC.png"
+      "logoURI": "https://ttcswap.finance/images/tokens/TTC.png"
     },
     {
       "name": "ETI",
@@ -24,7 +24,7 @@
       "address": "0x5aed6c786979a07a2fc6aea5b34d89c32880e109",
       "chainId": 56,
       "decimals": 6,
-      "logoURI": "https://pancakeswap.finance/images/tokens/ETI.png"
+      "logoURI": "https://ttcswap.finance/images/tokens/ETI.png"
     },
     {
       "name": "WBNB Token",
