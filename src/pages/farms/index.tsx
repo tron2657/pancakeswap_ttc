@@ -9,7 +9,7 @@ const FarmsPage = () => {
   const { account } = useWeb3React()
   const { chosenFarmsMemoized } = useContext(FarmsContext)
   const cakePrice = usePriceCakeBusd()
-
+  console.log(chosenFarmsMemoized)
   return (
     <>
       {chosenFarmsMemoized.map((farm) => (

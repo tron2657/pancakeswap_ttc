@@ -93,4 +93,4 @@ export const DEFAULT_OUTPUT_CURRENCY = '0x5aed6c786979a07a2fc6aea5b34d89c32880e1
 export const GELATO_HANDLER = 'pancakeswap'
 export const GENERIC_GAS_LIMIT_ORDER_EXECUTION = BigNumber.from(500000)
 
-export const LIMIT_ORDERS_DOCS_URL = 'https://docs.pancakeswap.finance/products/pancakeswap-exchange/limit-orders'
+export const LIMIT_ORDERS_DOCS_URL = 'https://docs.ttcswap.finance/products/pancakeswap-exchange/limit-orders'
