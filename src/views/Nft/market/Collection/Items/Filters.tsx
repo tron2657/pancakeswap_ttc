@@ -112,9 +112,9 @@ const Filters: React.FC<FiltersProps> = ({ address, attributes }) => {
 
   return (
     <GridContainer>
-      <FilterByTitle textTransform="uppercase" color="textSubtle" fontSize="12px" bold>
+      {/* <FilterByTitle textTransform="uppercase" color="textSubtle" fontSize="12px" bold>
         {t('Filter by')}
-      </FilterByTitle>
+      </FilterByTitle> */}
       <FilterByControls>
         <ButtonMenu scale="sm" activeIndex={activeButtonIndex} onItemClick={onActiveButtonChange}>
           <ButtonMenuItem>{t('All')}</ButtonMenuItem>
@@ -127,7 +127,7 @@ const Filters: React.FC<FiltersProps> = ({ address, attributes }) => {
       <SortByControls>
         <SortSelect collectionAddress={address} />
       </SortByControls>
-      <ScrollableFlexContainer>
+      {/* <ScrollableFlexContainer>
         {uniqueTraitTypes.map((traitType) => {
           const attrs = attrsByType[traitType]
           const items: Item[] = attrs.map((attr) => ({
@@ -147,7 +147,7 @@ const Filters: React.FC<FiltersProps> = ({ address, attributes }) => {
           )
         })}
         {!isEmpty(nftFilters) && <ClearAllButton collectionAddress={address} mb="4px" />}
-      </ScrollableFlexContainer>
+      </ScrollableFlexContainer> */}
     </GridContainer>
   )
 }

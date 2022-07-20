@@ -93,17 +93,25 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
     fillIcon: NftFillIcon,
     items: [
       {
-        label: t('Overview'),
-        href: `${nftsBaseUrl}`,
+        label: '碎片市场',
+        href: `${nftsBaseUrl}/fragments`,
       },
       {
-        label: t('Collections'),
-        href: `${nftsBaseUrl}/collections`,
+        label: 'NFT市场',
+        href: `${nftsBaseUrl}/market`,
       },
-      {
-        label: t('Activity'),
-        href: `${nftsBaseUrl}/activity`,
-      },
+      // {
+      //   label: t('Overview'),
+      //   href: `${nftsBaseUrl}`,
+      // },
+      // {
+      //   label: t('Collections'),
+      //   href: `${nftsBaseUrl}/collections`,
+      // },
+      // {
+      //   label: t('Activity'),
+      //   href: `${nftsBaseUrl}/activity`,
+      // },
     ],
   },
   {
