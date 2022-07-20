@@ -3,6 +3,8 @@ import {
   DropdownMenuItemType,
   SwapIcon,
   SwapFillIcon,
+  MiningIcon,
+  MiningFillIcon,
   EarnFillIcon,
   EarnIcon,
   TrophyIcon,
@@ -51,8 +53,8 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
   {
     label: t('Mining'),
     href: '/mining',
-    icon: TrophyIcon,
-    fillIcon: TrophyFillIcon,
+    icon: MiningIcon,
+    fillIcon: MiningFillIcon,
     showItemsOnMobile: false,
     items: [
       {
@@ -67,7 +69,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
     href: '/farms',
     icon: EarnIcon,
     fillIcon: EarnFillIcon,
-
+    showItemsOnMobile: false,
     items: [
       {
         label: t('Farms'),
@@ -102,9 +104,10 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
   // },
   {
     label: t('NFT'),
-    href: `${nftsBaseUrl}`,
+    href: `${nftsBaseUrl}/fragments`,
     icon: NftIcon,
     fillIcon: NftFillIcon,
+    showItemsOnMobile: false,
     items: [
       {
         label: '碎片市场',
@@ -133,6 +136,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
     href: '/info',
     icon: MoreIcon,
     hideSubNav: true,
+
     items: [
       {
         label: t('One-click coin issuance'),

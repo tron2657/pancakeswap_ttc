@@ -5,6 +5,8 @@ import {
   SwapIcon,
   SwapFillIcon,
   EarnFillIcon,
+  MiningIcon,
+  MiningFillIcon,
   EarnIcon,
   TrophyIcon,
   TrophyFillIcon,

@@ -122,6 +122,8 @@ export { default as StarLineIcon } from "./Icons/StarLine";
 export { default as SunIcon } from "./Icons/Sun";
 export { default as SwapFillIcon } from "./Icons/SwapFill";
 export { default as SwapIcon } from "./Icons/Swap";
+export { default as MiningFillIcon } from "./Icons/MiningFill";
+export { default as MiningIcon } from "./Icons/Mining";
 export { default as SwapVertIcon } from "./Icons/SwapVert";
 export { default as SyncAltIcon } from "./Icons/SyncAlt";
 export { default as TeamBattleIcon } from "./Icons/TeamBattle";
