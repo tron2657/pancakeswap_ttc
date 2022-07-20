@@ -1,6 +1,9 @@
 import React, { useContext } from "react";
 import styled, { keyframes } from "styled-components";
+import { baseColors, darkColors, lightColors } from "../../../theme/colors";
+import { Colors } from "../..";
 import Flex from "../../../components/Box/Flex";
+import { LogoWrapper } from "../../../components/LogoWrapper";
 import { LogoIcon, LogoWithTextIcon } from "../../../components/Svg";
 import { MenuContext } from "../context";
 
@@ -48,8 +51,9 @@ const Logo: React.FC<Props> = ({ isDark, href }) => {
   const isAbsoluteUrl = href.startsWith("http");
   const innerLogo = (
     <>
-      <LogoIcon className="mobile-icon" />
-      <LogoWithTextIcon className="desktop-icon" isDark={isDark} />
+      {/* <LogoIcon className="mobile-icon" /> */}
+      <LogoWrapper color={darkColors.contrast as keyof Colors} />
+      {/* <LogoWithTextIcon className="desktop-icon" isDark={isDark} /> */}
     </>
   );
 

@@ -72,7 +72,7 @@ const MenuItem: React.FC<FooterProps> = ({
             </StyledList>
           ))}
           <Box display={["none", null, "block"]}>
-            <LogoWithTextIcon isDark width="160px" />
+            <LogoWrapper color={darkColors.contrast as keyof Colors} />
           </Box>
         </Flex>
         <StyledSocialLinks order={[2]} pb={["42px", null, "32px"]} mb={["0", null, "32px"]} />
