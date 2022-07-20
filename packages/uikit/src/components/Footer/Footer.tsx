@@ -1,5 +1,8 @@
 import React from "react";
+import { Text } from "@pancakeswap/uikit";
 import { baseColors, darkColors, lightColors } from "../../theme/colors";
+import styled from "styled-components";
+
 import { Flex, Box } from "../Box";
 import { Link } from "../Link";
 import {
@@ -14,6 +17,7 @@ import {
 import { FooterProps } from "./types";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 import LangSelector from "../LangSelector/LangSelector";
+import LogoWrapper from "../LogoWrapper/logoWrapper";
 import CakePrice from "../CakePrice/CakePrice";
 import { LogoWithTextIcon, ArrowForwardIcon } from "../Svg";
 import { Button } from "../Button";
@@ -34,7 +38,9 @@ const MenuItem: React.FC<FooterProps> = ({
     <StyledFooter p={["40px 16px", null, "56px 40px 32px 40px"]} {...props} justifyContent="center">
       <Flex flexDirection="column" width={["100%", null, "1200px;"]}>
         <StyledIconMobileContainer display={["block", null, "none"]}>
-          <LogoWithTextIcon isDark width="130px" />
+          {/* <Text color={darkColors.textSubtle as keyof Colors}>TTCSwap</Text> */}
+          <LogoWrapper color={darkColors.contrast as keyof Colors} />
+          {/* <LogoWithTextIcon isDark width="130px" /> */}
         </StyledIconMobileContainer>
         <Flex
           order={[2, null, 1]}
