@@ -32,7 +32,7 @@ const CakePrice: React.FC<Props> = ({ cakePriceUsd, color = "textSubtle", showSk
     >
       {/* <LogoRound width="24px" mr="8px" /> */}
       <img
-        src="/images/logo.png"
+        src="/images/logo-TTC.jpeg"
         height="25px"
         width="25px"
         alt="nft"
