@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import { baseColors, darkColors, lightColors } from "../../../theme/colors";
-import { Colors } from "../..";
+import { Colors } from "../../../theme/types";
 import Flex from "../../../components/Box/Flex";
 import { LogoWrapper } from "../../../components/LogoWrapper";
 import { LogoIcon, LogoWithTextIcon } from "../../../components/Svg";
