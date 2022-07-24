@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency } from '@pancakeswap/sdk'
+import { TokenAmount, Pair, Currency } from 'ttcswap-sdk'
 import { useMemo } from 'react'
 import IPancakePairABI from 'config/abi/IPancakePair.json'
 import { Interface } from '@ethersproject/abi'
@@ -28,6 +28,7 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     [chainId, currencies],
   )
 
+ 
   const pairAddresses = useMemo(
     () =>
       tokens.map(([tokenA, tokenB]) => {

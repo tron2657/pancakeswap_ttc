@@ -1,4 +1,4 @@
-import { Token } from '@pancakeswap/sdk'
+import { Token } from 'ttcswap-sdk'
 import tokens from 'config/constants/tokens'
 import warningTokens from 'config/constants/warningTokens'
 

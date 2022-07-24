@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pancakeswap/sdk'
+import { ChainId, Token } from 'ttcswap-sdk'
 import { CHAIN_ID } from './networks'
 import { defineTokens } from './tokens'
 

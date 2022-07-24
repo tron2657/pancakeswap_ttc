@@ -1,4 +1,4 @@
-import { ChainId, Pair, Token } from '@pancakeswap/sdk'
+import { ChainId, Pair, Token } from 'ttcswap-sdk'
 import { differenceInDays } from 'date-fns'
 import flatMap from 'lodash/flatMap'
 import farms from 'config/constants/farms'
@@ -430,6 +430,7 @@ export function usePairAdder(): (pair: Pair) => void {
  * @param tokenB the other token
  */
 export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
+  console.log(121,Pair);
   return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, 'Cake-LP', 'Pancake LPs')
 }
 
@@ -451,6 +452,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
     [],
   )
 
+ 
   // pairs for every token against every base
   const generatedPairs: [Token, Token][] = useMemo(
     () =>
@@ -459,7 +461,7 @@ export function useTrackedTokenPairs(): [Token, Token][] {
             const token = tokens[tokenAddress]
             // for each token on the current chain,
             return (
-              // loop through all bases on the current chain
+              // loop through all ba----ses on the current chain
               (BASES_TO_TRACK_LIQUIDITY_FOR[chainId] ?? [])
                 // to construct pairs of the given token with each base
                 .map((base) => {

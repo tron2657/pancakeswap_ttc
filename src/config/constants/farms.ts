@@ -8,6 +8,19 @@ const farms: SerializedFarmConfig[] = [
   /**
    * These 3 farms (PID 0, 2, 3) should always be at the top of the file.
    */
+
+    
+  //  {
+  //   pid: 4,
+  //   v1pid: 253,
+  //   lpSymbol: 'TTC-BNB LP',
+  //   lpAddresses: {
+  //     97: '',
+  //     56: '0xeD60947326373E46E255A4786175d1c342Ddcc52',
+  //   },
+  //   token: serializedTokens.eti,
+  //   quoteToken: serializedTokens.ttc,
+  // },
   {
     pid: 0,
     v1pid: 0,
@@ -22,13 +35,13 @@ const farms: SerializedFarmConfig[] = [
   {
     pid: 2,
     v1pid: 251,
-    lpSymbol: 'CAKE-BNB LP',
+    lpSymbol: 'TTC-ETI LP',
     lpAddresses: {
-      97: '0x3ed8936cAFDF85cfDBa29Fbe5940A5b0524824F4',
-      56: '0x0eD7e52944161450477ee417DE9Cd3a859b14fD0',
+      97: '',
+      56: '0xeD60947326373E46E255A4786175d1c342Ddcc52',
     },
-    token: serializedTokens.cake,
-    quoteToken: serializedTokens.wbnb,
+    token: serializedTokens.eti,
+    quoteToken: serializedTokens.ttc,
   },
   {
     pid: 3,

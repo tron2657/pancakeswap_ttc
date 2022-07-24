@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pancakeswap/sdk'
+import { ChainId, Token } from 'ttcswap-sdk'
 import { serializeToken } from 'state/user/hooks/helpers'
 import { CHAIN_ID } from './networks'
 import { SerializedToken } from './types'
@@ -14,10 +14,18 @@ export const defineTokens = <T extends TokenList>(t: T) => t
 export const mainnetTokens = defineTokens({
   ttc: new Token(
     MAINNET,
-    '0xDdFa329d373b3EC762Ec3D238712508BBC8F0b3D',
+    '0x11f2B74aC64D9Be3d4A44CA54278caF9e89b6e85',
     6,
     'TTC',
     'TTC',
+    'https://www.baidu.com/',
+  ),
+  eti: new Token(
+    MAINNET,
+    '0xFE99BcC1aD6E0f137Eb4E8A5F46915fDe7195c4c',
+    18,
+    'ETI',
+    'ETI',
     'https://www.baidu.com/',
   ),
   wbnb: new Token(
