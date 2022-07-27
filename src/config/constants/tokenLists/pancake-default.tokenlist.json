@@ -13,7 +13,7 @@
     {
       "name": "TTC",
       "symbol": "TTC",
-      "address": "0xDdFa329d373b3EC762Ec3D238712508BBC8F0b3D",
+      "address": "0x152ad7Dc399269FA65D19BD7A790Ea8aa5b23DaD",
       "chainId": 56,
       "decimals": 6,
       "logoURI": "https://ttcswap.finance/images/tokens/TTC.png"
@@ -21,9 +21,9 @@
     {
       "name": "ETI",
       "symbol": "ETI",
-      "address": "0x5aed6c786979a07a2fc6aea5b34d89c32880e109",
+      "address": "0xe943616228239E078Dc4436150602E0426E684AD",
       "chainId": 56,
-      "decimals": 6,
+      "decimals": 18,
       "logoURI": "https://ttcswap.finance/images/tokens/ETI.png"
     },
     {

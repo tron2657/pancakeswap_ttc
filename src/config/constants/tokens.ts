@@ -14,19 +14,19 @@ export const defineTokens = <T extends TokenList>(t: T) => t
 export const mainnetTokens = defineTokens({
   ttc: new Token(
     MAINNET,
-    '0x11f2B74aC64D9Be3d4A44CA54278caF9e89b6e85',
+    '0x152ad7Dc399269FA65D19BD7A790Ea8aa5b23DaD',
     6,
     'TTC',
     'TTC',
-    'https://www.baidu.com/',
+    'https://ttcswap.finance/',
   ),
   eti: new Token(
     MAINNET,
-    '0xFE99BcC1aD6E0f137Eb4E8A5F46915fDe7195c4c',
+    '0xe943616228239E078Dc4436150602E0426E684AD',
     18,
     'ETI',
     'ETI',
-    'https://www.baidu.com/',
+    'https://ttcswap.finance/',
   ),
   wbnb: new Token(
     MAINNET,
