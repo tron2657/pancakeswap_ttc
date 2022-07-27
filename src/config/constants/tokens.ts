@@ -15,7 +15,7 @@ export const mainnetTokens = defineTokens({
   ttc: new Token(
     MAINNET,
     '0x152ad7Dc399269FA65D19BD7A790Ea8aa5b23DaD',
-    6,
+    18,
     'TTC',
     'TTC',
     'https://ttcswap.finance/',
