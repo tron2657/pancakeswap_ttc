@@ -16,6 +16,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useRouter } from 'next/router'
 import PageHeader from 'components/PageHeader'
 import CardHeading from './components/CardHeading'
+import tokens from "config/constants/tokens"
 
 const ControlContainer = styled.div`
   display: flex;
@@ -83,22 +84,9 @@ const Mining: React.FC = ({ children }) => {
   }
   const handleApprove = useCallback(async () => {}, [fetchWithCatchTxError])
 
-  const MiningToken = new Token(
-    56,
-    '0xDdFa329d373b3EC762Ec3D238712508BBC8F0b3D',
-    6,
-    'TTC',
-    'TTC',
-    'https://ttcswap.finance/',
-  )
+  const MiningToken = tokens.ttc;
 
-  const MiningQuoteToken = new Token(
-    56,
-    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-    18,
-    'Wrapped BNB',
-    'https://www.binance.com/',
-  )
+  const MiningQuoteToken =  tokens.usdt;
   useEffect(() => {}, [])
 
   return (
@@ -108,7 +96,7 @@ const Mining: React.FC = ({ children }) => {
           {t('流动性挖矿')}
         </Heading>
         <Heading scale="lg" color="text">
-          {t('持有TTC-USDT LP 代币产出EI')}
+          {t('持有TTC-USDT LP 代币产出ETI')}
         </Heading>
         <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>
           <Button p="0" variant="text">
