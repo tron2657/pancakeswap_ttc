@@ -39,7 +39,8 @@ const fetchFarms = async (farmsToFetch: SerializedFarmConfig[]): Promise<Seriali
 
     const allocPoint = info ? new BigNumber(info.allocPoint?._hex) : BIG_ZERO
     const poolWeight = totalRegularAllocPoint ? allocPoint.div(new BigNumber(totalRegularAllocPoint)) : BIG_ZERO
-
+    console.log('quoteTokenAmountTotal',quoteTokenAmountTotal.toJSON());
+    console.log('tokenAmountTotal',tokenAmountTotal.toJSON()); 
     return {
       ...farm,
       token: farm.token,

@@ -21,7 +21,7 @@ const getFarmBaseTokenPrice = (
 ): BigNumber => {
   const hasTokenPriceVsQuote = Boolean(farm.tokenPriceVsQuote)
 
-  if (farm.quoteToken.symbol === tokens.busd.symbol) {
+  if (farm.quoteToken.symbol === tokens.busd.symbol || farm.quoteToken.symbol === tokens.usdt.symbol) {
     return hasTokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : BIG_ZERO
   }
 
@@ -92,7 +92,7 @@ const getFarmsPrices = (farms: SerializedFarm[]) => {
     const quoteTokenFarm = getFarmFromTokenSymbol(farms, farm.quoteToken.symbol)
     const tokenPriceBusd = getFarmBaseTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)
     const quoteTokenPriceBusd = getFarmQuoteTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)
-    console.log(farm.lpSymbol,tokenPriceBusd.toJSON());
+
     return {
       ...farm,
       tokenPriceBusd: tokenPriceBusd.toJSON(),

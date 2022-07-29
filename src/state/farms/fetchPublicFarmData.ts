@@ -49,5 +49,7 @@ export const fetchPublicFarmsData = async (farms: SerializedFarmConfig[]): Promi
   const farmCalls = farms.flatMap((farm) => fetchFarmCalls(farm))
   const chunkSize = farmCalls.length / farms.length
   const farmMultiCallResult = await multicallv2(erc20, farmCalls)
+  console.log('farmCalls',farmCalls);
+  console.log('farmMultiCallResult',farmMultiCallResult);
   return chunk(farmMultiCallResult, chunkSize)
 }
