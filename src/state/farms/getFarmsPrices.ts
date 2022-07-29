@@ -92,7 +92,7 @@ const getFarmsPrices = (farms: SerializedFarm[]) => {
     const quoteTokenFarm = getFarmFromTokenSymbol(farms, farm.quoteToken.symbol)
     const tokenPriceBusd = getFarmBaseTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)
     const quoteTokenPriceBusd = getFarmQuoteTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)
-
+    console.log(farm.lpSymbol,tokenPriceBusd.toJSON());
     return {
       ...farm,
       tokenPriceBusd: tokenPriceBusd.toJSON(),

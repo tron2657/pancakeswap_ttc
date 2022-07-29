@@ -35,13 +35,24 @@ const farms: SerializedFarmConfig[] = [
   {
     pid: 2,
     v1pid: 251,
+    lpSymbol: 'TTC-BNB LP',
+    lpAddresses: {
+      97: '',
+      56: '0xc3bea295b8d866f53df0a3dd2ebbd9286b81e968',
+    },
+    token: serializedTokens.ttc,
+    quoteToken: serializedTokens.wbnb,
+  },
+  {
+    pid: 99,
+    v1pid: 999,
     lpSymbol: 'TTC-ETI LP',
     lpAddresses: {
       97: '',
-      56: '0xeD60947326373E46E255A4786175d1c342Ddcc52',
+      56: '0xc3bea295b8d866f53df0a3dd2ebbd9286b81e968',
     },
-    token: serializedTokens.eti,
-    quoteToken: serializedTokens.ttc,
+    token: serializedTokens.ttc,
+    quoteToken: serializedTokens.eti,
   },
   {
     pid: 3,

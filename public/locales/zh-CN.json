@@ -1408,7 +1408,7 @@
   "Turn on NFT market subgraph health indicator all the time. Default is to show the indicator only when the network is delayed": "始终开启 NFT 市场子图健康指标。默认为仅在网络延迟时才显示该指标",
   "Subgraph Health Indicator": "子图健康指标",
   "Delay": "延迟",
-  "Add liquidity instead": "改为增加流动性",
+  "Add liquidity instead": "增加流动性",
   "If the amount you commit is too small, you may not receive a meaningful amount of IFO tokens.": "如果您提交的金额太小，可能无法收到有意义数量的 IFO 代币。",
   "SAFEMOON has been migrated to": "SAFEMOON 已迁移至",
   "a new contract address.": "新的合约地址。",
