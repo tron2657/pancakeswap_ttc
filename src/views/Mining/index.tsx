@@ -159,10 +159,10 @@ const Mining: React.FC = ({ children }) => {
             </Flex>
             {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
             <Text small mt={'8px'} color="textSubtle">
-              {t('产出规则： ')}:
+              {t('产出规则： ')}
             </Text>
             <Text small color="textSubtle">
-              {t(' 流动性提供者参与后根据流动性 ')}
+              {t('ProduceRuleDesc')}
             </Text>
           </FarmCardInnerContainer>
         </StyledCard>
