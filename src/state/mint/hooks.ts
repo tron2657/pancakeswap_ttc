@@ -59,7 +59,7 @@ export function useDerivedMintInfo(
   error?: string
 } {
   const { account, chainId } = useActiveWeb3React()
-
+  // console.log('Currency',Currency);
   const { t } = useTranslation()
 
   const { independentField, typedValue, otherTypedValue } = useMintState()

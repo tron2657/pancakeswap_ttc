@@ -26,30 +26,7 @@
       "decimals": 18,
       "logoURI": "https://ttcswap.finance/images/tokens/ETI_LOGO.png"
     },
-    {
-      "name": "WBNB Token",
-      "symbol": "WBNB",
-      "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
-      "chainId": 56,
-      "decimals": 18,
-      "logoURI": "https://ttcswap.finance/images/tokens/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png"
-    },
-    {
-      "name": "BUSD Token",
-      "symbol": "BUSD",
-      "address": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56",
-      "chainId": 56,
-      "decimals": 18,
-      "logoURI": "https://ttcswap.finance/images/tokens/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56.png"
-    },
-    {
-      "name": "Ethereum Token",
-      "symbol": "ETH",
-      "address": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
-      "chainId": 56,
-      "decimals": 18,
-      "logoURI": "https://ttcswap.finance/images/tokens/0x2170Ed0880ac9A755fd29B2688956BD959F933F8.png"
-    },
+ 
   
     {
       "name": "Tether USD",
@@ -58,32 +35,9 @@
       "chainId": 56,
       "decimals": 18,
       "logoURI": "https://ttcswap.finance/images/tokens/0x55d398326f99059fF775485246999027B3197955.png"
-    },
-    {
-      "name": "PancakeSwap Token",
-      "symbol": "CAKE",
-      "address": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
-      "chainId": 56,
-      "decimals": 18,
-      "logoURI": "https://ttcswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.png"
-    },
-   
-  
-    {
-      "name": "PancakeSwap Token",
-      "symbol": "CAKE",
-      "address": "0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe",
-      "chainId": 97,
-      "decimals": 18,
-      "logoURI": "https://ttcswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.png"
-    },
-    {
-      "name": "BUSD Token",
-      "symbol": "BUSD",
-      "address": "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee",
-      "chainId": 97,
-      "decimals": 18,
-      "logoURI": "https://ttcswap.finance/images/tokens/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56.png"
     }
+  
+  
+   
   ]
 }

@@ -40,17 +40,18 @@ import Page from '../Page'
 import ConfirmAddLiquidityModal from '../Swap/components/ConfirmAddLiquidityModal'
 import { formatAmount } from '../../utils/formatInfoNumbers'
 import { useAppDispatch } from '../../state'
-
+import tokens from 'config/constants/tokens'
 export default function AddLiquidity() {
   const router = useRouter()
   const [currencyIdA, currencyIdB] = router.query.currency || []
-
+  
   const { account, chainId, library } = useActiveWeb3React()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const gasPrice = useGasPrice()
 
-  const currencyA = useCurrency(currencyIdA)
+  // const currencyA = useCurrency(currencyIdA)
+  const currencyA = useCurrency(tokens.ttc.address)
   const currencyB = useCurrency(currencyIdB)
 
   useEffect(() => {
@@ -82,7 +83,7 @@ export default function AddLiquidity() {
     poolTokenPercentage,
     error,
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
-
+  console.log('currencies',currencies);
   const poolData = useLPApr(pair)
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t(`Based on last 7 days' performance. Does not account for impermanent loss`),
@@ -322,6 +323,7 @@ export default function AddLiquidity() {
               onMax={() => {
                 onFieldAInput(maxAmounts[Field.CURRENCY_A]?.toExact() ?? '')
               }}
+              disableCurrencySelect={true}
               onCurrencySelect={handleCurrencyASelect}
               showMaxButton={!atMaxAmounts[Field.CURRENCY_A]}
               currency={currencies[Field.CURRENCY_A]}
