@@ -1,6 +1,6 @@
 import { Language } from "../LangSelector/types";
 import { FooterLinkType } from "./types";
-import { TwitterIcon, TelegramIcon, RedditIcon, InstagramIcon, GithubIcon, DiscordIcon, MediumIcon } from "../Svg";
+import { TwitterIcon, TelegramIcon, RedditIcon, InstagramIcon, GithubIcon, DiscordIcon, MediumIcon, } from "../Svg";
 
 export const footerLinks: FooterLinkType[] = [
   {
@@ -80,7 +80,7 @@ export const socials = [
   {
     label: "Twitter",
     icon: TwitterIcon,
-    href: "https://twitter.com/pancakeswap",
+    href: "https://twitter.com/TaoTeChing_TTC?t=saOuK4yze6qQhv-cnIw1dw&s=09",
   },
   {
     label: "Telegram",
@@ -88,64 +88,14 @@ export const socials = [
     items: [
       {
         label: "English",
-        href: "https://t.me/pancakeswap",
+        href: "https://t.me/TTCLaoTzu",
       },
-      {
-        label: "Bahasa Indonesia",
-        href: "https://t.me/PancakeSwapIndonesia",
-      },
+  
       {
         label: "中文",
-        href: "https://t.me/PancakeSwap_CN",
+        href: "https://t.me/TTCLaoTzu",
       },
-      {
-        label: "Tiếng Việt",
-        href: "https://t.me/PancakeSwapVN",
-      },
-      {
-        label: "Italiano",
-        href: "https://t.me/pancakeswap_ita",
-      },
-      {
-        label: "русский",
-        href: "https://t.me/pancakeswap_ru",
-      },
-      {
-        label: "Türkiye",
-        href: "https://t.me/pancakeswapturkiye",
-      },
-      {
-        label: "Português",
-        href: "https://t.me/PancakeSwapPortuguese",
-      },
-      {
-        label: "Español",
-        href: "https://t.me/PancakeswapEs",
-      },
-      {
-        label: "日本語",
-        href: "https://t.me/pancakeswapjp",
-      },
-      {
-        label: "Français",
-        href: "https://t.me/pancakeswapfr",
-      },
-      {
-        label: "Deutsch",
-        href: "https://t.me/PancakeSwap_DE",
-      },
-      {
-        label: "Filipino",
-        href: "https://t.me/Pancakeswap_Ph",
-      },
-      {
-        label: "ქართული ენა",
-        href: "https://t.me/PancakeSwapGeorgia",
-      },
-      {
-        label: "Announcements",
-        href: "https://t.me/PancakeSwapAnn",
-      },
+  
     ],
   },
   // {
@@ -158,15 +108,11 @@ export const socials = [
   //   icon: InstagramIcon,
   //   href: "https://instagram.com/pancakeswap_official",
   // },
-  {
-    label: "Github",
-    icon: GithubIcon,
-    href: "https://github.com/pancakeswap/",
-  },
+ 
   {
     label: "Discord",
     icon: DiscordIcon,
-    href: "https://discord.gg/pancakeswap",
+    href: "https://discord.gg/G3cvwWgVbY",
   },
   // {
   //   label: "Medium",

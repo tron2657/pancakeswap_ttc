@@ -150,7 +150,15 @@ const Mining: React.FC = ({ children }) => {
               {t('产出规则： ')}
             </Text>
             <Text small color="textSubtle">
-              {t('ProduceRuleDesc')}
+              {t('ProduceRuleDesc1')}
+       
+            </Text>
+            <Text small color="textSubtle">
+            {t('ProduceRuleDesc2')}                
+            </Text>
+            <Text small color="textSubtle">
+            {t('ProduceRuleDesc3')}
+
             </Text>
           </FarmCardInnerContainer>
         </StyledCard>
