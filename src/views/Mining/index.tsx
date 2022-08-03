@@ -17,14 +17,18 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useRouter } from 'next/router'
 import PageHeader from 'components/PageHeader'
 import CardHeading from './components/CardHeading'
-import tokens from "config/constants/tokens"
-import {getTtcMiningContract} from "utils/contractHelpers"
+import tokens from 'config/constants/tokens'
+import { getTtcMiningContract } from 'utils/contractHelpers'
 import { logError } from 'utils/sentry'
 import { TransactionResponse } from '@ethersproject/providers'
 import { calculateGasMargin } from '../../utils'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-
-import {useCustomIfAccessCallback, useJoinMiningCallback} from 'hooks/useJoinMining'
+import {
+  useJoinMiningCallback,
+  useCheckCustomIfAccessStatus,
+  useMiningApprove,
+  useCheckTTCApprovalStatus,
+} from './hook/useJoinMining'
 const ControlContainer = styled.div`
   display: flex;
   width: 100%;
@@ -63,63 +67,54 @@ const FarmCardInnerContainer = styled(Flex)`
   justify-content: space-around;
   padding: 24px;
 `
- 
 
 const Mining: React.FC = ({ children }) => {
- 
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
   const { t } = useTranslation()
 
   const { account, chainId, library } = useActiveWeb3React()
- 
-  const [isJoinMining,setIsJoinMining]=useState(false);
- 
- 
+
+  const [isJoinMining, setIsJoinMining] = useState(false)
+
+  const { customIfAccess, setCustomIfAccessUpdated } = useCheckCustomIfAccessStatus()
+  const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus()
+  const { handleApprove: handleApprove, pendingTx: pendingApproveTx } = useMiningApprove(setTTCLastUpdated)
+  const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback()
+  console.log('customIfAccess====', customIfAccess)
   const renderApprovalOrStakeButton = () => {
-    return !isJoinMining ? (
-      <Button mt="8px" width="100%" disabled={pendingTx} onClick={JoinMining}>
+    return isTTCApproved ? (
+      <Button mt="8px" width="100%" disabled={pendingTranctionTx} onClick={handleMining}>
         {t('MiningJoin')}
       </Button>
     ) : (
-      <Button mt="8px" width="100%" disabled={pendingTx} onClick={handleApprove}>
-        {t('MiningDraw')}
+      <Button mt="8px" width="100%" disabled={pendingApproveTx} onClick={handleApprove}>
+        {t('Approve')}
       </Button>
     )
   }
 
-  const [joinGame] = useJoinMiningCallback( )
-  const JoinMining= ()=>{
+  // const JoinMining = () => {
+  //   joinGame()
+  //   // useJoinMiningCallback();
+  // }
 
-    joinGame();
-    // useJoinMiningCallback();
-  }
- 
+  // const handleApprove = useCallback(async () => {}, [fetchWithCatchTxError])
 
-  const handleApprove = useCallback(async () => {}, [fetchWithCatchTxError])
+  const MiningToken = tokens.ttc
 
-  const MiningToken = tokens.ttc;
+  const MiningQuoteToken = tokens.usdt
 
-  const MiningQuoteToken =  tokens.usdt;
-
-
-  const [useCustomIfAccess]=useCustomIfAccessCallback();
-  
-  
+  // const [useCustomIfAccess] = useCustomIfAccessCallback()
 
   useEffect(() => {
-      
-     
-    if(account)
-    {
-      if(  useCustomIfAccess())
-      {
-        setIsJoinMining(true);
-      }
- 
+    if (account) {
+      // const r = useCustomIfAccess
+      // if (r) {
+      //   setIsJoinMining(true)
+      // }
     }
-
-  }, [])
+  }, [account])
 
   return (
     <>
@@ -183,14 +178,12 @@ const Mining: React.FC = ({ children }) => {
             </Text>
             <Text small color="textSubtle">
               {t('ProduceRuleDesc1')}
-       
             </Text>
             <Text small color="textSubtle">
-            {t('ProduceRuleDesc2')}                
+              {t('ProduceRuleDesc2')}
             </Text>
             <Text small color="textSubtle">
-            {t('ProduceRuleDesc3')}
-
+              {t('ProduceRuleDesc3')}
             </Text>
           </FarmCardInnerContainer>
         </StyledCard>
