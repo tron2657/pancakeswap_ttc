@@ -32,8 +32,9 @@ export const useCheckCustomIfAccessStatus = () => {
   )
 
   const { data, mutate } = useSWRContract(key)
+  console.log('useSWRContract=====', mutate)
 
-  return { customIfAccess: data ? data.gt(0) : false, setCustomIfAccessUpdated: mutate }
+  return { customIfAccess: data ? data : false, setCustomIfAccessUpdated: mutate }
 }
 
 // Approve Mining Contract
@@ -93,7 +94,7 @@ export const useCheckTTCApprovalStatus = () => {
 }
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
-export const useJoinMiningCallback = () => {
+export const useJoinMiningCallback = (setLastUpdated: () => void) => {
   const { t } = useTranslation()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { library } = useActiveWeb3React()
@@ -123,7 +124,7 @@ export const useJoinMiningCallback = () => {
       )
     }
   }, [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError])
-
+  setLastUpdated()
   return { handleMining, pendingTx }
   // const approve = useCallback(async (): Promise<void> => {
   //   const estimatedGas = await tokenContract.estimateGas.updateAddressToAmount().catch((error) => {

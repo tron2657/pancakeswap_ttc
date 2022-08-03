@@ -2,22 +2,36 @@ import { useCallback, useMemo } from 'react'
 import { logError } from 'utils/sentry'
 import { calculateGasMargin } from '../utils'
 import { useWeb3React } from '@web3-react/core'
-import { getTtcMiningContract } from 'utils/contractHelpers'
+import {getTtcMiningContract} from "utils/contractHelpers"
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useSWRContract, UseSWRContractKey } from 'hooks/useSWRContract'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { MaxUint256 } from '@ethersproject/constants'
+
 import { useCallWithGasPrice } from './useCallWithGasPrice'
-import { ToastDescriptionWithTx } from 'components/Toast'
 import useToast from './useToast'
 import { useTranslation } from '../contexts/Localization'
-const { toastSuccess } = useToast()
 
-//check approve
-export const useCheckCustomIfAccessStatus = () => {
-  const { library } = useActiveWeb3React()
+
+export function useCustomIfAccessCallback():[Promise<boolean>]
+{
+
+  
   const { account } = useWeb3React()
-  const tokenContract = getTtcMiningContract(library.getSigner())
+ 
+  const {  library } = useActiveWeb3React()
+  const { toastError } = useToast()
+ 
+  const tokenContract = getTtcMiningContract(library.getSigner() )
+  return [  tokenContract.customIfAccess(account)]
+
+  
+}
+
+
+export const useCheckCustomIfAccessStatus = () => {
+  const {  library } = useActiveWeb3React()
+  const { account } = useWeb3React()
+  const tokenContract = getTtcMiningContract(library.getSigner() )
 
   const key = useMemo<UseSWRContractKey>(
     () =>
@@ -35,45 +49,20 @@ export const useCheckCustomIfAccessStatus = () => {
 
   return { customIfAccess: data ? data.gt(0) : false, setCustomIfAccessUpdated: mutate }
 }
-
-// Approve Mining Contract
-export const useMiningApprove = (setLastUpdated: () => void) => {
-  const { t } = useTranslation()
-
-  const { library } = useActiveWeb3React()
-  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
-  const tokenContract = getTtcMiningContract(library.getSigner())
-  const { callWithGasPrice } = useCallWithGasPrice()
-  // const { signer: cakeContract } = useCake()
-
-  const handleApprove = async () => {
-    const receipt = await fetchWithCatchTxError(() => {
-      return callWithGasPrice(tokenContract, 'approve', [tokenContract.address, MaxUint256])
-    })
-    if (receipt?.status) {
-      toastSuccess(
-        t('Contract Enabled'),
-        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('You can now stake in the %symbol% vault!', { symbol: 'CAKE' })}
-        </ToastDescriptionWithTx>,
-      )
-      setLastUpdated()
-    }
-  }
-
-  return { handleApprove, pendingTx }
-}
-
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
-export function useJoinMiningCallback(): [() => Promise<void>] {
+export function useJoinMiningCallback(
+): [() => Promise<void>] {
+ 
   const { t } = useTranslation()
   const { callWithGasPrice } = useCallWithGasPrice()
-  const { library } = useActiveWeb3React()
+  const {  library } = useActiveWeb3React()
   const { toastError } = useToast()
-
-  const tokenContract = getTtcMiningContract(library.getSigner())
+ 
+  const tokenContract = getTtcMiningContract(library.getSigner() )
+ 
 
   const approve = useCallback(async (): Promise<void> => {
+    
     const estimatedGas = await tokenContract.estimateGas.updateAddressToAmount().catch((error) => {
       // general fallback for tokens who restrict approval amounts
       console.log(error)
@@ -82,11 +71,19 @@ export function useJoinMiningCallback(): [() => Promise<void>] {
     })
 
     // eslint-disable-next-line consistent-return
-    return callWithGasPrice(tokenContract, 'updateAddressToAmount', [], {
-      gasLimit: calculateGasMargin(estimatedGas),
-    })
-      .then((response) => {})
+    return callWithGasPrice(
+      tokenContract,
+      'updateAddressToAmount',
+      [],
+      {
+        gasLimit: calculateGasMargin(estimatedGas),
+      },
+    )
+      .then((response) => {
+         
+      })
       .catch((error: any) => {
+ 
         logError(error)
         console.error('Failed to approve token', error)
         if (error?.code !== 4001) {
@@ -94,10 +91,15 @@ export function useJoinMiningCallback(): [() => Promise<void>] {
         }
         throw error
       })
-  }, [t, toastError])
+  }, [ t, toastError])
 
-  return [approve]
+  return [ approve]
 }
+ 
+
+
+
+
 
 // import { useCallback } from 'react';
 
@@ -105,21 +107,27 @@ export function useJoinMiningCallback(): [() => Promise<void>] {
 // import {getTtcMiningContract} from "utils/contractHelpers"
 // import useToast from './useToast'
 
+
 // export function useJoinMiningCallback():[()=>Promise<void>]{
 
 //     const { toastError } = useToast()
 //     // const {  library } = useActiveWeb3React()
-
+ 
+      
 //     const contract=getTtcMiningContract(library.getSigner());
 
 //     const joinGame=useCallback(async():Promise<void>=>{
 //         // contract.updateAddressToAmount().then(()=>{
 
+
 //         // }).catch((error)=>{
 //         //   toastError('xxxxx', 'dsfadfa')
 //         // });
-
+        
 //     })
 //     return joinGame;
 
+
+
 // }
+

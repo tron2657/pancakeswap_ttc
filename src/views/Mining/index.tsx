@@ -80,10 +80,14 @@ const Mining: React.FC = ({ children }) => {
   const { customIfAccess, setCustomIfAccessUpdated } = useCheckCustomIfAccessStatus()
   const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus()
   const { handleApprove: handleApprove, pendingTx: pendingApproveTx } = useMiningApprove(setTTCLastUpdated)
-  const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback()
+  const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback(setCustomIfAccessUpdated)
   console.log('customIfAccess====', customIfAccess)
   const renderApprovalOrStakeButton = () => {
-    return isTTCApproved ? (
+    return customIfAccess ? (
+      <Button mt="8px" width="100%" disabled={customIfAccess}>
+        {t('participating')}
+      </Button>
+    ) : isTTCApproved ? (
       <Button mt="8px" width="100%" disabled={pendingTranctionTx} onClick={handleMining}>
         {t('MiningJoin')}
       </Button>
@@ -94,25 +98,12 @@ const Mining: React.FC = ({ children }) => {
     )
   }
 
-  // const JoinMining = () => {
-  //   joinGame()
-  //   // useJoinMiningCallback();
-  // }
-
-  // const handleApprove = useCallback(async () => {}, [fetchWithCatchTxError])
-
   const MiningToken = tokens.ttc
 
   const MiningQuoteToken = tokens.usdt
 
-  // const [useCustomIfAccess] = useCustomIfAccessCallback()
-
   useEffect(() => {
     if (account) {
-      // const r = useCustomIfAccess
-      // if (r) {
-      //   setIsJoinMining(true)
-      // }
     }
   }, [account])
 
