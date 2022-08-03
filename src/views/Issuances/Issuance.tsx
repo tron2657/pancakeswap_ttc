@@ -14,7 +14,12 @@ const StyledInput = styled(Input)`
 `
 const Body = styled(CardBody)``
 const Issuance = () => {
-  const [searchText, setSearchText] = useState('')
+  const [zhName, setZhName] = useState('')
+  const [enName, setEnName] = useState('')
+  const [publishNum, setPublishNum] = useState(null)
+  const [decimal, setDecimal] = useState(null)
+  const [receiptAddr, setReceiptAddr] = useState('')
+
   const { t } = useTranslation()
   return (
     <Page>
@@ -22,43 +27,47 @@ const Issuance = () => {
         <AppHeader title={'发行标准合约代币'} subtitle="" noConfig />
         <Body>
           <CommonInput
-            value={searchText}
+            value={zhName}
             label="英文全称"
             placeholder="请输入"
             onUserInput={(val) => {
-              setSearchText(val)
+              setZhName(val)
               console.log(val)
             }}
           ></CommonInput>
           <CommonInput
-            value={searchText}
+            value={enName}
             label="英文简称"
             placeholder="请输入"
             onUserInput={(val) => {
+              setEnName(val)
               console.log(val)
             }}
           ></CommonInput>
           <CommonInput
-            value={searchText}
+            value={publishNum}
             label="发行量"
             placeholder="请输入"
             onUserInput={(val) => {
+              setPublishNum(val)
               console.log(val)
             }}
           ></CommonInput>
           <CommonInput
-            value={searchText}
+            value={decimal}
             label="精度"
             placeholder="请输入"
             onUserInput={(val) => {
+              setDecimal(val)
               console.log(val)
             }}
           ></CommonInput>
           <CommonInput
-            value={searchText}
+            value={receiptAddr}
             label="接收地址"
             placeholder="请输入"
             onUserInput={(val) => {
+              setReceiptAddr(val)
               console.log(val)
             }}
           ></CommonInput>

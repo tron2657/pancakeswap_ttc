@@ -22,13 +22,13 @@ const IssuanceContact = () => {
             <Text bold color="textSubtle">
               邮箱：
             </Text>
-            <Text color={theme.colors.text}>12xxxx@gmail.com</Text>
+            <Text color={theme.colors.text}>DaoChainTechnology@hotmail.com</Text>
           </Flex>
           <Flex>
             <Text bold color="textSubtle">
               电报：
             </Text>
-            <Text color={theme.colors.text}>https://www.xxxsfh.com</Text>
+            <Text color={theme.colors.text}>https://t.me/DaoChainTechnology</Text>
           </Flex>
         </Body>
       </AppBody>
