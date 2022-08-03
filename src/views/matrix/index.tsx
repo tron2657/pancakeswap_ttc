@@ -1,0 +1,403 @@
+import React, { createContext, useRef, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
+import { Button, Heading, Text, LogoIcon, Box, Flex, useModal, Image } from '@pancakeswap/uikit'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useTranslation } from 'contexts/Localization'
+import Link from 'next/link'
+import useToast from 'hooks/useToast'
+import { useERC20 } from 'hooks/useContract'
+import { ToastDescriptionWithTx } from 'components/Toast'
+import BigNumber from 'bignumber.js'
+import { MaxUint256 } from '@ethersproject/constants'
+import { DEFAULT_TOKEN_DECIMAL } from 'config'
+import { TTC_API } from 'config/constants/endpoints'
+import InviteModal from './components/inviteModal'
+import { ButtonArrangement } from 'components/ApproveConfirmButtons'
+import ApproveConfirmButtons from './components/ApproveConfirmButtons'
+import ConnectWalletButton from 'components/ConnectWalletButton'
+import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
+import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
+import { requiresApproval } from 'utils/requiresApproval'
+import { useApproveUsdt, useApproveTTC, useCheckTTCApprovalStatus, useCheckUsdtApprovalStatus } from './hook/useApprove'
+const StyleMatrixLayout = styled.div`
+  /* align-items: center;
+  display: flex;
+  flex-direction: column; */
+  /* height: calc(100vh - 64px); */
+  /* justify-content: center; */
+  background: #1e1e1e;
+  padding-bottom: 60px;
+  padding-top: 30px;
+  position: relative;
+  .btn-gradient {
+    background: linear-gradient(179deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
+    border-radius: 14px;
+    width: 283px;
+    height: 46px;
+    display: block;
+    margin: 20px auto;
+  }
+  .share {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 9;
+  }
+`
+const MatrixTop = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: url('/images/matrix/matrix-bg.png') no-repeat;
+  background-size: 100% 100%;
+  backdrop-filter: blur(10px) brightness(110%);
+
+  padding: 55px 0 35px 0;
+  position: relative;
+  .box-1 {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+  }
+`
+const BoxWrapper = styled.div`
+  background: linear-gradient(174deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
+  border-radius: 8px;
+  border: 2px solid #ffffff;
+  padding: 10px 30px;
+  .text-shadow {
+    text-shadow: 2px 2px 4px #7a572b;
+  }
+`
+const LinnerWrapper = styled.div`
+  background: linear-gradient(174deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
+  border: 2px solid #ffffff;
+  height: 90px;
+  line-height: 90px;
+  text-align: center;
+  .txt {
+    text-shadow: 0px 0px 4px rgba(225, 118, 255, 0.64);
+  }
+`
+const BorderWrapper = styled.div`
+  border-radius: 23px;
+  border: 1px dashed #d77c0c;
+  padding: 5px 25px;
+  text-align: center;
+  width: 60%;
+  margin: 25px auto 0 auto;
+`
+const ArrowLeft = styled.div`
+  width: 22px;
+  height: 23px;
+  background: url('/images/matrix/arrow-l.png') no-repeat;
+  background-size: 100% 100%;
+`
+const ArrowRight = styled.div`
+  width: 22px;
+  height: 23px;
+  background: url('/images/matrix/arrow-r.png') no-repeat;
+  background-size: 100% 100%;
+`
+
+/**
+ * API HELPERS
+ */
+
+/**
+ * Fetch static data from all collections using the API
+ * @returns
+ */
+
+const getInitDataApi = async (account: string) => {
+  const res = await fetch(`${TTC_API}/trx/index?address=${account}`, {
+    method: 'get',
+  })
+  if (res.ok) {
+    const json = await res.json()
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
+
+const getInviteListApi = async (account: string) => {
+  const res = await fetch(`${TTC_API}/user/my_log?address=${account}`, {
+    method: 'get',
+  })
+  if (res.ok) {
+    const json = await res.json()
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
+const handleConfirmClick = async (data: any) => {
+  console.log(data)
+}
+
+const usdtAddress = '0x55d398326f99059fF775485246999027B3197955'
+
+const MatrixPage = ({ initData, account, code }) => {
+  const router = useRouter()
+  const { chainId } = useActiveWeb3React()
+  //   const code = router.query.user_sn || ''
+  console.log('router===code', code)
+  const { t } = useTranslation()
+  const [onPresentMobileModal] = useModal(<InviteModal code={code} customOnDismiss={handleConfirmClick} />)
+  //   const [collections] = await Promise.all([])
+  const [inviteList, setInviteList] = useState([])
+
+  const { toastSuccess } = useToast()
+  const { callWithGasPrice } = useCallWithGasPrice()
+  const [bid, setBid] = useState('')
+  const usdtContractReader = useERC20(usdtAddress, false)
+  const usdtContractApprover = useERC20(usdtAddress)
+  const ttcContract = '0x55d398326f99059fF775485246999027B3197955'
+  console.log('initData====', initData)
+  const { isUsdtApproved, setUsdtLastUpdated } = useCheckUsdtApprovalStatus(initData.from_address)
+  const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(initData.from_address)
+  const { handleUsdtApprove: handleUsdtApprove, pendingTx: pendingUsdtTx } = useApproveUsdt(
+    initData.from_address,
+    setUsdtLastUpdated,
+  )
+  const { handleTTCApprove: handleTTCApprove, pendingTx: pendingTTCTx } = useApproveTTC(
+    initData.from_address,
+    setTTCLastUpdated,
+  )
+  const handleParticepate = () => {
+    // console.log(pendingPoolTx)
+    console.log('立即卡位')
+  }
+  const handleApprove = isUsdtApproved ? (isTTCApproved ? handleParticepate : handleTTCApprove) : handleUsdtApprove
+
+  useEffect(() => {
+    async function init() {
+      //   onPresentMobileModal()
+      if (!initData.is_band) {
+        onPresentMobileModal()
+      }
+      const invite = await getInviteListApi(account)
+      setInviteList(invite.result)
+    }
+    init()
+  }, [account])
+  //   const { isApproving, isApproved, isConfirmed, isConfirming, handleApprove, handleConfirm } =
+  //     useApproveConfirmTransaction({
+  //       onRequiresApproval: async () => {
+  //         return requiresApproval(usdtContractReader, account, ttcContract)
+  //       },
+  //       onApprove: () => {
+  //         return callWithGasPrice(usdtContractApprover, 'approve', [ttcContract, MaxUint256])
+  //       },
+  //       onApproveSuccess: async ({ receipt }) => {
+  //         toastSuccess(t('Contract approved!'), <ToastDescriptionWithTx txHash={receipt.transactionHash} />)
+  //       },
+  //       onConfirm: () => {
+  //         // toastSuccess(t('Contract approved!'), <ToastDescriptionWithTx txHash={ticketsNumber} />)
+  //         return callWithGasPrice(usdtContractApprover, 'approve', [ttcContract, MaxUint256])
+  //       },
+  //       onSuccess: async ({ receipt }) => {
+  //         //   setConfirmedTxHash(receipt.transactionHash)
+  //         //   setStage(BuyingStage.TX_CONFIRMED)
+  //         toastSuccess(
+  //           t('Your NFT has been sent to your wallet'),
+  //           <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+  //         )
+  //       },
+  //     })
+
+  return (
+    <StyleMatrixLayout>
+      <Link href="/matrix/share" passHref>
+        <Image className="share" src="/images/matrix/share.png" alt="Share" width={32} height={32} />
+      </Link>
+      <MatrixTop>
+        <BoxWrapper className="box-1">
+          <Text color="#fff" fontSize="23px" letterSpacing="3px" fontWeight="600">
+            矩阵NFT
+          </Text>
+        </BoxWrapper>
+        <BoxWrapper className="box-2">
+          <Text
+            color="#fff"
+            className="text-shadow"
+            letterSpacing="3px"
+            lineHeight="1"
+            fontSize="46px"
+            fontWeight="600"
+          >
+            MATRIX
+          </Text>
+          <p>
+            <Text display="inline-block" color="#fff" fontSize="20px" fontWeight="600">
+              500BUSD
+            </Text>
+            <Text display="inline-block" color="#FF8900" fontSize="20px" fontWeight="600">
+              起步卡位！
+            </Text>
+          </p>
+        </BoxWrapper>
+        <Text color="#D77C0C" fontSize="20px" fontWeight="600" mt="10px">
+          全网公排 跳排
+        </Text>
+        <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
+          出局不出圈 三三裂变 生生不息 循环造血
+        </Text>
+      </MatrixTop>
+      {account ? (
+        isUsdtApproved ? (
+          <Button onClick={handleParticepate} type="button" className="btn-gradient" scale="sm">
+            立即卡位
+          </Button>
+        ) : (
+          <Button className="btn-gradient" type="button" disabled={pendingUsdtTx} onClick={handleUsdtApprove}>
+            {t('批准')}
+          </Button>
+          //   <ApproveConfirmButtons
+          //     isApproveDisabled={isApproved}
+          //     isApproving={isApproving}
+          //     isConfirmDisabled={isConfirmed}
+          //     isConfirming={isConfirming}
+          //     onApprove={handleApprove}
+          //     onConfirm={handleConfirm}
+          //     buttonArrangement={ButtonArrangement.SEQUENTIAL}
+          //   />
+        )
+      ) : (
+        // <Button onClick={handleApprove} type="button" className="btn-gradient" scale="sm">
+        //   {isVaultApproved ? '立即卡位' : '授权'}
+        // </Button>
+        <ConnectWalletButton />
+      )}
+
+      <Link href="/matrix/mine" passHref>
+        <Text color="#fff" fontSize="16px" textAlign="center">
+          我的点位
+        </Text>
+      </Link>
+      <Box>
+        <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
+          <ArrowRight></ArrowRight>
+          <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
+            9阶出局制
+          </Text>
+          <ArrowLeft></ArrowLeft>
+        </Flex>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          一个9阶下面三个3阶
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          一个3阶下面三个1阶
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          一个1阶下面三个B阶
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center">
+          一个B阶下面三个A阶
+        </Text>
+      </Box>
+      <Box>
+        <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
+          <ArrowRight></ArrowRight>
+          <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
+            资金分配
+          </Text>
+          <ArrowLeft></ArrowLeft>
+        </Flex>
+        <Flex flexWrap="wrap" justifyContent="space-between">
+          {inviteList.map((item) => {
+            return (
+              <Box width="32%" background="#FFFFFF" mb="10px">
+                <Text color="#CA9A33" fontSize="16px" textAlign="center">
+                  {item.name}
+                </Text>
+                <LinnerWrapper>
+                  <Text
+                    className="txt"
+                    color="#fff"
+                    fontSize="32px"
+                    fontWeight="bold"
+                    textAlign="center"
+                    display="inline"
+                  >
+                    {item.num}
+                  </Text>
+                </LinnerWrapper>
+              </Box>
+            )
+          })}
+
+          {/* <Box width="32%" background="#FFFFFF" mb="10px">
+            <Text color="#CA9A33" fontSize="16px" textAlign="center">
+              3阶
+            </Text>
+            <LinnerWrapper>
+              <Text className="txt" color="#fff" fontSize="32px" fontWeight="bold" textAlign="center" display="inline">
+                100
+              </Text>
+            </LinnerWrapper>
+          </Box>
+          <Box width="32%" background="#FFFFFF" mb="10px">
+            <Text color="#CA9A33" fontSize="16px" textAlign="center">
+              1阶
+            </Text>
+            <LinnerWrapper>
+              <Text className="txt" color="#fff" fontSize="32px" fontWeight="bold" textAlign="center" display="inline">
+                80
+              </Text>
+            </LinnerWrapper>
+          </Box>
+          <Box width="32%" background="#FFFFFF">
+            <Text color="#CA9A33" fontSize="16px" textAlign="center">
+              B岗位
+            </Text>
+            <LinnerWrapper>
+              <Text className="txt" color="#fff" fontSize="32px" fontWeight="bold" textAlign="center" display="inline">
+                40
+              </Text>
+            </LinnerWrapper>
+          </Box>
+          <Box width="32%" background="#FFFFFF">
+            <Text color="#CA9A33" fontSize="16px" textAlign="center">
+              A岗位
+            </Text>
+            <LinnerWrapper>
+              <Text className="txt" color="#fff" fontSize="32px" fontWeight="bold" textAlign="center" display="inline">
+                50
+              </Text>
+            </LinnerWrapper>
+          </Box>
+          <Box width="32%" background="#FFFFFF">
+            <Text color="#CA9A33" fontSize="16px" textAlign="center">
+              分享奖
+            </Text>
+            <LinnerWrapper>
+              <Text className="txt" color="#fff" fontSize="32px" fontWeight="bold" textAlign="center" display="inline">
+                90
+              </Text>
+            </LinnerWrapper>
+          </Box> */}
+        </Flex>
+      </Box>
+      <Box mt="25px">
+        <Text color="#D77C0C" fontSize="16px" fontWeight="bold" textAlign="center">
+          公平 公正 公开 透明 无资金池
+        </Text>
+      </Box>
+      <BorderWrapper>
+        <Text color="#D77C0C" display="inline" fontSize="16px" fontWeight="bold" textAlign="center">
+          准备一点
+          <Text color="#fff" display="inline" fontSize="16px" fontWeight="bold" textAlign="center">
+            TTC
+          </Text>
+          做手续费
+        </Text>
+      </BorderWrapper>
+    </StyleMatrixLayout>
+  )
+}
+
+export default MatrixPage
