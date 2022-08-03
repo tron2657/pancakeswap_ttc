@@ -1,7 +1,7 @@
 import React, { createContext, useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import { Button, Heading, Text, LogoIcon, Box, Flex, useModal } from '@pancakeswap/uikit'
+import { Button, Heading, Text, LogoIcon, Box, Flex, useModal, Image } from '@pancakeswap/uikit'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTranslation } from 'contexts/Localization'
 import Link from 'next/link'
@@ -28,6 +28,8 @@ const StyleMatrixLayout = styled.div`
   /* justify-content: center; */
   background: #1e1e1e;
   padding-bottom: 60px;
+  padding-top: 30px;
+  position: relative;
   .btn-gradient {
     background: linear-gradient(179deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
     border-radius: 14px;
@@ -36,14 +38,22 @@ const StyleMatrixLayout = styled.div`
     display: block;
     margin: 20px auto;
   }
+  .share {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 9;
+  }
 `
 const MatrixTop = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: linear-gradient(190deg, #1e1e1e 50%, #f9b223 100%);
+  background: url('/images/matrix/matrix-bg.png') no-repeat;
+  background-size: 100% 100%;
   backdrop-filter: blur(10px) brightness(110%);
+
   padding: 55px 0 35px 0;
   position: relative;
   .box-1 {
@@ -130,10 +140,10 @@ const handleConfirmClick = async (data: any) => {
 
 const usdtAddress = '0x55d398326f99059fF775485246999027B3197955'
 
-const MatrixPage = ({ initData, account }) => {
+const MatrixPage = ({ initData, account, code }) => {
   const router = useRouter()
   const { chainId } = useActiveWeb3React()
-  const code = router.query.user_sn || ''
+  //   const code = router.query.user_sn || ''
   console.log('router===code', code)
   const { t } = useTranslation()
   const [onPresentMobileModal] = useModal(<InviteModal code={code} customOnDismiss={handleConfirmClick} />)
@@ -165,6 +175,7 @@ const MatrixPage = ({ initData, account }) => {
 
   useEffect(() => {
     async function init() {
+      //   onPresentMobileModal()
       if (!initData.is_band) {
         onPresentMobileModal()
       }
@@ -200,6 +211,9 @@ const MatrixPage = ({ initData, account }) => {
 
   return (
     <StyleMatrixLayout>
+      <Link href="/matrix/share" passHref>
+        <Image className="share" src="/images/matrix/share.png" alt="Share" width={32} height={32} />
+      </Link>
       <MatrixTop>
         <BoxWrapper className="box-1">
           <Text color="#fff" fontSize="23px" letterSpacing="3px" fontWeight="600">

@@ -1,7 +1,8 @@
 import React, { createContext, useRef, useState, useEffect } from 'react'
-
+import { copyText } from 'utils/copyText'
+import { CopyButton } from './components/CopyButton'
 import styled from 'styled-components'
-import { Button, Heading, Text, LogoIcon, Box, Flex } from '@pancakeswap/uikit'
+import { Button, Heading, Text, LogoIcon, Box, Flex, IconButton, CopyIcon } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
 import { useTranslation } from 'contexts/Localization'
 import Link from 'next/link'
@@ -101,8 +102,30 @@ const Dot = styled.div`
   box-shadow: 0px 1px 0px 0px #e19700;
   border-radius: 50%;
 `
+const getInitDataApi = async (account: string) => {
+  const res = await fetch(`${TTC_API}/trx/index?address=${account}`, {
+    method: 'get',
+  })
+  if (res.ok) {
+    const json = await res.json()
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
+const bindUserCodeApi = async (account: string) => {
+  const res = await fetch(`${TTC_API}/user/app_reg?address=${account}`, {
+    method: 'post',
+  })
+  if (res.ok) {
+    const json = await res.json()
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
 const getMyListApi = async (account: string) => {
-  const res = await fetch(`${TTC_API}/buy/my_spot?address=${699}`, {
+  const res = await fetch(`${TTC_API}/user/my_s?address=${699}`, {
     method: 'get',
   })
   if (res.ok) {
@@ -113,26 +136,12 @@ const getMyListApi = async (account: string) => {
   return null
 }
 
-const MatrixMinePage = () => {
+const MatrixSharePage = () => {
   const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
-  const [list, setList] = useState([
-    {
-      son: 3,
-      level: 2,
-      dot: [],
-    },
-    {
-      son: 1,
-      level: 1,
-      dot: [],
-    },
-    {
-      son: 1,
-      level: 1,
-      dot: [],
-    },
-  ])
+  const [initData, setInitData] = useState({})
+  const [list, setList] = useState([])
+  const [copyLink, setCopyLink] = useState('')
   const levelObj = {
     1: '组队中',
     2: 'A岗',
@@ -145,15 +154,12 @@ const MatrixMinePage = () => {
   useEffect(() => {
     async function init() {
       if (account) {
+        const _initData = await bindUserCodeApi(account)
+        const _copyLink = window.location.origin + '/matrix?code=' + _initData.result.user_sn
+        setInitData(_initData)
+        setCopyLink(_copyLink)
         const data = await getMyListApi(account)
-        // let _list = data.result
-        list.forEach((element) => {
-          let _arr = new Array(element.son)
-          for (let index = 0; index < _arr.length; index++) {
-            _arr[index] = index
-          }
-          element['dot'] = _arr
-        })
+        let _list = data.result
         setList(list)
         console.log(list)
         // setList(_list.result)
@@ -196,41 +202,52 @@ const MatrixMinePage = () => {
           出局不出圈 三三裂变 生生不息 循环造血
         </Text>
       </MatrixTop>
-      <Box>
+      <Box position="relative">
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>
           <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-            我的点位
+            我的分享链接
           </Text>
           <ArrowLeft></ArrowLeft>
         </Flex>
 
-        <Flex flexWrap="wrap" justifyContent="space-between">
-          {list.map((item) => {
-            return (
-              <Box width="32%" background="#FFFFFF" mb="10px">
-                <Text color="#CA9A33" fontSize="16px" textAlign="center">
-                  {levelObj[item.level]}
+        <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
+          <Text color="#fff" fontSize="16px" fontWeight="600" mr="5px">
+            {copyLink}
+          </Text>
+          <CopyButton
+            buttonColor="#D77C0C"
+            width="24px"
+            text={copyLink}
+            tooltipMessage={t('Copied')}
+            tooltipRight={40}
+            tooltipTop={20}
+          />
+        </Flex>
+      </Box>
+      <Box>
+        <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
+          <ArrowRight></ArrowRight>
+          <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
+            我的邀请列表
+          </Text>
+          <ArrowLeft></ArrowLeft>
+        </Flex>
+
+        <Flex flexWrap="wrap" flexDirection="column" alignItems="center" justifyContent="center">
+          {list.length ? (
+            list.map((item) => {
+              return (
+                <Text color="#fff" fontSize="14px" textAlign="center" ml="10px" mb="12px">
+                  {item.eth_address}
                 </Text>
-                <LinnerWrapper>
-                  <Flex justifyContent="center" mb="12px">
-                    <DotActive></DotActive>
-                  </Flex>
-                  <Flex justifyContent="center">
-                    {item['dot'].map((num) => {
-                      console.log(num)
-                      return (
-                        <Box mr="10px">
-                          <DotActive></DotActive>
-                        </Box>
-                      )
-                    })}
-                    <Dot></Dot>
-                  </Flex>
-                </LinnerWrapper>
-              </Box>
-            )
-          })}
+              )
+            })
+          ) : (
+            <Text color="#fff" fontSize="14px" textAlign="center" ml="10px" mb="12px">
+              暂无数据
+            </Text>
+          )}
         </Flex>
       </Box>
       <Box>
@@ -260,4 +277,4 @@ const MatrixMinePage = () => {
   )
 }
 
-export default MatrixMinePage
+export default MatrixSharePage

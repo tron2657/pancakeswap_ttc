@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Text } from '@pancakeswap/uikit'
 import PageLoader from 'components/Loader/PageLoader'
+import { useRouter } from 'next/router'
 import MatrixPage from '../../views/matrix'
 const initData = {}
 import { TTC_API } from 'config/constants/endpoints'
@@ -21,12 +22,8 @@ const CurrentMatrixPage = () => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
   const { account } = useWeb3React()
-  //   getInitDataApi(account)
-  //     .then((res) => {
-  //       console.log(res)
-  //       //   setData(res.result)
-  //     })
-  //     .catch((error) => {})
+  const router = useRouter()
+  console.log(router.query.code)
   useEffect(() => {
     async function init() {
       if (account) {
@@ -41,7 +38,7 @@ const CurrentMatrixPage = () => {
     }
     init()
   }, [account])
-  return loading ? <PageLoader></PageLoader> : <MatrixPage initData={data} account={account} code="" />
+  return loading ? <PageLoader></PageLoader> : <MatrixPage initData={data} account={account} code={router.query.code} />
 }
 
 export default CurrentMatrixPage
