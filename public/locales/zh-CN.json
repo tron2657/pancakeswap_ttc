@@ -1703,4 +1703,7 @@
   "Bunny Helmet": "Bunny Helmet",
   "PancakeSwap NFT": "TTCSwap NFT",
   "Mining": "挖矿",
-  "ProduceRuleDesc":"薄饼添加TTC：USDT流动性参与挖矿分红，无锁仓无质押  空投ETI最低0.01枚永久性绑定地址  拿分红奖励，最高9级奖励"}
+  "ProduceRuleDesc1":"薄饼添加TTC：USDT流动性参与挖矿分红，无锁仓无质押",
+  "ProduceRuleDesc2":"空投ETI最低0.01枚永久性绑定地址",
+  "ProduceRuleDesc3":"拿分红奖励，最高9级奖励"
+}
