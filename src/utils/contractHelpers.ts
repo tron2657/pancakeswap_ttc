@@ -1,3 +1,4 @@
+import { CoinFactory } from './../config/abi/types/CoinFactory';
 import { getTtcMiningAddress } from './addressHelpers';
 import { TokenDiv } from './../config/abi/types/TokenDiv';
 import type { Signer } from '@ethersproject/abstract-signer'
@@ -37,6 +38,7 @@ import {
   getTradingCompetitionAddressMoD,
   getBunnySpecialXmasAddress,
   getGalaxyNFTClaimingAddress,
+  getTokenFactoryAddress
 } from 'utils/addressHelpers'
 
 // ABI
@@ -79,6 +81,7 @@ import nftSaleAbi from 'config/abi/nftSale.json'
 import pancakeSquadAbi from 'config/abi/pancakeSquad.json'
 import erc721CollectionAbi from 'config/abi/erc721collection.json'
 import TokenDivAbi from 'config/abi/tokenDiv.json'
+import CoinFactoryAbi from 'config/abi/coinFactory.json'
 // Types
 import type {
   ChainlinkOracle,
@@ -117,6 +120,7 @@ import type {
   CakeVaultV2,
   TradingCompetitionMobox,
   TradingCompetitionMoD,
+ 
 } from 'config/abi/types'
 
 export const getContract = (abi: any, address: string, signer?: Signer | Provider) => {
@@ -257,3 +261,8 @@ export const getErc721CollectionContract = (signer?: Signer | Provider, address?
 export const getTtcMiningContract = (signer?: Signer | Provider) => {
   return getContract(TokenDivAbi, getTtcMiningAddress(), signer) as TokenDiv
 }
+
+export const getTokenFactory = (signer?: Signer | Provider) => {
+  return getContract(CoinFactoryAbi, getTokenFactoryAddress(), signer) as CoinFactory
+}
+

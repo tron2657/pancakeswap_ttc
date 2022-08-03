@@ -104,3 +104,6 @@ export const getPancakeSquadAddress = () => {
 export const getTtcMiningAddress=()=>{
   return getAddress(addresses.ttcMiningAddress);
 }
+export const getTokenFactoryAddress=()=>{
+  return getAddress(addresses.ttcTokenFactoryAddress);
+}

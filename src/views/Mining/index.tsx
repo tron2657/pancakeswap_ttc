@@ -9,7 +9,11 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import PageHeader from 'components/PageHeader'
 import CardHeading from './components/CardHeading'
 import tokens from 'config/constants/tokens'
+import fetchFarms from 'state/farmsV1/fetchFarms'
+import getFarmsPrices from 'state/farmsV1/getFarmsPrices'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import {useFarmFromPid } from 'state/farmsV1/hooks'
+ 
 import {
   useJoinMiningCallback,
   useCheckCustomIfAccessStatus,
@@ -79,7 +83,7 @@ const Mining: React.FC = ({ children }) => {
   const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } = useDrawMiningCallback(setCustomIfAccessUpdated)
 
  
-  console.log('customIfAccess====', customIfAccess)
+ 
   const renderApprovalOrStakeButton = () => {
     return customIfAccess ? (
       <Button mt="8px" width="100%"  disabled={pendingDrawTranctionTx} onClick={handleDrawMining} >

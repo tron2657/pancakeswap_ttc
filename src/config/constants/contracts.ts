@@ -119,5 +119,9 @@ export default {
     56: '0xbe9Cd0031196CD2D742f3E7B6cF4a47ad9a61169',
     97: '',
   },
+  ttcTokenFactoryAddress:{
+    56:'0xd7931691F7e6240a850cE03110CEF7d4eD242a4e',
+    97:''
+  }
   
 }

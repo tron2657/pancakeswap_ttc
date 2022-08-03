@@ -8,6 +8,8 @@ import Container from 'components/Layout/Container'
 import Page from '../Page'
 import { AppHeader, AppBody } from '../../components/App'
 import { CardBody, CardFooter, Button } from '@pancakeswap/uikit'
+
+import { useTokenCreate} from './hook/useCoinFactory'
 const StyledInput = styled(Input)`
   z-index: 9999;
   border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
@@ -19,6 +21,9 @@ const Issuance = () => {
   const [publishNum, setPublishNum] = useState(null)
   const [decimal, setDecimal] = useState(null)
   const [receiptAddr, setReceiptAddr] = useState('')
+ 
+
+  const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate('Test','Test',10,10)
 
   const { t } = useTranslation()
   return (
@@ -74,7 +79,7 @@ const Issuance = () => {
         </Body>
         <CardFooter style={{ textAlign: 'center' }}>
           <Link href="/issuance/contact" passHref>
-            <Button id="join-pool-button" width="100%">
+            <Button id="join-pool-button" width="100%"  disabled={pendingCreateTokenTranctionTx} onClick={handleCreateToken}>
               确定发行
             </Button>
           </Link>
