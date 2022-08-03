@@ -15,6 +15,8 @@ import {
   useCheckCustomIfAccessStatus,
   useDrawMiningCallback,
   useObtainEarnedToken,
+  useTotalSupply,
+  useDailyProduce
 } from './hook/useJoinMining'
 const ControlContainer = styled.div`
   display: flex;
@@ -70,6 +72,10 @@ const Mining: React.FC = ({ children }) => {
   
   const {obtainEarnedToken,setObtainEarnedToken}=useObtainEarnedToken()
 
+  const {totalSupply,setTotalSupply}=useTotalSupply()
+
+  const{dailyProduce,setDailyProduce}=useDailyProduce()
+
   const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } = useDrawMiningCallback(setCustomIfAccessUpdated)
 
  
@@ -81,7 +87,7 @@ const Mining: React.FC = ({ children }) => {
       </Button>
     ) :   (
       <Button mt="8px" width="100%" disabled={pendingTranctionTx} onClick={handleMining}>
-        {t('MiningJoin')}{obtainEarnedToken}
+        {t('MiningJoin')}
       </Button>
     )  
  
@@ -130,7 +136,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('总量')}:
               </Text>
               <Text small bold>
-                {0.001999}
+              {totalSupply}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
@@ -138,7 +144,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('每日产出')}:
               </Text>
               <Text small bold>
-                {0.001999}
+              {dailyProduce}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
@@ -149,7 +155,7 @@ const Mining: React.FC = ({ children }) => {
                 </Text>
               </Text>
               <Text small bold>
-                {0.001999}
+              {obtainEarnedToken}
               </Text>
             </Flex>
             {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
