@@ -174,12 +174,15 @@ export default function Swap() {
 
   const handleTypeInput = useCallback(
     (value: string) => {
+      console.log(value)
+
       onUserInput(Field.INPUT, value)
     },
     [onUserInput],
   )
   const handleTypeOutput = useCallback(
     (value: string) => {
+      console.log(Field.OUTPUT)
       onUserInput(Field.OUTPUT, value)
     },
     [onUserInput],
@@ -297,6 +300,7 @@ export default function Swap() {
   const handleInputSelect = useCallback(
     (currencyInput) => {
       setApprovalSubmitted(false) // reset 2 step UI for approvals
+
       onCurrencySelection(Field.INPUT, currencyInput)
       const showSwapWarning = shouldShowSwapWarning(currencyInput)
       if (showSwapWarning) {
@@ -413,6 +417,7 @@ export default function Swap() {
                 />
                 <Wrapper id="swap-page" style={{ minHeight: '412px' }}>
                   <AutoColumn gap="sm">
+                    {formattedAmounts[Field.OUTPUT]}
                     <CurrencyInputPanel
                       label={
                         independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')
@@ -451,6 +456,10 @@ export default function Swap() {
                             {t('+ Add a send (optional)')}
                           </Button>
                         ) : null}
+                        {/* {currencies[Field.INPUT]} */}
+                        {/* {inputCurrency}
+                        {outputCurrency}
+                        {outputCurrencyId} */}
                       </AutoRow>
                     </AutoColumn>
                     <CurrencyInputPanel
@@ -477,7 +486,7 @@ export default function Swap() {
                         <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
                       </>
                     ) : null}
-
+                    {console.log(trade)}
                     {showWrap ? null : (
                       <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
                         <RowBetween align="center">

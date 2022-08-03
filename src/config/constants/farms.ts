@@ -9,7 +9,7 @@ const farms: SerializedFarmConfig[] = [
    * These 3 farms (PID 0, 2, 3) should always be at the top of the file.
    */
 
-    
+
   //  {
   //   pid: 4,
   //   v1pid: 253,
@@ -52,7 +52,7 @@ const farms: SerializedFarmConfig[] = [
       56: '0xc3bea295b8d866f53df0a3dd2ebbd9286b81e968',
     },
     token: serializedTokens.ttc,
-    quoteToken: serializedTokens.eti,
+    quoteToken: serializedTokens.bnb,
   },
   {
     pid: 99,

@@ -22,6 +22,10 @@ import { requiresApproval } from 'utils/requiresApproval'
 import { useApproveUsdt, useApproveTTC, useCheckTTCApprovalStatus, useCheckUsdtApprovalStatus } from './hook/useApprove'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { useLpTokenPrice } from 'state/farms/hooks'
+import { useDerivedSwapInfo, useSingleTokenSwapInfo, useSwapState } from 'state/swap/hooks'
+import { useCurrency } from 'hooks/Tokens'
+import { Field } from 'state/swap/actions'
+import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
 const StyleMatrixLayout = styled.div`
   /* align-items: center;
   display: flex;
@@ -115,6 +119,18 @@ const getInviteListApi = async (account: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
+const postBuySpotApi = async (account: string, ttc_num: string) => {
+  const res = await fetch(`${TTC_API}/buy/buy_spot?address=${account}&ttc_num=${ttc_num}`, {
+    method: 'post',
+  })
+  if (res.ok) {
+    const json = await res.json()
+
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
 const handleConfirmClick = async (data: any) => {
   console.log(data)
 }
@@ -133,7 +149,7 @@ const MatrixPage = ({ initData, account, code }) => {
   const [inviteList, setInviteList] = useState([])
   const [secondsRemaining, setSecondsRemaining] = useState(0)
 
-  const { toastSuccess } = useToast()
+  const { toastSuccess, toastError } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
   const [bid, setBid] = useState('')
   console.log('initData====', initData)
@@ -151,11 +167,71 @@ const MatrixPage = ({ initData, account, code }) => {
   const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
   console.log('usdtBalance', getBalanceNumber(usdtBalance))
   console.log('ttcBalance', getBalanceNumber(ttcBalance))
-  const lpPrice = useLpTokenPrice('TTC-BNB LP')
-  console.log('lpPrice', lpPrice.toNumber())
-  const handleParticepate = () => {
-    // console.log(pendingPoolTx)
+
+  //初始化 BNB-TTC
+  const initInputCurrencyId = 'BNB'
+  const initOutputCurrencyId = tokens.ttc.address
+  const {
+    independentField,
+    typedValue,
+    recipient,
+    [Field.INPUT]: { currencyId: inputCurrencyId },
+    [Field.OUTPUT]: { currencyId: outputCurrencyId },
+  } = useSwapState()
+  const inputCurrency = useCurrency(initInputCurrencyId)
+  const outputCurrency = useCurrency(initOutputCurrencyId)
+
+  const {
+    v2Trade,
+    currencyBalances,
+    parsedAmount,
+    currencies,
+    inputError: swapInputError,
+  } = useDerivedSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, recipient)
+
+  const { onCurrencySelection, onUserInput } = useSwapActionHandlers()
+
+  const showWrap: boolean = false
+  const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
+  const trade = showWrap ? undefined : v2Trade
+  const parsedAmounts = showWrap
+    ? {
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
+    : {
+        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+      }
+  const formattedAmounts = {
+    [independentField]: typedValue,
+    [dependentField]: showWrap
+      ? parsedAmounts[independentField]?.toExact() ?? ''
+      : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+  }
+
+  const handleParticepate = async () => {
+    onCurrencySelection(Field.INPUT, inputCurrency)
+    onCurrencySelection(Field.OUTPUT, outputCurrency)
+    onUserInput(Field.INPUT, '0.0015')
+    console.log('INPUT====', formattedAmounts[Field.INPUT])
+    console.log('OUTPUT====', formattedAmounts[Field.OUTPUT])
     console.log('立即卡位')
+    if (getBalanceNumber(usdtBalance) <= 0) {
+      toastError('USDT余额不足')
+      return
+    }
+    if (getBalanceNumber(ttcBalance) <= 0) {
+      toastError('TTC代币余额不足')
+      return
+    }
+    const ttc_num = formattedAmounts[Field.OUTPUT]
+    const data = await postBuySpotApi(account, ttc_num)
+    if (data.status) {
+      toastSuccess(t(data.msg))
+    } else {
+      toastError(t(data.msg))
+    }
   }
 
   useEffect(() => {
@@ -258,7 +334,14 @@ const MatrixPage = ({ initData, account, code }) => {
         ) : null}
       </Flex>
       {isTTCApproved && isUsdtApproved ? (
-        <Button width="70%" onClick={handleParticepate} type="button" className="btn-gradient" scale="sm">
+        <Button
+          width="70%"
+          onClick={handleParticepate}
+          disabled={secondsRemaining > 0}
+          type="button"
+          className="btn-gradient"
+          scale="sm"
+        >
           <Flex justifyContent="center" alignItems="center">
             立即卡位
             {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
