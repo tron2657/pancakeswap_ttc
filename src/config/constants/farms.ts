@@ -46,7 +46,7 @@ const farms: SerializedFarmConfig[] = [
   {
     pid: 98,
     v1pid: 998,
-    lpSymbol: 'TTC-BNB LP',
+    lpSymbol: 'TTC-ETI LP',
     lpAddresses: {
       97: '',
       56: '0xc3bea295b8d866f53df0a3dd2ebbd9286b81e968',
