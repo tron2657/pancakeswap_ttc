@@ -1,28 +1,19 @@
-import React, { createContext, useRef, useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Button, Heading, Text, LogoIcon, Box, Flex, useModal, Image } from '@pancakeswap/uikit'
+import { Button, Text, Box, Flex, useModal, Image } from '@pancakeswap/uikit'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTranslation } from 'contexts/Localization'
 import Link from 'next/link'
 import useToast from 'hooks/useToast'
-import { useERC20 } from 'hooks/useContract'
 import CountdownCircle from './components/CountdownCircle'
-import useInterval from 'hooks/useInterval'
-import { ToastDescriptionWithTx } from 'components/Toast'
-import BigNumber from 'bignumber.js'
-import { MaxUint256 } from '@ethersproject/constants'
-import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import { TTC_API } from 'config/constants/endpoints'
 import InviteModal from './components/inviteModal'
 import useTokenBalance from 'hooks/useTokenBalance'
 import tokens from 'config/constants/tokens'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
-import { requiresApproval } from 'utils/requiresApproval'
 import { useApproveUsdt, useApproveTTC, useCheckTTCApprovalStatus, useCheckUsdtApprovalStatus } from './hook/useApprove'
 import { getBalanceNumber } from 'utils/formatBalance'
-import { useLpTokenPrice } from 'state/farms/hooks'
-import { useDerivedSwapInfo, useSingleTokenSwapInfo, useSwapState } from 'state/swap/hooks'
+import { useDerivedSwapInfo, useSwapState } from 'state/swap/hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { Field } from 'state/swap/actions'
 import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
@@ -171,26 +162,17 @@ const MatrixPage = ({ initData, account, code }) => {
   //初始化 BNB-TTC
   const initInputCurrencyId = 'BNB'
   const initOutputCurrencyId = tokens.ttc.address
-  const {
-    independentField,
-    typedValue,
-    recipient,
-    [Field.INPUT]: { currencyId: inputCurrencyId },
-    [Field.OUTPUT]: { currencyId: outputCurrencyId },
-  } = useSwapState()
+  const { independentField, typedValue, recipient } = useSwapState()
   const inputCurrency = useCurrency(initInputCurrencyId)
   const outputCurrency = useCurrency(initOutputCurrencyId)
-
-  const {
-    v2Trade,
-    currencyBalances,
-    parsedAmount,
-    currencies,
-    inputError: swapInputError,
-  } = useDerivedSwapInfo(independentField, typedValue, inputCurrency, outputCurrency, recipient)
-
+  const { v2Trade, parsedAmount } = useDerivedSwapInfo(
+    independentField,
+    typedValue,
+    inputCurrency,
+    outputCurrency,
+    recipient,
+  )
   const { onCurrencySelection, onUserInput } = useSwapActionHandlers()
-
   const showWrap: boolean = false
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
   const trade = showWrap ? undefined : v2Trade
