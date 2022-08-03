@@ -125,7 +125,7 @@ const bindUserCodeApi = async (account: string) => {
   return null
 }
 const getMyListApi = async (account: string) => {
-  const res = await fetch(`${TTC_API}/user/my_s?address=${699}`, {
+  const res = await fetch(`${TTC_API}/user/my_s?address=${account}`, {
     method: 'get',
   })
   if (res.ok) {
@@ -160,7 +160,7 @@ const MatrixSharePage = () => {
         setCopyLink(_copyLink)
         const data = await getMyListApi(account)
         let _list = data.result
-        setList(list)
+        setList(_list)
         console.log(list)
         // setList(_list.result)
       }

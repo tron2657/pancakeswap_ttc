@@ -115,7 +115,7 @@ export const useCheckUsdtApprovalStatus = (toAddress) => {
   )
 
   const { data, mutate } = useSWRContract(key)
-
+  console.log('===setUsdtLastUpdated', data)
   return { isUsdtApproved: data ? data.gt(0) : false, setUsdtLastUpdated: mutate }
 }
 export const useCheckTTCApprovalStatus = (toAddress) => {
@@ -139,6 +139,6 @@ export const useCheckTTCApprovalStatus = (toAddress) => {
   )
 
   const { data, mutate } = useSWRContract(key)
-
+  console.log('===setTTCLastUpdated', data)
   return { isTTCApproved: data ? data.gt(0) : false, setTTCLastUpdated: mutate }
 }
