@@ -116,7 +116,7 @@ export default {
     97: '0xfC0c3F11fDA72Cb9A56F28Ec8D44C0ae4B3ABF86',
   },
   ttcMiningAddress: {
-    56: '0xc3393292832241386F4BFFF9dBae8e35e9E38c86',
+    56: '0xbe9Cd0031196CD2D742f3E7B6cF4a47ad9a61169',
     97: '',
   },
   

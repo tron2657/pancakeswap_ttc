@@ -24,7 +24,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { calculateGasMargin } from '../../utils'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
-import {useJoinMining, useJoinMiningCallback} from 'hooks/useJoinMining'
+import {useCustomIfAccessCallback, useJoinMiningCallback} from 'hooks/useJoinMining'
 const ControlContainer = styled.div`
   display: flex;
   width: 100%;
@@ -103,20 +103,20 @@ const Mining: React.FC = ({ children }) => {
   const MiningQuoteToken =  tokens.usdt;
 
 
-
+  const [useCustomIfAccess]=useCustomIfAccessCallback();
+  
+  
 
   useEffect(() => {
-
- 
+      
      
     if(account)
     {
-      const contract=getTtcMiningContract();
-      contract.customIfAccess(account).then((res)=>{
+      if(  useCustomIfAccess())
+      {
+        setIsJoinMining(true);
+      }
  
-        setIsJoinMining(res);
-         
-      });
     }
 
   }, [])
