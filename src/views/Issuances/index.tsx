@@ -21,8 +21,12 @@ export const IssuancePageLayout = ({ children }) => {
             label: t('Contract detection'),
             href: '/issuance/detection',
           },
+          // {
+          //   label: t('Matrix NFT'),
+          //   href: '/matrix',
+          // },
         ]}
-        activeItem={isExact ? '/issuance' : '/issuance/detection'}
+        activeItem={router.route}
       />
 
       {children}

@@ -21,3 +21,5 @@ export const TC_MOBOX_SUBGRAPH = 'https://api.thegraph.com/subgraphs/name/pancak
 export const TC_MOD_SUBGRAPH = 'https://api.thegraph.com/subgraphs/name/pancakeswap/trading-competition-v4'
 
 export const GALAXY_NFT_CLAIMING_API = 'https://graphigo.prd.galaxy.eco/query'
+
+export const TTC_API = "http://matrix.ttcswap.com/api"

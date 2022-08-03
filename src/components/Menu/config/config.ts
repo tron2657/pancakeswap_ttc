@@ -146,6 +146,10 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
         label: t('Contract detection'),
         href: '/issuance/detection',
       },
+      {
+        label: t('Matrix NFT'),
+        href: '/matrix',
+      },
       // {
       //   label: t('Voting'),
       //   href: '/voting',
