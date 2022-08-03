@@ -151,8 +151,8 @@ const MatrixPage = ({ initData, account, code }) => {
   const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
   console.log('usdtBalance', getBalanceNumber(usdtBalance))
   console.log('ttcBalance', getBalanceNumber(ttcBalance))
-  const lpPrice = useLpTokenPrice('TTC-BNB')
-  console.log('lpPrice', lpPrice)
+  const lpPrice = useLpTokenPrice('TTC-BNB LP')
+  console.log('lpPrice', lpPrice.toNumber())
   const handleParticepate = () => {
     // console.log(pendingPoolTx)
     console.log('立即卡位')

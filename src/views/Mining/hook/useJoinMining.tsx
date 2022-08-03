@@ -35,8 +35,6 @@ export const useCheckCustomIfAccessStatus = () => {
   )
 
   const { data, mutate } = useSWRContract(key)
-  
-  
 
   return { customIfAccess: data ? data : false, setCustomIfAccessUpdated: mutate }
 }
@@ -45,7 +43,7 @@ export const useObtainEarnedToken = () => {
   const { library } = useActiveWeb3React()
   const { account } = useWeb3React()
   const tokenContract = getTtcMiningContract(library.getSigner())
- 
+
   const key = useMemo<UseSWRContractKey>(
     () =>
       account
@@ -59,18 +57,16 @@ export const useObtainEarnedToken = () => {
   )
 
   const { data, mutate } = useSWRContract(key)
-  
-  if(data && data._hex)   return { obtainEarnedToken: Number(data._hex)  , setObtainEarnedToken: mutate }
-  return { obtainEarnedToken:0  , setObtainEarnedToken: mutate }
-  
-}
 
+  if (data && data._hex) return { obtainEarnedToken: Number(data._hex), setObtainEarnedToken: mutate }
+  return { obtainEarnedToken: 0, setObtainEarnedToken: mutate }
+}
 
 export const useDailyProduce = () => {
   const { library } = useActiveWeb3React()
   const { account } = useWeb3React()
   const tokenContract = getTtcMiningContract(library.getSigner())
- 
+
   const key = useMemo<UseSWRContractKey>(
     () =>
       account
@@ -84,17 +80,17 @@ export const useDailyProduce = () => {
   )
 
   const { data, mutate } = useSWRContract(key)
-  
-  if(data && data._hex)   return { dailyProduce: Number(data._hex)  , setDailyProduce: mutate }
 
-  return { dailyProduce: Number(0)  , setDailyProduce: mutate }
+  if (data && data._hex) return { dailyProduce: Number(data._hex), setDailyProduce: mutate }
+
+  return { dailyProduce: Number(0), setDailyProduce: mutate }
 }
 
 export const useTotalSupply = () => {
   const { library } = useActiveWeb3React()
   const { account } = useWeb3React()
   const tokenContract = getTtcMiningContract(library.getSigner())
- 
+
   const key = useMemo<UseSWRContractKey>(
     () =>
       account
@@ -108,10 +104,9 @@ export const useTotalSupply = () => {
   )
 
   const { data, mutate } = useSWRContract(key)
-  if(data && data._hex)   return { totalSupply: Number( data._hex)  , setTotalSupply: mutate }
-  return { totalSupply: Number( 0)  , setTotalSupply: mutate }
+  if (data && data._hex) return { totalSupply: Number(data._hex), setTotalSupply: mutate }
+  return { totalSupply: Number(0), setTotalSupply: mutate }
 }
-
 
 // Approve Mining Contract
 export const useMiningApprove = (setLastUpdated: () => void) => {
@@ -119,10 +114,10 @@ export const useMiningApprove = (setLastUpdated: () => void) => {
   const { toastSuccess } = useToast()
   const { library } = useActiveWeb3React()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
-  const TTCContract = tokens.ttc.address;
+  const TTCContract = tokens.ttc.address
   const TTCContractApprover = useERC20(TTCContract)
   const tokenContract = getTtcMiningContract(library.getSigner())
- 
+
   const { callWithGasPrice } = useCallWithGasPrice()
   // const { signer: cakeContract } = useCake()
   const handleApprove = async () => {
@@ -144,7 +139,7 @@ export const useMiningApprove = (setLastUpdated: () => void) => {
 }
 
 export const useCheckTTCApprovalStatus = () => {
-  const TTCContract = tokens.ttc.address;
+  const TTCContract = tokens.ttc.address
   const usdtContractApprover = useERC20(TTCContract)
   const { library } = useActiveWeb3React()
   const tokenContract = getTtcMiningContract(library.getSigner())
@@ -229,10 +224,8 @@ export const useJoinMiningCallback = (setLastUpdated: () => void) => {
 
   // return [approve]
 }
-<<<<<<< HEAD
-=======
 
-export  const useDrawMiningCallback = (setLastUpdated: () => void) => {
+export const useDrawMiningCallback = (setLastUpdated: () => void) => {
   const { t } = useTranslation()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { library } = useActiveWeb3React()
@@ -240,7 +233,7 @@ export  const useDrawMiningCallback = (setLastUpdated: () => void) => {
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { toastSuccess } = useToast()
   const tokenContract = getTtcMiningContract(library.getSigner())
-  const {obtainEarnedToken} = useObtainEarnedToken();
+  const { obtainEarnedToken } = useObtainEarnedToken()
   // if(obtainEarnedToken<=0)
   // {
   //   toastError("You haven't been rewarded yet");
@@ -269,4 +262,3 @@ export  const useDrawMiningCallback = (setLastUpdated: () => void) => {
   setLastUpdated()
   return { handleMining, pendingTx }
 }
->>>>>>> e228678c45fe40a16c960f790cb3848eaab5bbb7
