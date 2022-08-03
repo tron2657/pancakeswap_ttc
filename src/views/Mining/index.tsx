@@ -1,33 +1,20 @@
-import { useEffect, useCallback, useState, useMemo, useRef, createContext } from 'react'
-import BigNumber from 'bignumber.js'
-import { useWeb3React } from '@web3-react/core'
-import { Image, Heading, RowType, Toggle, Card, Text, Button, ArrowForwardIcon, Flex, Link } from '@pancakeswap/uikit'
-import { ChainId } from 'ttcswap-sdk'
+import { useEffect, useState, createContext } from 'react'
+import { Heading, Card, Text, Button, ArrowForwardIcon, Flex } from '@pancakeswap/uikit'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import styled from 'styled-components'
-import { useGasPrice, useIsExpertMode, useUserSlippageTolerance } from 'state/user/hooks'
-import FlexLayout from 'components/Layout/Flex'
-import { Token } from 'ttcswap-sdk'
 import useCatchTxError from 'hooks/useCatchTxError'
 import Page from 'components/Layout/Page'
-import { useFarms, usePollFarmsWithUserData, usePriceCakeBusd } from 'state/farms/hooks'
-import useIntersectionObserver from 'hooks/useIntersectionObserver'
 import { useTranslation } from 'contexts/Localization'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { useRouter } from 'next/router'
 import PageHeader from 'components/PageHeader'
 import CardHeading from './components/CardHeading'
 import tokens from 'config/constants/tokens'
-import { getTtcMiningContract } from 'utils/contractHelpers'
-import { logError } from 'utils/sentry'
-import { TransactionResponse } from '@ethersproject/providers'
-import { calculateGasMargin } from '../../utils'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import {
   useJoinMiningCallback,
   useCheckCustomIfAccessStatus,
-  useMiningApprove,
-  useCheckTTCApprovalStatus,
+  useDrawMiningCallback,
+  useObtainEarnedToken,
 } from './hook/useJoinMining'
 const ControlContainer = styled.div`
   display: flex;
@@ -78,24 +65,26 @@ const Mining: React.FC = ({ children }) => {
   const [isJoinMining, setIsJoinMining] = useState(false)
 
   const { customIfAccess, setCustomIfAccessUpdated } = useCheckCustomIfAccessStatus()
-  const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus()
-  const { handleApprove: handleApprove, pendingTx: pendingApproveTx } = useMiningApprove(setTTCLastUpdated)
+ 
   const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback(setCustomIfAccessUpdated)
+  
+  const {obtainEarnedToken,setObtainEarnedToken}=useObtainEarnedToken()
+
+  const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } = useDrawMiningCallback(setCustomIfAccessUpdated)
+
+ 
   console.log('customIfAccess====', customIfAccess)
   const renderApprovalOrStakeButton = () => {
     return customIfAccess ? (
-      <Button mt="8px" width="100%" disabled={customIfAccess}>
-        {t('participating')}
+      <Button mt="8px" width="100%"  disabled={pendingDrawTranctionTx} onClick={handleDrawMining} >
+        {t('MiningDraw')}  
       </Button>
-    ) : isTTCApproved ? (
+    ) :   (
       <Button mt="8px" width="100%" disabled={pendingTranctionTx} onClick={handleMining}>
-        {t('MiningJoin')}
+        {t('MiningJoin')}{obtainEarnedToken}
       </Button>
-    ) : (
-      <Button mt="8px" width="100%" disabled={pendingApproveTx} onClick={handleApprove}>
-        {t('Approve')}
-      </Button>
-    )
+    )  
+ 
   }
 
   const MiningToken = tokens.ttc
