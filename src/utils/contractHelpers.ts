@@ -1,3 +1,5 @@
+import { getTtcMiningAddress } from './addressHelpers';
+import { TokenDiv } from './../config/abi/types/TokenDiv';
 import type { Signer } from '@ethersproject/abstract-signer'
 import type { Provider } from '@ethersproject/providers'
 import { Contract } from '@ethersproject/contracts'
@@ -76,7 +78,7 @@ import nftMarketAbi from 'config/abi/nftMarket.json'
 import nftSaleAbi from 'config/abi/nftSale.json'
 import pancakeSquadAbi from 'config/abi/pancakeSquad.json'
 import erc721CollectionAbi from 'config/abi/erc721collection.json'
-
+import TokenDivAbi from 'config/abi/tokenDiv.json'
 // Types
 import type {
   ChainlinkOracle,
@@ -250,4 +252,8 @@ export const getPancakeSquadContract = (signer?: Signer | Provider) => {
 }
 export const getErc721CollectionContract = (signer?: Signer | Provider, address?: string) => {
   return getContract(erc721CollectionAbi, address, signer) as Erc721collection
+}
+
+export const getTtcMiningContract = (signer?: Signer | Provider) => {
+  return getContract(TokenDivAbi, getTtcMiningAddress(), signer) as TokenDiv
 }

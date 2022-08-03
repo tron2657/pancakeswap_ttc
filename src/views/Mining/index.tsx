@@ -5,6 +5,7 @@ import { Image, Heading, RowType, Toggle, Card, Text, Button, ArrowForwardIcon, 
 import { ChainId } from 'ttcswap-sdk'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import styled from 'styled-components'
+import { useGasPrice, useIsExpertMode, useUserSlippageTolerance } from 'state/user/hooks'
 import FlexLayout from 'components/Layout/Flex'
 import { Token } from 'ttcswap-sdk'
 import useCatchTxError from 'hooks/useCatchTxError'
@@ -17,7 +18,13 @@ import { useRouter } from 'next/router'
 import PageHeader from 'components/PageHeader'
 import CardHeading from './components/CardHeading'
 import tokens from "config/constants/tokens"
+import {getTtcMiningContract} from "utils/contractHelpers"
+import { logError } from 'utils/sentry'
+import { TransactionResponse } from '@ethersproject/providers'
+import { calculateGasMargin } from '../../utils'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 
+import {useJoinMining, useJoinMiningCallback} from 'hooks/useJoinMining'
 const ControlContainer = styled.div`
   display: flex;
   width: 100%;
@@ -56,38 +63,63 @@ const FarmCardInnerContainer = styled(Flex)`
   justify-content: space-around;
   padding: 24px;
 `
-const NUMBER_OF_FARMS_VISIBLE = 12
+ 
 
 const Mining: React.FC = ({ children }) => {
-  const { pathname } = useRouter()
+ 
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
   const { t } = useTranslation()
-  const { data: farmsLP, userDataLoaded, poolLength, regularCakePerBlock } = useFarms()
-  const cakePrice = usePriceCakeBusd()
-  const [query, setQuery] = useState('')
-  const { account } = useWeb3React()
-  const isApproved = account
-  const [sortOption, setSortOption] = useState('hot')
-  const { observerRef, isIntersecting } = useIntersectionObserver()
-  const chosenFarmsLength = useRef(0)
+
+  const { account, chainId, library } = useActiveWeb3React()
+ 
+  const [isJoinMining,setIsJoinMining]=useState(false);
+ 
+ 
   const renderApprovalOrStakeButton = () => {
-    return isApproved ? (
-      <Button mt="8px" width="100%" disabled={pendingTx} onClick={handleApprove}>
-        {t('Enable Contract')}
+    return !isJoinMining ? (
+      <Button mt="8px" width="100%" disabled={pendingTx} onClick={JoinMining}>
+        {t('MiningJoin')}
       </Button>
     ) : (
       <Button mt="8px" width="100%" disabled={pendingTx} onClick={handleApprove}>
-        {t('Enable Contract')}
+        {t('MiningDraw')}
       </Button>
     )
   }
+
+  const [joinGame] = useJoinMiningCallback( )
+  const JoinMining= ()=>{
+
+    joinGame();
+    // useJoinMiningCallback();
+  }
+ 
+
   const handleApprove = useCallback(async () => {}, [fetchWithCatchTxError])
 
   const MiningToken = tokens.ttc;
 
   const MiningQuoteToken =  tokens.usdt;
-  useEffect(() => {}, [])
+
+
+
+
+  useEffect(() => {
+
+ 
+     
+    if(account)
+    {
+      const contract=getTtcMiningContract();
+      contract.customIfAccess(account).then((res)=>{
+ 
+        setIsJoinMining(res);
+         
+      });
+    }
+
+  }, [])
 
   return (
     <>
