@@ -1,6 +1,8 @@
 import { useCallback, useMemo } from 'react'
 import { logError } from 'utils/sentry'
 import { calculateGasMargin } from '../../../utils'
+import BigNumber from 'bignumber.js'
+import { BIG_ZERO } from 'utils/bigNumber'
 import { useWeb3React } from '@web3-react/core'
 import { getTtcMiningContract } from 'utils/contractHelpers'
 import useCatchTxError from 'hooks/useCatchTxError'
@@ -12,7 +14,8 @@ import { ToastDescriptionWithTx } from 'components/Toast'
 import useToast from 'hooks/useToast'
 import { useTranslation } from 'contexts/Localization'
 import { useERC20 } from 'hooks/useContract'
-
+import { FAST_INTERVAL, SLOW_INTERVAL } from 'config/constants'
+import tokens from 'config/constants/tokens'
 //check approve
 export const useCheckCustomIfAccessStatus = () => {
   const { library } = useActiveWeb3React()
@@ -32,10 +35,83 @@ export const useCheckCustomIfAccessStatus = () => {
   )
 
   const { data, mutate } = useSWRContract(key)
-  console.log('useSWRContract=====', mutate)
+  
+  
 
   return { customIfAccess: data ? data : false, setCustomIfAccessUpdated: mutate }
 }
+
+export const useObtainEarnedToken = () => {
+  const { library } = useActiveWeb3React()
+  const { account } = useWeb3React()
+  const tokenContract = getTtcMiningContract(library.getSigner())
+ 
+  const key = useMemo<UseSWRContractKey>(
+    () =>
+      account
+        ? {
+            contract: tokenContract,
+            methodName: 'obtainEarnedToken',
+            params: [],
+          }
+        : null,
+    [account, tokenContract],
+  )
+
+  const { data, mutate } = useSWRContract(key)
+  
+  if(data && data._hex)   return { obtainEarnedToken: Number(data._hex)  , setObtainEarnedToken: mutate }
+  return { obtainEarnedToken:0  , setObtainEarnedToken: mutate }
+  
+}
+
+
+export const useDailyProduce = () => {
+  const { library } = useActiveWeb3React()
+  const { account } = useWeb3React()
+  const tokenContract = getTtcMiningContract(library.getSigner())
+ 
+  const key = useMemo<UseSWRContractKey>(
+    () =>
+      account
+        ? {
+            contract: tokenContract,
+            methodName: 'dailyProduce',
+            params: [account],
+          }
+        : null,
+    [account, tokenContract],
+  )
+
+  const { data, mutate } = useSWRContract(key)
+  
+  if(data && data._hex)   return { dailyProduce: Number(data._hex)  , setDailyProduce: mutate }
+
+  return { dailyProduce: Number(0)  , setDailyProduce: mutate }
+}
+
+export const useTotalSupply = () => {
+  const { library } = useActiveWeb3React()
+  const { account } = useWeb3React()
+  const tokenContract = getTtcMiningContract(library.getSigner())
+ 
+  const key = useMemo<UseSWRContractKey>(
+    () =>
+      account
+        ? {
+            contract: tokenContract,
+            methodName: 'totalSupply',
+            params: [],
+          }
+        : null,
+    [account, tokenContract],
+  )
+
+  const { data, mutate } = useSWRContract(key)
+  if(data && data._hex)   return { totalSupply: Number( data._hex)  , setTotalSupply: mutate }
+  return { totalSupply: Number( 0)  , setTotalSupply: mutate }
+}
+
 
 // Approve Mining Contract
 export const useMiningApprove = (setLastUpdated: () => void) => {
@@ -43,10 +119,10 @@ export const useMiningApprove = (setLastUpdated: () => void) => {
   const { toastSuccess } = useToast()
   const { library } = useActiveWeb3React()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
-  const TTCContract = '0x152ad7Dc399269FA65D19BD7A790Ea8aa5b23DaD'
+  const TTCContract = tokens.ttc.address;
   const TTCContractApprover = useERC20(TTCContract)
   const tokenContract = getTtcMiningContract(library.getSigner())
-  console.log(tokenContract.address)
+ 
   const { callWithGasPrice } = useCallWithGasPrice()
   // const { signer: cakeContract } = useCake()
   const handleApprove = async () => {
@@ -68,7 +144,7 @@ export const useMiningApprove = (setLastUpdated: () => void) => {
 }
 
 export const useCheckTTCApprovalStatus = () => {
-  const TTCContract = '0x152ad7Dc399269FA65D19BD7A790Ea8aa5b23DaD'
+  const TTCContract = tokens.ttc.address;
   const usdtContractApprover = useERC20(TTCContract)
   const { library } = useActiveWeb3React()
   const tokenContract = getTtcMiningContract(library.getSigner())
@@ -153,3 +229,44 @@ export const useJoinMiningCallback = (setLastUpdated: () => void) => {
 
   // return [approve]
 }
+<<<<<<< HEAD
+=======
+
+export  const useDrawMiningCallback = (setLastUpdated: () => void) => {
+  const { t } = useTranslation()
+  const { callWithGasPrice } = useCallWithGasPrice()
+  const { library } = useActiveWeb3React()
+  const { toastError } = useToast()
+  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
+  const { toastSuccess } = useToast()
+  const tokenContract = getTtcMiningContract(library.getSigner())
+  const {obtainEarnedToken} = useObtainEarnedToken();
+  // if(obtainEarnedToken<=0)
+  // {
+  //   toastError("You haven't been rewarded yet");
+  // }
+  const handleMining = useCallback(async () => {
+    const estimatedGas = await tokenContract.estimateGas.withdrawFromAddress(obtainEarnedToken).catch((error) => {
+      // general fallback for tokens who restrict approval amounts
+      console.log(error)
+      toastError(error.data.message)
+      return tokenContract.estimateGas.updateAddressToAmount()
+    })
+    const receipt = await fetchWithCatchTxError(() => {
+      return callWithGasPrice(tokenContract, 'updateAddressToAmount', [], {
+        gasLimit: calculateGasMargin(estimatedGas),
+      })
+    })
+    if (receipt?.status) {
+      toastSuccess(
+        t('Contract Enabled'),
+        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+          {t('Mining Successed!', { symbol: 'TTC' })}
+        </ToastDescriptionWithTx>,
+      )
+    }
+  }, [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError])
+  setLastUpdated()
+  return { handleMining, pendingTx }
+}
+>>>>>>> e228678c45fe40a16c960f790cb3848eaab5bbb7
