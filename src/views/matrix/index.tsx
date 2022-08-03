@@ -1,4 +1,4 @@
-import React, { createContext, useRef, useState, useEffect } from 'react'
+import React, { createContext, useRef, useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { Button, Heading, Text, LogoIcon, Box, Flex, useModal, Image } from '@pancakeswap/uikit'
@@ -7,19 +7,21 @@ import { useTranslation } from 'contexts/Localization'
 import Link from 'next/link'
 import useToast from 'hooks/useToast'
 import { useERC20 } from 'hooks/useContract'
+import CountdownCircle from './components/CountdownCircle'
+import useInterval from 'hooks/useInterval'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import BigNumber from 'bignumber.js'
 import { MaxUint256 } from '@ethersproject/constants'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import { TTC_API } from 'config/constants/endpoints'
 import InviteModal from './components/inviteModal'
-import { ButtonArrangement } from 'components/ApproveConfirmButtons'
-import ApproveConfirmButtons from './components/ApproveConfirmButtons'
-import ConnectWalletButton from 'components/ConnectWalletButton'
-import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
+import useTokenBalance from 'hooks/useTokenBalance'
+import tokens from 'config/constants/tokens'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { requiresApproval } from 'utils/requiresApproval'
 import { useApproveUsdt, useApproveTTC, useCheckTTCApprovalStatus, useCheckUsdtApprovalStatus } from './hook/useApprove'
+import { getBalanceNumber } from 'utils/formatBalance'
+import { useLpTokenPrice } from 'state/farms/hooks'
 const StyleMatrixLayout = styled.div`
   /* align-items: center;
   display: flex;
@@ -33,7 +35,7 @@ const StyleMatrixLayout = styled.div`
   .btn-gradient {
     background: linear-gradient(179deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
     border-radius: 14px;
-    width: 283px;
+    /* width: 283px; */
     height: 46px;
     display: block;
     margin: 20px auto;
@@ -102,27 +104,6 @@ const ArrowRight = styled.div`
   background-size: 100% 100%;
 `
 
-/**
- * API HELPERS
- */
-
-/**
- * Fetch static data from all collections using the API
- * @returns
- */
-
-const getInitDataApi = async (account: string) => {
-  const res = await fetch(`${TTC_API}/trx/index?address=${account}`, {
-    method: 'get',
-  })
-  if (res.ok) {
-    const json = await res.json()
-    return json
-  }
-  console.error('Failed to fetch NFT collections', res.statusText)
-  return null
-}
-
 const getInviteListApi = async (account: string) => {
   const res = await fetch(`${TTC_API}/user/my_log?address=${account}`, {
     method: 'get',
@@ -141,21 +122,20 @@ const handleConfirmClick = async (data: any) => {
 const usdtAddress = '0x55d398326f99059fF775485246999027B3197955'
 
 const MatrixPage = ({ initData, account, code }) => {
-  const router = useRouter()
   const { chainId } = useActiveWeb3React()
   //   const code = router.query.user_sn || ''
   console.log('router===code', code)
   const { t } = useTranslation()
-  const [onPresentMobileModal] = useModal(<InviteModal code={code} customOnDismiss={handleConfirmClick} />)
+  const [onPresentMobileModal, closePresentMobileModal] = useModal(
+    <InviteModal code={code} customOnDismiss={handleConfirmClick} />,
+  )
   //   const [collections] = await Promise.all([])
   const [inviteList, setInviteList] = useState([])
+  const [secondsRemaining, setSecondsRemaining] = useState(0)
 
   const { toastSuccess } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
   const [bid, setBid] = useState('')
-  const usdtContractReader = useERC20(usdtAddress, false)
-  const usdtContractApprover = useERC20(usdtAddress)
-  const ttcContract = '0x55d398326f99059fF775485246999027B3197955'
   console.log('initData====', initData)
   const { isUsdtApproved, setUsdtLastUpdated } = useCheckUsdtApprovalStatus(initData.from_address)
   const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(initData.from_address)
@@ -167,47 +147,42 @@ const MatrixPage = ({ initData, account, code }) => {
     initData.from_address,
     setTTCLastUpdated,
   )
+  const { balance: usdtBalance } = useTokenBalance(usdtAddress)
+  const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
+  console.log('usdtBalance', getBalanceNumber(usdtBalance))
+  console.log('ttcBalance', getBalanceNumber(ttcBalance))
+  const lpPrice = useLpTokenPrice('TTC-BNB')
+  console.log('lpPrice', lpPrice)
   const handleParticepate = () => {
     // console.log(pendingPoolTx)
     console.log('立即卡位')
   }
-  const handleApprove = isUsdtApproved ? (isTTCApproved ? handleParticepate : handleTTCApprove) : handleUsdtApprove
 
   useEffect(() => {
     async function init() {
       //   onPresentMobileModal()
+      console.log(initData.is_band)
       if (!initData.is_band) {
         onPresentMobileModal()
+      } else {
+        closePresentMobileModal()
       }
       const invite = await getInviteListApi(account)
       setInviteList(invite.result)
     }
     init()
   }, [account])
-  //   const { isApproving, isApproved, isConfirmed, isConfirming, handleApprove, handleConfirm } =
-  //     useApproveConfirmTransaction({
-  //       onRequiresApproval: async () => {
-  //         return requiresApproval(usdtContractReader, account, ttcContract)
-  //       },
-  //       onApprove: () => {
-  //         return callWithGasPrice(usdtContractApprover, 'approve', [ttcContract, MaxUint256])
-  //       },
-  //       onApproveSuccess: async ({ receipt }) => {
-  //         toastSuccess(t('Contract approved!'), <ToastDescriptionWithTx txHash={receipt.transactionHash} />)
-  //       },
-  //       onConfirm: () => {
-  //         // toastSuccess(t('Contract approved!'), <ToastDescriptionWithTx txHash={ticketsNumber} />)
-  //         return callWithGasPrice(usdtContractApprover, 'approve', [ttcContract, MaxUint256])
-  //       },
-  //       onSuccess: async ({ receipt }) => {
-  //         //   setConfirmedTxHash(receipt.transactionHash)
-  //         //   setStage(BuyingStage.TX_CONFIRMED)
-  //         toastSuccess(
-  //           t('Your NFT has been sent to your wallet'),
-  //           <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
-  //         )
-  //       },
-  //     })
+
+  useEffect(() => {
+    if (secondsRemaining) {
+      const intervalId = setInterval(() => {
+        setSecondsRemaining((prev) => prev - 1)
+      }, 1000)
+      return () => {
+        clearInterval(intervalId)
+      }
+    }
+  }, [])
 
   return (
     <StyleMatrixLayout>
@@ -247,31 +222,49 @@ const MatrixPage = ({ initData, account, code }) => {
           出局不出圈 三三裂变 生生不息 循环造血
         </Text>
       </MatrixTop>
-      {account ? (
-        isUsdtApproved ? (
-          <Button onClick={handleParticepate} type="button" className="btn-gradient" scale="sm">
-            立即卡位
-          </Button>
-        ) : (
+      {/* {account ? (
+        !isUsdtApproved ? (
           <Button className="btn-gradient" type="button" disabled={pendingUsdtTx} onClick={handleUsdtApprove}>
             {t('批准')}
           </Button>
-          //   <ApproveConfirmButtons
-          //     isApproveDisabled={isApproved}
-          //     isApproving={isApproving}
-          //     isConfirmDisabled={isConfirmed}
-          //     isConfirming={isConfirming}
-          //     onApprove={handleApprove}
-          //     onConfirm={handleConfirm}
-          //     buttonArrangement={ButtonArrangement.SEQUENTIAL}
-          //   />
+        ) : !isTTCApproved ? (
+          <Button className="btn-gradient" type="button" disabled={pendingTTCTx} onClick={handleTTCApprove}>
+            {t('批准')}
+          </Button>
+        ) : (
+          <Button onClick={handleParticepate} type="button" className="btn-gradient" scale="sm">
+            立即卡位
+          </Button>
         )
       ) : (
-        // <Button onClick={handleApprove} type="button" className="btn-gradient" scale="sm">
-        //   {isVaultApproved ? '立即卡位' : '授权'}
-        // </Button>
         <ConnectWalletButton />
-      )}
+      )} */}
+      <Flex justifyContent="space-around" alignItems="center">
+        {!isUsdtApproved ? (
+          <Button
+            width="45%"
+            className="btn-gradient"
+            type="button"
+            disabled={pendingUsdtTx}
+            onClick={handleUsdtApprove}
+          >
+            {t('批准USDT')}
+          </Button>
+        ) : null}
+        {!isTTCApproved ? (
+          <Button width="45%" className="btn-gradient" type="button" disabled={pendingTTCTx} onClick={handleTTCApprove}>
+            {t('批准TTC')}
+          </Button>
+        ) : null}
+      </Flex>
+      {isTTCApproved && isUsdtApproved ? (
+        <Button width="70%" onClick={handleParticepate} type="button" className="btn-gradient" scale="sm">
+          <Flex justifyContent="center" alignItems="center">
+            立即卡位
+            {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
+          </Flex>
+        </Button>
+      ) : null}
 
       <Link href="/matrix/mine" passHref>
         <Text color="#fff" fontSize="16px" textAlign="center">

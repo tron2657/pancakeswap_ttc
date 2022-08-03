@@ -153,28 +153,3 @@ export const useJoinMiningCallback = (setLastUpdated: () => void) => {
 
   // return [approve]
 }
-
-// import { useCallback } from 'react';
-
-// // import useActiveWeb3React from 'hooks/useActiveWeb3React'
-// import {getTtcMiningContract} from "utils/contractHelpers"
-// import useToast from './useToast'
-
-// export function useJoinMiningCallback():[()=>Promise<void>]{
-
-//     const { toastError } = useToast()
-//     // const {  library } = useActiveWeb3React()
-
-//     const contract=getTtcMiningContract(library.getSigner());
-
-//     const joinGame=useCallback(async():Promise<void>=>{
-//         // contract.updateAddressToAmount().then(()=>{
-
-//         // }).catch((error)=>{
-//         //   toastError('xxxxx', 'dsfadfa')
-//         // });
-
-//     })
-//     return joinGame;
-
-// }

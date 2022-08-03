@@ -1,7 +1,7 @@
 import React, { createContext, useRef, useState, useEffect } from 'react'
 
 import styled from 'styled-components'
-import { Button, Heading, Text, LogoIcon, Box, Flex } from '@pancakeswap/uikit'
+import { Button, Image, Heading, Text, LogoIcon, Box, Flex } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
 import { useTranslation } from 'contexts/Localization'
 import Link from 'next/link'
@@ -16,6 +16,8 @@ const StyleMatrixLayout = styled.div`
   /* justify-content: center; */
   background: #1e1e1e;
   padding-bottom: 60px;
+  padding-top: 30px;
+  position: relative;
   .btn-gradient {
     background: linear-gradient(179deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
     border-radius: 14px;
@@ -23,6 +25,12 @@ const StyleMatrixLayout = styled.div`
     height: 46px;
     display: block;
     margin: 20px auto;
+  }
+  .share {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 9;
   }
 `
 const MatrixTop = styled.div`
@@ -102,7 +110,7 @@ const Dot = styled.div`
   border-radius: 50%;
 `
 const getMyListApi = async (account: string) => {
-  const res = await fetch(`${TTC_API}/buy/my_spot?address=${699}`, {
+  const res = await fetch(`${TTC_API}/buy/my_spot?address=${account}`, {
     method: 'get',
   })
   if (res.ok) {
@@ -133,6 +141,7 @@ const MatrixMinePage = () => {
       dot: [],
     },
   ])
+  const dotList = [1, 2, 3]
   const levelObj = {
     1: '组队中',
     2: 'A岗',
@@ -146,15 +155,15 @@ const MatrixMinePage = () => {
     async function init() {
       if (account) {
         const data = await getMyListApi(account)
-        // let _list = data.result
-        list.forEach((element) => {
-          let _arr = new Array(element.son)
-          for (let index = 0; index < _arr.length; index++) {
-            _arr[index] = index
-          }
-          element['dot'] = _arr
-        })
-        setList(list)
+        let _list = data.result
+        // list.forEach((element) => {
+        //   let _arr = new Array(element.son)
+        //   for (let index = 0; index < _arr.length; index++) {
+        //     _arr[index] = index
+        //   }
+        //   element['dot'] = _arr
+        // })
+        setList(_list)
         console.log(list)
         // setList(_list.result)
       }
@@ -163,6 +172,9 @@ const MatrixMinePage = () => {
   }, [account])
   return (
     <StyleMatrixLayout>
+      <Link href="/matrix/share" passHref>
+        <Image className="share" src="/images/matrix/share.png" alt="Share" width={32} height={32} />
+      </Link>
       <MatrixTop>
         <BoxWrapper className="box-1">
           <Text color="#fff" fontSize="23px" letterSpacing="3px" fontWeight="600">
@@ -204,34 +216,37 @@ const MatrixMinePage = () => {
           </Text>
           <ArrowLeft></ArrowLeft>
         </Flex>
-
-        <Flex flexWrap="wrap" justifyContent="space-between">
-          {list.map((item) => {
-            return (
-              <Box width="32%" background="#FFFFFF" mb="10px">
-                <Text color="#CA9A33" fontSize="16px" textAlign="center">
-                  {levelObj[item.level]}
-                </Text>
-                <LinnerWrapper>
-                  <Flex justifyContent="center" mb="12px">
-                    <DotActive></DotActive>
-                  </Flex>
-                  <Flex justifyContent="center">
-                    {item['dot'].map((num) => {
-                      console.log(num)
-                      return (
-                        <Box mr="10px">
-                          <DotActive></DotActive>
-                        </Box>
-                      )
-                    })}
-                    <Dot></Dot>
-                  </Flex>
-                </LinnerWrapper>
-              </Box>
-            )
-          })}
-        </Flex>
+        {list.length ? (
+          <Flex flexWrap="wrap" justifyContent="flex-start">
+            {list.map((item) => {
+              return (
+                <Box width="31%" background="#FFFFFF" margin="5px 1%">
+                  <Text color="#CA9A33" fontSize="16px" textAlign="center">
+                    {levelObj[item.level]}
+                  </Text>
+                  <LinnerWrapper>
+                    <Flex justifyContent="center" mb="12px">
+                      <DotActive></DotActive>
+                    </Flex>
+                    <Flex justifyContent="center">
+                      {dotList.map((num) => {
+                        return (
+                          <Box mr="5px" ml="5px">
+                            {item['son'] >= num ? <DotActive></DotActive> : <Dot></Dot>}
+                          </Box>
+                        )
+                      })}
+                    </Flex>
+                  </LinnerWrapper>
+                </Box>
+              )
+            })}
+          </Flex>
+        ) : (
+          <Text color="#fff" fontSize="14px" textAlign="center" ml="10px" mb="12px">
+            暂无数据
+          </Text>
+        )}
       </Box>
       <Box>
         <Text color="#fff" fontSize="24px" textAlign="center" mt="40px" mb="24px">
