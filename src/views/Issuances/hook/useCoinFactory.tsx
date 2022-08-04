@@ -10,7 +10,8 @@ import { useTranslation } from 'contexts/Localization'
  
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
-export const useTokenCreate = (_name,_symbol,_totalSupply,_decimal) => {
+export const useTokenCreate = (_owner,_name,_symbol,_totalSupply,_decimal) => {
+
   const { t } = useTranslation()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { library } = useActiveWeb3React()
@@ -20,7 +21,9 @@ export const useTokenCreate = (_name,_symbol,_totalSupply,_decimal) => {
   const tokenContract = getTokenFactory(library.getSigner())
 
   const handle = useCallback(async () => {
+
     const estimatedGas = await tokenContract.estimateGas.CreateToken(
+        _owner,
         _name,
         _symbol,
         _totalSupply,
@@ -30,14 +33,23 @@ export const useTokenCreate = (_name,_symbol,_totalSupply,_decimal) => {
  
       toastError(error.data.message)
       return tokenContract.estimateGas.CreateToken(
+        _owner,
         _name,
         _symbol,
         _totalSupply,
         _decimal
       )
     })
+    debugger;
     const receipt = await fetchWithCatchTxError(() => {
-      return callWithGasPrice(tokenContract, 'CreateToken', [], {
+      return callWithGasPrice(tokenContract, 'CreateToken', [
+        _owner,
+        _name,
+        _symbol,
+        _totalSupply,
+        _decimal
+
+      ], {
         gasLimit: calculateGasMargin(estimatedGas),
       })
     })

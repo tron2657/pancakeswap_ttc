@@ -120,7 +120,7 @@ export default {
     97: '',
   },
   ttcTokenFactoryAddress:{
-    56:'0xd7931691F7e6240a850cE03110CEF7d4eD242a4e',
+    56:'0x85842B211301AcEbd8c77c031Fe6Bc9FFf384B62',
     97:''
   }
   
