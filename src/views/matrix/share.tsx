@@ -155,7 +155,7 @@ const MatrixSharePage = () => {
     async function init() {
       if (account) {
         const _initData = await bindUserCodeApi(account)
-        const _copyLink = window.location.origin + '/matrix?code=' + _initData.result.user_sn
+        const _copyLink = window.location.origin + '/matrix/' + _initData.result.user_sn
         setInitData(_initData)
         setCopyLink(_copyLink)
         const data = await getMyListApi(account)

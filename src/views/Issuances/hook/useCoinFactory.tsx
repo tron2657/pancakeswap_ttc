@@ -7,11 +7,9 @@ import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import useToast from 'hooks/useToast'
 import { useTranslation } from 'contexts/Localization'
- 
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
 export const useTokenCreate = () => {
-
   const { t } = useTranslation()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { library } = useActiveWeb3React()
@@ -20,51 +18,32 @@ export const useTokenCreate = () => {
   const { toastSuccess } = useToast()
   const tokenContract = getTokenFactory(library.getSigner())
 
-  const handle = useCallback(async (_owner,_name,_symbol,_totalSupply,_decimal) => {
-console.log('_owner11',_owner)
-    const estimatedGas = await tokenContract.estimateGas.CreateToken(
-        _owner,
-        _name,
-        _symbol,
-        _totalSupply,
-        _decimal
-    ).catch((error) => {
- 
- 
-    toastError(error.data.message)
-      return tokenContract.estimateGas.CreateToken(
-        _owner,
-        _name,
-        _symbol,
-        _totalSupply,
-        _decimal
-      )
-    })
- 
-    const receipt = await fetchWithCatchTxError(() => {
-      return callWithGasPrice(tokenContract, 'CreateToken', [
-        _owner,
-        _name,
-        _symbol,
-        _totalSupply,
-        _decimal
+  const handle = useCallback(
+    async (_owner, _name, _symbol, _totalSupply, _decimal) => {
+      console.log('_owner11', _owner)
+      const estimatedGas = await tokenContract.estimateGas
+        .CreateToken(_owner, _name, _symbol, _totalSupply, _decimal)
+        .catch((error) => {
+          toastError(error.data.message)
+          return tokenContract.estimateGas.CreateToken(_owner, _name, _symbol, _totalSupply, _decimal)
+        })
 
-      ], {
-        gasLimit: calculateGasMargin(estimatedGas),
+      const receipt = await fetchWithCatchTxError(() => {
+        return callWithGasPrice(tokenContract, 'CreateToken', [_owner, _name, _symbol, _totalSupply, _decimal], {
+          gasLimit: calculateGasMargin(estimatedGas),
+        })
       })
-    })
-    if (receipt?.status) {
-      toastSuccess(
-        t('Contract Enabled'),
-        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('Create Token Successed!', { symbol: 'TTC' })}
-        </ToastDescriptionWithTx>,
-      )
-    }
-  }, [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError])
- 
-  return { handle, pendingTx }
- 
-}
+      if (receipt?.status) {
+        toastSuccess(
+          t('Contract Enabled'),
+          <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+            {t('Create Token Successed!', { symbol: 'TTC' })}
+          </ToastDescriptionWithTx>,
+        )
+      }
+    },
+    [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError],
+  )
 
- 
+  return { handle, pendingTx }
+}
