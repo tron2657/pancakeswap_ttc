@@ -23,12 +23,20 @@ const Issuance = () => {
   const [receiptAddr, setReceiptAddr] = useState('')
  
 
-  const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate(
-    receiptAddr,
-    zhName,
-    enName,publishNum,decimal)
+  const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate()
 
-  
+    const handleChange = (input) => {
+      
+     handleCreateToken(
+      receiptAddr,
+      zhName,
+      enName,
+      publishNum,
+      decimal
+     )
+      // setDecimalValue(input);
+    };
+
   // const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate(
   //   '0x2F744BE3E68798BDa7e4E7c2c634542fa385280f',
   //   'CNB',
@@ -88,7 +96,7 @@ const Issuance = () => {
         </Body>
         <CardFooter style={{ textAlign: 'center' }}>
    
-            <Button id="join-pool-button" width="100%"  disabled={pendingCreateTokenTranctionTx} onClick={handleCreateToken}>
+            <Button id="join-pool-button" width="100%"  disabled={pendingCreateTokenTranctionTx} onClick={handleChange}>
               确定发行
             </Button>
           
