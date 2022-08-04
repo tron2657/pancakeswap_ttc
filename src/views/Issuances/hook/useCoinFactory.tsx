@@ -18,32 +18,52 @@ export const useTokenCreate = () => {
   const { toastSuccess } = useToast()
   const tokenContract = getTokenFactory(library.getSigner())
 
-  const handle = useCallback(
-    async (_owner, _name, _symbol, _totalSupply, _decimal) => {
-      console.log('_owner11', _owner)
-      const estimatedGas = await tokenContract.estimateGas
-        .CreateToken(_owner, _name, _symbol, _totalSupply, _decimal)
-        .catch((error) => {
-          toastError(error.data.message)
-          return tokenContract.estimateGas.CreateToken(_owner, _name, _symbol, _totalSupply, _decimal)
-        })
+  const handle = useCallback(async (_owner,_name,_symbol,_totalSupply,_decimal,callback) => {
+ 
+    const estimatedGas = await tokenContract.estimateGas.CreateToken(
+        _owner,
+        _name,
+        _symbol,
+        _totalSupply,
+        _decimal
+    ).catch((error) => {
+ 
+ 
+    toastError(error.data.message)
+      return tokenContract.estimateGas.CreateToken(
+        _owner,
+        _name,
+        _symbol,
+        _totalSupply,
+        _decimal
+      )
+    })
+ 
+    const receipt = await fetchWithCatchTxError(() => {
+      return callWithGasPrice(tokenContract, 'CreateToken', [
+        _owner,
+        _name,
+        _symbol,
+        _totalSupply,
+        _decimal
 
       const receipt = await fetchWithCatchTxError(() => {
         return callWithGasPrice(tokenContract, 'CreateToken', [_owner, _name, _symbol, _totalSupply, _decimal], {
           gasLimit: calculateGasMargin(estimatedGas),
         })
       })
-      if (receipt?.status) {
-        toastSuccess(
-          t('Contract Enabled'),
-          <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-            {t('Create Token Successed!', { symbol: 'TTC' })}
-          </ToastDescriptionWithTx>,
-        )
-      }
-    },
-    [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError],
-  )
-
+    })
+    if (receipt?.status) {
+      toastSuccess(
+        t('Contract Enabled'),
+        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+          {t('Create Token Successed!', { symbol: 'TTC' })}
+        </ToastDescriptionWithTx>,
+      )
+    }
+    if(callback!=null)
+         callback();
+  }, [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError])
+ 
   return { handle, pendingTx }
 }

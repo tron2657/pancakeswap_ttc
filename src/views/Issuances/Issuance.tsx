@@ -8,7 +8,7 @@ import Container from 'components/Layout/Container'
 import Page from '../Page'
 import { AppHeader, AppBody } from '../../components/App'
 import { CardBody, CardFooter, Button } from '@pancakeswap/uikit'
-
+import { useRouter } from 'next/router'
 import { useTokenCreate } from './hook/useCoinFactory'
 const StyledInput = styled(Input)`
   z-index: 9999;
@@ -22,10 +22,13 @@ const Issuance = () => {
   const [decimal, setDecimal] = useState(null)
   const [receiptAddr, setReceiptAddr] = useState('')
 
+  const router = useRouter()
   const { handle: handleCreateToken, pendingTx: pendingCreateTokenTranctionTx } = useTokenCreate()
 
   const handleChange = (input) => {
-    handleCreateToken(receiptAddr, zhName, enName, publishNum, decimal)
+    handleCreateToken(receiptAddr, zhName, enName, publishNum, decimal, () => {
+      router.push(`/issuance/contact`)
+    })
     // setDecimalValue(input);
   }
 
