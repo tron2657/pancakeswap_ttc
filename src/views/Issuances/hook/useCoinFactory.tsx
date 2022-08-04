@@ -7,9 +7,11 @@ import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import useToast from 'hooks/useToast'
 import { useTranslation } from 'contexts/Localization'
+ 
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
 export const useTokenCreate = () => {
+
   const { t } = useTranslation()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { library } = useActiveWeb3React()
@@ -47,10 +49,8 @@ export const useTokenCreate = () => {
         _totalSupply,
         _decimal
 
-      const receipt = await fetchWithCatchTxError(() => {
-        return callWithGasPrice(tokenContract, 'CreateToken', [_owner, _name, _symbol, _totalSupply, _decimal], {
-          gasLimit: calculateGasMargin(estimatedGas),
-        })
+      ], {
+        gasLimit: calculateGasMargin(estimatedGas),
       })
     })
     if (receipt?.status) {
@@ -66,4 +66,7 @@ export const useTokenCreate = () => {
   }, [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError])
  
   return { handle, pendingTx }
+ 
 }
+
+ 
