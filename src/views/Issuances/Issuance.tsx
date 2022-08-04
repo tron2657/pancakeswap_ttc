@@ -9,7 +9,7 @@ import Page from '../Page'
 import { AppHeader, AppBody } from '../../components/App'
 import { CardBody, CardFooter, Button } from '@pancakeswap/uikit'
 import { useRouter } from 'next/router'
-import { useTokenCreate} from './hook/useCoinFactory'
+import { useTokenCreate } from './hook/useCoinFactory'
 const StyledInput = styled(Input)`
   z-index: 9999;
   border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
@@ -21,23 +21,16 @@ const Issuance = () => {
   const [publishNum, setPublishNum] = useState(null)
   const [decimal, setDecimal] = useState(null)
   const [receiptAddr, setReceiptAddr] = useState('')
- 
-  const router = useRouter()
-  const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate()
 
-    const handleChange = (input) => {
-      
-     handleCreateToken(
-      receiptAddr,
-      zhName,
-      enName,
-      publishNum,
-      decimal,()=>{
-        router.push(`/issuance/contact`)
-      }
-     )
-      // setDecimalValue(input);
-    };
+  const router = useRouter()
+  const { handle: handleCreateToken, pendingTx: pendingCreateTokenTranctionTx } = useTokenCreate()
+
+  const handleChange = (input) => {
+    handleCreateToken(receiptAddr, zhName, enName, publishNum, decimal, () => {
+      router.push(`/issuance/contact`)
+    })
+    // setDecimalValue(input);
+  }
 
   // const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate(
   //   '0x2F744BE3E68798BDa7e4E7c2c634542fa385280f',
@@ -97,11 +90,9 @@ const Issuance = () => {
           ></CommonInput>
         </Body>
         <CardFooter style={{ textAlign: 'center' }}>
-   
-            <Button id="join-pool-button" width="100%"  disabled={pendingCreateTokenTranctionTx} onClick={handleChange}>
-              确定发行
-            </Button>
-          
+          <Button id="join-pool-button" width="100%" disabled={pendingCreateTokenTranctionTx} onClick={handleChange}>
+            确定发行
+          </Button>
         </CardFooter>
       </AppBody>
     </Page>
