@@ -142,10 +142,10 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
         label: t('One-click coin issuance'),
         href: '/issuance',
       },
-      // {
-      //   label: t('Contract detection'),
-      //   href: '/issuance/detection',
-      // },
+      {
+        label: t('Contract detection'),
+        href: '/issuance/detection',
+      },
       {
         label: t('Matrix NFT'),
         href: '/matrix',

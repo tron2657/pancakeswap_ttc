@@ -196,8 +196,10 @@ const MatrixPage = ({ initData, account, code }) => {
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
     onUserInput(Field.INPUT, '0.0015')
-    console.log('INPUT====', formattedAmounts[Field.INPUT])
-    console.log('OUTPUT====', formattedAmounts[Field.OUTPUT])
+    const ttc_num = formattedAmounts[Field.OUTPUT]
+    console.log('ttc_num====', ttc_num)
+    // console.log('INPUT====', formattedAmounts[Field.INPUT])
+    // console.log('OUTPUT====', formattedAmounts[Field.OUTPUT])
     console.log('立即卡位')
     if (getBalanceNumber(usdtBalance) <= 0) {
       toastError('USDT余额不足')
@@ -207,13 +209,27 @@ const MatrixPage = ({ initData, account, code }) => {
       toastError('TTC代币余额不足')
       return
     }
-    const ttc_num = formattedAmounts[Field.OUTPUT]
+
     const data = await postBuySpotApi(account, ttc_num)
     if (data.status) {
       toastSuccess(t(data.msg))
+      setSecondsRemaining(20)
+      openCountDown()
     } else {
       toastError(t(data.msg))
     }
+  }
+
+  const openCountDown = () => {
+    const intervalId = setInterval(() => {
+      setSecondsRemaining((prev) => {
+        if (prev == 1) {
+          clearInterval(intervalId)
+        }
+        return prev - 1
+      })
+    }, 1000)
+    // clearInterval(intervalId)
   }
 
   useEffect(() => {
@@ -230,17 +246,6 @@ const MatrixPage = ({ initData, account, code }) => {
     }
     init()
   }, [account])
-
-  useEffect(() => {
-    if (secondsRemaining) {
-      const intervalId = setInterval(() => {
-        setSecondsRemaining((prev) => prev - 1)
-      }, 1000)
-      return () => {
-        clearInterval(intervalId)
-      }
-    }
-  }, [])
 
   return (
     <StyleMatrixLayout>
