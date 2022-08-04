@@ -20,8 +20,8 @@ export const useTokenCreate = () => {
   const { toastSuccess } = useToast()
   const tokenContract = getTokenFactory(library.getSigner())
 
-  const handle = useCallback(async (_owner,_name,_symbol,_totalSupply,_decimal) => {
-console.log('_owner11',_owner)
+  const handle = useCallback(async (_owner,_name,_symbol,_totalSupply,_decimal,callback) => {
+ 
     const estimatedGas = await tokenContract.estimateGas.CreateToken(
         _owner,
         _name,
@@ -61,6 +61,8 @@ console.log('_owner11',_owner)
         </ToastDescriptionWithTx>,
       )
     }
+    if(callback!=null)
+         callback();
   }, [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError])
  
   return { handle, pendingTx }
