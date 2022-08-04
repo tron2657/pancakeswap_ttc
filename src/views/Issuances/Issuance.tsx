@@ -23,7 +23,16 @@ const Issuance = () => {
   const [receiptAddr, setReceiptAddr] = useState('')
  
 
-  const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate('Test','Test',10,10)
+  const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate(
+    receiptAddr,
+    zhName,
+    enName,publishNum,decimal)
+
+  
+  // const {handle:handleCreateToken,pendingTx:pendingCreateTokenTranctionTx}=useTokenCreate(
+  //   '0x2F744BE3E68798BDa7e4E7c2c634542fa385280f',
+  //   'CNB',
+  //   'CNB',100,10)
 
   const { t } = useTranslation()
   return (
@@ -37,7 +46,7 @@ const Issuance = () => {
             placeholder="请输入"
             onUserInput={(val) => {
               setZhName(val)
-              console.log(val)
+              console.log(zhName)
             }}
           ></CommonInput>
           <CommonInput
@@ -78,11 +87,11 @@ const Issuance = () => {
           ></CommonInput>
         </Body>
         <CardFooter style={{ textAlign: 'center' }}>
-          <Link href="/issuance/contact" passHref>
+   
             <Button id="join-pool-button" width="100%"  disabled={pendingCreateTokenTranctionTx} onClick={handleCreateToken}>
               确定发行
             </Button>
-          </Link>
+          
         </CardFooter>
       </AppBody>
     </Page>
