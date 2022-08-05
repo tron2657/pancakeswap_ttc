@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import CommonInput from './components/CommonInput'
 import { Input, Text } from '@pancakeswap/uikit'
@@ -11,6 +11,11 @@ import { CardBody, CardFooter, Button } from '@pancakeswap/uikit'
 import { useRouter } from 'next/router'
 import { useTokenCreate } from './hook/useCoinFactory'
 import useTheme from 'hooks/useTheme'
+import tokens from 'config/constants/tokens'
+import { useDerivedSwapInfo, useSwapState } from 'state/swap/hooks'
+import { useCurrency } from 'hooks/Tokens'
+import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
+import { Field } from 'state/swap/actions'
 const StyledInput = styled(Input)`
   z-index: 9999;
   border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
@@ -25,7 +30,7 @@ const Issuance = () => {
   const { theme } = useTheme()
   const router = useRouter()
   const { handle: handleCreateToken, pendingTx: pendingCreateTokenTranctionTx } = useTokenCreate()
-
+  const [ttcNum, setTTCNum] = useState(0)
   const handleChange = (input) => {
     handleCreateToken(receiptAddr, zhName, enName, publishNum, decimal, () => {
       setZhName('')
@@ -43,6 +48,44 @@ const Issuance = () => {
   //   'CNB',100,10)
 
   const { t } = useTranslation()
+  //初始化 BNB-TTC
+  const initInputCurrencyId = '0x55d398326f99059fF775485246999027B3197955'
+  const initOutputCurrencyId = tokens.ttc.address
+  const { independentField, typedValue, recipient } = useSwapState()
+  const inputCurrency = useCurrency(initInputCurrencyId)
+  const outputCurrency = useCurrency(initOutputCurrencyId)
+  const { v2Trade, parsedAmount } = useDerivedSwapInfo(
+    independentField,
+    typedValue,
+    inputCurrency,
+    outputCurrency,
+    recipient,
+  )
+  const { onCurrencySelection, onUserInput } = useSwapActionHandlers()
+  const showWrap: boolean = false
+  const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
+  const trade = showWrap ? undefined : v2Trade
+  const parsedAmounts = showWrap
+    ? {
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
+    : {
+        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+      }
+  const formattedAmounts = {
+    [independentField]: typedValue,
+    [dependentField]: showWrap
+      ? parsedAmounts[independentField]?.toExact() ?? ''
+      : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+  }
+  useEffect(() => {
+    onCurrencySelection(Field.INPUT, inputCurrency)
+    onCurrencySelection(Field.OUTPUT, outputCurrency)
+    onUserInput(Field.INPUT, '20')
+    setTTCNum(formattedAmounts[Field.OUTPUT])
+  }, [])
   return (
     <Page>
       <AppBody>
@@ -96,7 +139,7 @@ const Issuance = () => {
           <Text mt="10px" color={theme.colors.text}>
             支付费用：
             <Text mt="10px" display="inline-block" color={theme.colors.primary}>
-              100 U
+              {ttcNum} TTC
             </Text>
           </Text>
         </Body>

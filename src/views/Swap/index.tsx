@@ -174,7 +174,7 @@ export default function Swap() {
 
   const handleTypeInput = useCallback(
     (value: string) => {
-      console.log(value)
+      // console.log(inputCurrencyId)
 
       onUserInput(Field.INPUT, value)
     },
@@ -417,7 +417,6 @@ export default function Swap() {
                 />
                 <Wrapper id="swap-page" style={{ minHeight: '412px' }}>
                   <AutoColumn gap="sm">
-                    {formattedAmounts[Field.OUTPUT]}
                     <CurrencyInputPanel
                       label={
                         independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')
