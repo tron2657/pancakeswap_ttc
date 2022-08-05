@@ -31,7 +31,7 @@ const Earned: React.FC<EarnedProps> = ({ earnings }) => {
   if (isMobile) {
     return (
       <Flex justifyContent="space-between">
-        <Text>{`CAKE ${t('Earned')}`}</Text>
+        <Text>{`TTC ${t('Earned')}`}</Text>
         <Flex height="20px" alignItems="center">
           {Number(displayBalance) ? (
             <Balance fontSize="16px" value={Number(displayBalance)} />

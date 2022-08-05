@@ -175,7 +175,9 @@ const Farms: React.FC = ({ children }) => {
         if (!farm.lpTotalInQuoteToken || !farm.quoteTokenPriceBusd) {
           return farm
         }
+
         const totalLiquidity = new BigNumber(farm.lpTotalInQuoteToken).times(farm.quoteTokenPriceBusd)
+        console.log('totalLiquidity==', totalLiquidity)
         const { cakeRewardsApr, lpRewardsApr } = isActive
           ? getFarmApr(
               new BigNumber(farm.poolWeight),
@@ -275,11 +277,12 @@ const Farms: React.FC = ({ children }) => {
   }, [isIntersecting])
 
   const rowData = chosenFarmsMemoized.map((farm) => {
+    console.log(farm)
     const { token, quoteToken } = farm
     const tokenAddress = token.address
     const quoteTokenAddress = quoteToken.address
     const lpLabel = farm.lpSymbol && farm.lpSymbol.split(' ')[0].toUpperCase().replace('PANCAKE', '')
-
+    console.log('lpLabel===', lpLabel)
     const row: RowProps = {
       apr: {
         value: getDisplayApr(farm.apr, farm.lpRewardsApr),
@@ -422,7 +425,7 @@ const Farms: React.FC = ({ children }) => {
             </LabelWrapper>
           </FilterContainer>
         </ControlContainer>
-        {isInactive && (
+        {/* {isInactive && (
           <FinishedTextContainer>
             <Text fontSize={['16px', null, '20px']} color="failure" pr="4px">
               {t("Don't see the farm you are staking?")}
@@ -444,7 +447,7 @@ const Farms: React.FC = ({ children }) => {
               </FinishedTextLink>
             </Flex>
           </FinishedTextContainer>
-        )}
+        )} */}
         {renderContent()}
         {account && !userDataLoaded && stakedOnly && (
           <Flex justifyContent="center">

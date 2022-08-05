@@ -43,7 +43,7 @@ const AutoEarningsBreakdown: React.FC<AutoEarningsBreakdownProps> = ({ pool, acc
     <>
       <Text bold>
         {autoCakeToDisplay.toFixed(3)}
-        {' CAKE'}
+        {' TTC'}
       </Text>
       <Text bold>~${autoUsdToDisplay.toFixed(2)}</Text>
       <Text>{t('Earned since your last action')}:</Text>
