@@ -146,7 +146,7 @@ export default function RemoveLiquidity() {
       { name: 'verifyingContract', type: 'address' },
     ]
     const domain = {
-      name: 'Pancake LPs',
+      name: 'TTC LPs',
       version: '1',
       chainId,
       verifyingContract: pair.liquidityToken.address,
