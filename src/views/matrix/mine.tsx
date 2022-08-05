@@ -172,42 +172,6 @@ const MatrixMinePage = () => {
   }, [account])
   return (
     <StyleMatrixLayout>
-      <Link href="/matrix/share" passHref>
-        <Image className="share" src="/images/matrix/share.png" alt="Share" width={32} height={32} />
-      </Link>
-      <MatrixTop>
-        <BoxWrapper className="box-1">
-          <Text color="#fff" fontSize="23px" letterSpacing="3px" fontWeight="600">
-            矩阵NFT
-          </Text>
-        </BoxWrapper>
-        <BoxWrapper className="box-2">
-          <Text
-            color="#fff"
-            className="text-shadow"
-            letterSpacing="3px"
-            lineHeight="1"
-            fontSize="46px"
-            fontWeight="600"
-          >
-            MATRIX
-          </Text>
-          <p>
-            <Text display="inline-block" color="#fff" fontSize="20px" fontWeight="600">
-              500BUSD
-            </Text>
-            <Text display="inline-block" color="#FF8900" fontSize="20px" fontWeight="600">
-              起步卡位！
-            </Text>
-          </p>
-        </BoxWrapper>
-        <Text color="#D77C0C" fontSize="20px" fontWeight="600" mt="10px">
-          全网公排 跳排
-        </Text>
-        <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
-          出局不出圈 三三裂变 生生不息 循环造血
-        </Text>
-      </MatrixTop>
       <Box>
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>
@@ -226,13 +190,13 @@ const MatrixMinePage = () => {
                   </Text>
                   <LinnerWrapper>
                     <Flex justifyContent="center" mb="12px">
-                      <DotActive></DotActive>
+                      <Dot></Dot>
                     </Flex>
                     <Flex justifyContent="center">
                       {dotList.map((num) => {
                         return (
                           <Box mr="5px" ml="5px">
-                            {item['son'] >= num ? <DotActive></DotActive> : <Dot></Dot>}
+                            {item['son'] >= num ? <Dot></Dot> : <DotActive></DotActive>}
                           </Box>
                         )
                       })}

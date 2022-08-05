@@ -26,54 +26,6 @@ const StyleMatrixLayout = styled.div`
     margin: 20px auto;
   }
 `
-const MatrixTop = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* background: linear-gradient(190deg, #1e1e1e 50%, #f9b223 100%); */
-  background: url('/images/matrix/matrix-bg.png') no-repeat;
-  background-size: 100% 100%;
-  backdrop-filter: blur(10px) brightness(110%);
-  padding: 55px 0 35px 0;
-  position: relative;
-  .box-1 {
-    position: absolute;
-    top: 10px;
-    right: 30px;
-  }
-`
-const BoxWrapper = styled.div`
-  background: linear-gradient(174deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
-  border-radius: 8px;
-  border: 2px solid #ffffff;
-  padding: 10px 30px;
-  .text-shadow {
-    text-shadow: 2px 2px 4px #7a572b;
-  }
-`
-const LinnerWrapper = styled.div`
-  background: linear-gradient(174deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
-  border: 2px solid #ffffff;
-  height: 90px;
-  line-height: 90px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  .txt {
-    text-shadow: 0px 0px 4px rgba(225, 118, 255, 0.64);
-  }
-`
-const BorderWrapper = styled.div`
-  border-radius: 23px;
-  border: 1px dashed #d77c0c;
-  padding: 5px 25px;
-  text-align: center;
-  width: 60%;
-  margin: 25px auto 0 auto;
-`
 
 const ArrowLeft = styled.div`
   width: 22px;
@@ -87,21 +39,7 @@ const ArrowRight = styled.div`
   background: url('/images/matrix/arrow-r.png') no-repeat;
   background-size: 100% 100%;
 `
-const DotActive = styled.div`
-  width: 8px;
-  height: 8px;
-  background: #875b04;
-  box-shadow: 0px 1px 0px 0px #e19700;
-  border-radius: 50%;
-`
 
-const Dot = styled.div`
-  width: 8px;
-  height: 8px;
-  background: #ffffff;
-  box-shadow: 0px 1px 0px 0px #e19700;
-  border-radius: 50%;
-`
 const getInitDataApi = async (account: string) => {
   const res = await fetch(`${TTC_API}/trx/index?address=${account}`, {
     method: 'get',
@@ -169,39 +107,6 @@ const MatrixSharePage = () => {
   }, [account])
   return (
     <StyleMatrixLayout>
-      <MatrixTop>
-        <BoxWrapper className="box-1">
-          <Text color="#fff" fontSize="23px" letterSpacing="3px" fontWeight="600">
-            矩阵NFT
-          </Text>
-        </BoxWrapper>
-        <BoxWrapper className="box-2">
-          <Text
-            color="#fff"
-            className="text-shadow"
-            letterSpacing="3px"
-            lineHeight="1"
-            fontSize="46px"
-            fontWeight="600"
-          >
-            MATRIX
-          </Text>
-          <p>
-            <Text display="inline-block" color="#fff" fontSize="20px" fontWeight="600">
-              500BUSD
-            </Text>
-            <Text display="inline-block" color="#FF8900" fontSize="20px" fontWeight="600">
-              起步卡位！
-            </Text>
-          </p>
-        </BoxWrapper>
-        <Text color="#D77C0C" fontSize="20px" fontWeight="600" mt="10px">
-          全网公排 跳排
-        </Text>
-        <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
-          出局不出圈 三三裂变 生生不息 循环造血
-        </Text>
-      </MatrixTop>
       <Box position="relative">
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>

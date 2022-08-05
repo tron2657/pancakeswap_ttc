@@ -3,7 +3,7 @@ import { Text } from '@pancakeswap/uikit'
 import PageLoader from 'components/Loader/PageLoader'
 import { useRouter } from 'next/router'
 import MatrixPage from '../../views/matrix'
-const initData = {}
+import MatrixPageLayout from '../../views/matrix/layout'
 import { TTC_API } from 'config/constants/endpoints'
 
 import { useWeb3React } from '@web3-react/core'
@@ -38,7 +38,13 @@ const CurrentMatrixPage = () => {
     }
     init()
   }, [account])
-  return loading ? <PageLoader></PageLoader> : <MatrixPage initData={data} account={account} code={router.query.code} />
+  return loading ? (
+    <PageLoader></PageLoader>
+  ) : (
+    <MatrixPageLayout initData={data} account={account} showShare={true}>
+      <MatrixPage initData={data} account={account} code="" />
+    </MatrixPageLayout>
+  )
 }
 
 export default CurrentMatrixPage

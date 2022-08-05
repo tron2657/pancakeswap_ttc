@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Text } from '@pancakeswap/uikit'
 import PageLoader from 'components/Loader/PageLoader'
 import MatrixPage from '../../views/matrix'
-const initData = {}
+import MatrixPageLayout from '../../views/matrix/layout'
 import { TTC_API } from 'config/constants/endpoints'
 
 import { useWeb3React } from '@web3-react/core'
@@ -17,16 +17,12 @@ const getInitDataApi = async (account: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
+
 const CurrentMatrixPage = () => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
   const { account } = useWeb3React()
-  //   getInitDataApi(account)
-  //     .then((res) => {
-  //       console.log(res)
-  //       //   setData(res.result)
-  //     })
-  //     .catch((error) => {})
+
   useEffect(() => {
     async function init() {
       if (account) {
@@ -41,7 +37,13 @@ const CurrentMatrixPage = () => {
     }
     init()
   }, [account])
-  return loading ? <PageLoader></PageLoader> : <MatrixPage initData={data} account={account} code="" />
+  return loading ? (
+    <PageLoader></PageLoader>
+  ) : (
+    <MatrixPageLayout initData={data} account={account} showShare={true}>
+      <MatrixPage initData={data} account={account} code="" />
+    </MatrixPageLayout>
+  )
 }
 
 export default CurrentMatrixPage

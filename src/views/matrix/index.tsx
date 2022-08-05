@@ -35,6 +35,13 @@ const StyleMatrixLayout = styled.div`
     display: block;
     margin: 20px auto;
   }
+  .border-btn {
+    background: transparent;
+    border: 1px solid #e6bf5d;
+    color: #e6bf5d;
+    display: block;
+    margin: 0 auto;
+  }
   .share {
     position: absolute;
     right: 10px;
@@ -110,6 +117,17 @@ const getInviteListApi = async (account: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
+const getMyListApi = async (account: string) => {
+  const res = await fetch(`${TTC_API}/buy/my_spot?address=${account}`, {
+    method: 'get',
+  })
+  if (res.ok) {
+    const json = await res.json()
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
 const postBuySpotApi = async (account: string, ttc_num: string) => {
   const res = await fetch(`${TTC_API}/buy/buy_spot?address=${account}&ttc_num=${ttc_num}`, {
     method: 'post',
@@ -137,6 +155,7 @@ const MatrixPage = ({ initData, account, code }) => {
     <InviteModal code={code} customOnDismiss={handleConfirmClick} />,
   )
   //   const [collections] = await Promise.all([])
+  const [mySport, setMySport] = useState(0)
   const [inviteList, setInviteList] = useState([])
   const [secondsRemaining, setSecondsRemaining] = useState(0)
 
@@ -151,7 +170,7 @@ const MatrixPage = ({ initData, account, code }) => {
     setUsdtLastUpdated,
   )
   const { handleTTCApprove: handleTTCApprove, pendingTx: pendingTTCTx } = useApproveTTC(
-    initData.from_address,
+    initData.from_address2,
     setTTCLastUpdated,
   )
   const { balance: usdtBalance } = useTokenBalance(usdtAddress)
@@ -201,12 +220,12 @@ const MatrixPage = ({ initData, account, code }) => {
     // console.log('INPUT====', formattedAmounts[Field.INPUT])
     // console.log('OUTPUT====', formattedAmounts[Field.OUTPUT])
     console.log('立即卡位')
-    if (getBalanceNumber(usdtBalance) <= 0) {
+    if (getBalanceNumber(usdtBalance) < Number(initData.spot_price)) {
       toastError('USDT余额不足')
       return
     }
-    if (getBalanceNumber(ttcBalance) <= 0) {
-      toastError('TTC代币余额不足')
+    if (getBalanceNumber(ttcBalance) < Number(ttc_num)) {
+      toastError('TTC手续费不足')
       return
     }
 
@@ -241,67 +260,42 @@ const MatrixPage = ({ initData, account, code }) => {
       } else {
         closePresentMobileModal()
       }
-      const invite = await getInviteListApi(account)
-      setInviteList(invite.result)
+      const sport = await getMyListApi(account)
+      setMySport(sport.result.length)
+      // const invite = await getInviteListApi(account)
+      const invite = [
+        {
+          num: 18,
+          name: '分享奖励',
+        },
+        {
+          num: 10,
+          name: 'A岗奖励',
+        },
+        {
+          num: 8,
+          name: 'B岗奖励',
+        },
+        {
+          num: 16,
+          name: '一阶奖励',
+        },
+        {
+          num: 20,
+          name: '三阶奖励',
+        },
+        {
+          num: 28,
+          name: '九阶奖励',
+        },
+      ]
+      setInviteList(invite)
     }
     init()
   }, [account])
 
   return (
     <StyleMatrixLayout>
-      <Link href="/matrix/share" passHref>
-        <Image className="share" src="/images/matrix/share.png" alt="Share" width={32} height={32} />
-      </Link>
-      <MatrixTop>
-        <BoxWrapper className="box-1">
-          <Text color="#fff" fontSize="23px" letterSpacing="3px" fontWeight="600">
-            矩阵NFT
-          </Text>
-        </BoxWrapper>
-        <BoxWrapper className="box-2">
-          <Text
-            color="#fff"
-            className="text-shadow"
-            letterSpacing="3px"
-            lineHeight="1"
-            fontSize="46px"
-            fontWeight="600"
-          >
-            MATRIX
-          </Text>
-          <p>
-            <Text display="inline-block" color="#fff" fontSize="20px" fontWeight="600">
-              500BUSD
-            </Text>
-            <Text display="inline-block" color="#FF8900" fontSize="20px" fontWeight="600">
-              起步卡位！
-            </Text>
-          </p>
-        </BoxWrapper>
-        <Text color="#D77C0C" fontSize="20px" fontWeight="600" mt="10px">
-          全网公排 跳排
-        </Text>
-        <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
-          出局不出圈 三三裂变 生生不息 循环造血
-        </Text>
-      </MatrixTop>
-      {/* {account ? (
-        !isUsdtApproved ? (
-          <Button className="btn-gradient" type="button" disabled={pendingUsdtTx} onClick={handleUsdtApprove}>
-            {t('批准')}
-          </Button>
-        ) : !isTTCApproved ? (
-          <Button className="btn-gradient" type="button" disabled={pendingTTCTx} onClick={handleTTCApprove}>
-            {t('批准')}
-          </Button>
-        ) : (
-          <Button onClick={handleParticepate} type="button" className="btn-gradient" scale="sm">
-            立即卡位
-          </Button>
-        )
-      ) : (
-        <ConnectWalletButton />
-      )} */}
       <Flex justifyContent="space-around" alignItems="center">
         {!isUsdtApproved ? (
           <Button
@@ -337,9 +331,12 @@ const MatrixPage = ({ initData, account, code }) => {
       ) : null}
 
       <Link href="/matrix/mine" passHref>
-        <Text color="#fff" fontSize="16px" textAlign="center">
+        {/* <Text color="#fff" fontSize="16px" textAlign="center">
           我的点位
-        </Text>
+        </Text> */}
+        <Button className="border-btn" type="button" scale="sm">
+          我的点位 {mySport} 个
+        </Button>
       </Link>
       <Box>
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
@@ -386,7 +383,7 @@ const MatrixPage = ({ initData, account, code }) => {
                     textAlign="center"
                     display="inline"
                   >
-                    {item.num}
+                    {item.num}U
                   </Text>
                 </LinnerWrapper>
               </Box>
