@@ -70,6 +70,7 @@ export const fetchFarmsPublicDataAsync = createAsyncThunk<
     const farmsCanFetch = farmsToFetch.filter((f) => poolLength.gt(f.pid))
 
     const farms = await fetchFarms(farmsCanFetch)
+
     const farmsWithPrices = getFarmsPrices(farms)
 
     return [farmsWithPrices, poolLength.toNumber(), regularCakePerBlock.toNumber()]
