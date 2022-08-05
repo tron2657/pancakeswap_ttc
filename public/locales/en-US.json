@@ -1700,9 +1700,10 @@
   "Bunny Helmet NFT": "Bunny Helmet NFT",
   "Bunny Helmet": "Bunny Helmet",
   "PancakeSwap NFT": "TTCSwap NFT",
-  "Mining": "Mining",
-  "ProduceRuleDesc1":"薄饼添加TTC：USDT流动性参与挖矿分红，无锁仓无质押",
-  "ProduceRuleDesc2":"空投ETI最低0.01枚永久性绑定地址",
-  "ProduceRuleDesc3":"拿分红奖励，最高9级奖励",
-  "ProduceRuleDesc4":"参与后每日20:00赚取分红",
+  "Mining": "Mining",   
+  "Pancake adds TTC: USDT liquidity participates in mining dividends, no lock-up and no pledge":"Pancake adds TTC: USDT liquidity participates in mining dividends, no lock-up and no pledge",
+  "The minimum airdrop ETI is 0.01 permanent binding address": "The minimum airdrop ETI is 0.01 permanent binding address",
+  "ProduceRuleDesc3":"Get bonus rewards, up to level 9 rewards",
+  "Earn dividends at 20:00 every day after participation": "Earn dividends at 20:00 every day after participation",
+  
 }
