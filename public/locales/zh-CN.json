@@ -1709,5 +1709,20 @@
   "ProduceRuleDesc3":"拿分红奖励，最高9级奖励",
   "ProduceRuleDesc4":"参与后每日20:00赚取分红",
   "MiningDraw":"领取奖励",
-  "MiningJoin":"参加"
+  "MiningJoin":"参加",
+  "PancakeSwap NFT": "TTCSwap NFT",
+  "Mining": "分红",
+  "Pancake adds TTC: USDT liquidity participates in mining dividends, no lock-up and no pledge": "薄饼添加TTC：USDT流动性参与挖矿分红，无锁仓无质押",
+  "The minimum airdrop ETI is 0.01 permanent binding address":"空投ETI最低0.01枚永久性绑定地址",
+  "ProduceRuleDesc3":"拿分红奖励，最高9级奖励", 
+  "Earn dividends at 20:00 every day after participation": "参与后每日20:00赚取分红",
+  "MiningDraw":"领取奖励",
+  "MiningJoin":"参加",
+  "Liquidity dividend":"流动性分红",
+  "Hold TTC-USDT LP tokens to produce ETI": "持有TTC-USDT LP 代币产出ETI",
+  "TTC-USDT liquidity": "TTC-USDT流动性",
+  "Total": "总量",
+  "Daily Output": "每日产出",
+  "Earned": "已赚取", 
+  "Dividend rules: ": "分红规则："
 }

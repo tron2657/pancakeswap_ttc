@@ -109,15 +109,15 @@ const Mining: React.FC = ({ children }) => {
     <>
       <PageHeader>
         <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-          {t('流动性分红')}
+          {t('Liquidity dividend')}
         </Heading>
         <Heading scale="lg" color="text">
-          {t('持有TTC-USDT LP 代币产出ETI')}
+          {t('Hold TTC-USDT LP tokens to produce ETI')}
         </Heading>
         <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>
           <Button p="0" variant="text">
             <Text color="primary" bold fontSize="16px" mr="4px">
-              {t('TTC-USDT流动性')}
+              {t('TTC-USDT liquidity')}
             </Text>
             <ArrowForwardIcon color="primary" />
           </Button>
@@ -136,7 +136,7 @@ const Mining: React.FC = ({ children }) => {
 
             <Flex justifyContent="space-between">
               <Text small color="textSubtle">
-                {t('总量')}:
+                {t('Total')}:
               </Text>
               <Text small bold>
                 {totalSupply}
@@ -144,7 +144,7 @@ const Mining: React.FC = ({ children }) => {
             </Flex>
             <Flex justifyContent="space-between">
               <Text small color="textSubtle">
-                {t('每日产出')}:
+                {t('Daily Output')}:
               </Text>
               <Text small bold>
                 {total}
@@ -154,7 +154,7 @@ const Mining: React.FC = ({ children }) => {
               <Text small color="primary">
                 {t('ETI')}{' '}
                 <Text color="textSubtle" as="span">
-                  {t('已赚取')}:
+                  {t('Earned')}:
                 </Text>
               </Text>
               <Text small bold>
@@ -163,19 +163,19 @@ const Mining: React.FC = ({ children }) => {
             </Flex>
             {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
             <Text small mt={'8px'} color="textSubtle">
-              {t('分红规则： ')}
+              {t('Dividend rules: ')}
             </Text>
             <Text small color="textSubtle">
-              {t('ProduceRuleDesc1')}
+              {t('Pancake adds TTC: USDT liquidity participates in mining dividends, no lock-up and no pledge')}
             </Text>
             <Text small color="textSubtle">
-              {t('ProduceRuleDesc2')}
+              {t('The minimum airdrop ETI is 0.01 permanent binding address')}
             </Text>
             {/* <Text small color="textSubtle">
               {t('ProduceRuleDesc3')}
             </Text> */}
             <Text small color="textSubtle">
-              {t('ProduceRuleDesc4')}
+              {t('Earn dividends at 20:00 every day after participation')}
             </Text>
           </FarmCardInnerContainer>
         </StyledCard>
