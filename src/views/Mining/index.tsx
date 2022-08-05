@@ -78,7 +78,7 @@ const Mining: React.FC = ({ children }) => {
   const { obtainEarnedToken, setObtainEarnedToken } = useObtainEarnedToken()
 
   const { totalSupply, setTotalSupply } = useTotalSupply()
-  const {total,setTotal}=useTotal()
+  const { total, setTotal } = useTotal()
   const { dailyProduce, setDailyProduce } = useDailyProduce()
 
   const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } =
@@ -109,7 +109,7 @@ const Mining: React.FC = ({ children }) => {
     <>
       <PageHeader>
         <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-          {t('流动性挖矿')}
+          {t('流动性分红')}
         </Heading>
         <Heading scale="lg" color="text">
           {t('持有TTC-USDT LP 代币产出ETI')}
@@ -171,9 +171,9 @@ const Mining: React.FC = ({ children }) => {
             <Text small color="textSubtle">
               {t('ProduceRuleDesc2')}
             </Text>
-            <Text small color="textSubtle">
+            {/* <Text small color="textSubtle">
               {t('ProduceRuleDesc3')}
-            </Text>
+            </Text> */}
             <Text small color="textSubtle">
               {t('ProduceRuleDesc4')}
             </Text>
