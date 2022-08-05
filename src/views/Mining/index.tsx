@@ -12,15 +12,15 @@ import tokens from 'config/constants/tokens'
 import fetchFarms from 'state/farmsV1/fetchFarms'
 import getFarmsPrices from 'state/farmsV1/getFarmsPrices'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import {useFarmFromPid } from 'state/farmsV1/hooks'
- 
+import { useFarmFromPid } from 'state/farmsV1/hooks'
+
 import {
   useJoinMiningCallback,
   useCheckCustomIfAccessStatus,
   useDrawMiningCallback,
   useObtainEarnedToken,
   useTotalSupply,
-  useDailyProduce
+  useDailyProduce,
 } from './hook/useJoinMining'
 const ControlContainer = styled.div`
   display: flex;
@@ -71,30 +71,28 @@ const Mining: React.FC = ({ children }) => {
   const [isJoinMining, setIsJoinMining] = useState(false)
 
   const { customIfAccess, setCustomIfAccessUpdated } = useCheckCustomIfAccessStatus()
- 
+
   const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback(setCustomIfAccessUpdated)
-  
-  const {obtainEarnedToken,setObtainEarnedToken}=useObtainEarnedToken()
 
-  const {totalSupply,setTotalSupply}=useTotalSupply()
+  const { obtainEarnedToken, setObtainEarnedToken } = useObtainEarnedToken()
 
-  const{dailyProduce,setDailyProduce}=useDailyProduce()
+  const { totalSupply, setTotalSupply } = useTotalSupply()
 
-  const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } = useDrawMiningCallback(setCustomIfAccessUpdated)
+  const { dailyProduce, setDailyProduce } = useDailyProduce()
 
- 
- 
+  const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } =
+    useDrawMiningCallback(setCustomIfAccessUpdated)
+
   const renderApprovalOrStakeButton = () => {
     return customIfAccess ? (
-      <Button mt="8px" width="100%"  disabled={pendingDrawTranctionTx} onClick={handleDrawMining} >
-        {t('MiningDraw')}  
+      <Button mt="8px" width="100%" disabled={pendingDrawTranctionTx} onClick={handleDrawMining}>
+        {t('MiningDraw')}
       </Button>
-    ) :   (
+    ) : (
       <Button mt="8px" width="100%" disabled={pendingTranctionTx} onClick={handleMining}>
         {t('MiningJoin')}
       </Button>
-    )  
- 
+    )
   }
 
   const MiningToken = tokens.ttc
@@ -140,7 +138,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('总量')}:
               </Text>
               <Text small bold>
-              {totalSupply}
+                {totalSupply}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
@@ -148,7 +146,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('每日产出')}:
               </Text>
               <Text small bold>
-              {(dailyProduce/Math.pow(10,18)).toFixed(8)}
+                {(dailyProduce / Math.pow(10, 18)).toFixed(8)}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
@@ -159,12 +157,12 @@ const Mining: React.FC = ({ children }) => {
                 </Text>
               </Text>
               <Text small bold>
-              {(obtainEarnedToken/Math.pow(10,18)).toFixed(8)}
+                {(obtainEarnedToken / Math.pow(10, 18)).toFixed(8)}
               </Text>
             </Flex>
             {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
             <Text small mt={'8px'} color="textSubtle">
-              {t('产出规则： ')}
+              {t('分红规则： ')}
             </Text>
             <Text small color="textSubtle">
               {t('ProduceRuleDesc1')}
@@ -174,6 +172,9 @@ const Mining: React.FC = ({ children }) => {
             </Text>
             <Text small color="textSubtle">
               {t('ProduceRuleDesc3')}
+            </Text>
+            <Text small color="textSubtle">
+              {t('ProduceRuleDesc4')}
             </Text>
           </FarmCardInnerContainer>
         </StyledCard>

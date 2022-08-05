@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import CommonInput from './components/CommonInput'
-import { Input } from '@pancakeswap/uikit'
+import { Input, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import Link from 'next/link'
 import Container from 'components/Layout/Container'
@@ -10,6 +10,7 @@ import { AppHeader, AppBody } from '../../components/App'
 import { CardBody, CardFooter, Button } from '@pancakeswap/uikit'
 import { useRouter } from 'next/router'
 import { useTokenCreate } from './hook/useCoinFactory'
+import useTheme from 'hooks/useTheme'
 const StyledInput = styled(Input)`
   z-index: 9999;
   border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
@@ -21,13 +22,17 @@ const Issuance = () => {
   const [publishNum, setPublishNum] = useState(null)
   const [decimal, setDecimal] = useState(null)
   const [receiptAddr, setReceiptAddr] = useState('')
-
+  const { theme } = useTheme()
   const router = useRouter()
   const { handle: handleCreateToken, pendingTx: pendingCreateTokenTranctionTx } = useTokenCreate()
 
   const handleChange = (input) => {
     handleCreateToken(receiptAddr, zhName, enName, publishNum, decimal, () => {
-      router.push(`/issuance/contact`)
+      setZhName('')
+      setEnName('')
+      setPublishNum(null)
+      setDecimal(null)
+      setReceiptAddr('')
     })
     // setDecimalValue(input);
   }
@@ -88,11 +93,22 @@ const Issuance = () => {
               console.log(val)
             }}
           ></CommonInput>
+          <Text mt="10px" color={theme.colors.text}>
+            支付费用：
+            <Text mt="10px" display="inline-block" color={theme.colors.primary}>
+              100 U
+            </Text>
+          </Text>
         </Body>
         <CardFooter style={{ textAlign: 'center' }}>
           <Button id="join-pool-button" width="100%" disabled={pendingCreateTokenTranctionTx} onClick={handleChange}>
             确定发行
           </Button>
+          <Link href="/issuance/contact" passHref>
+            <Text mt="10px" color={theme.colors.text}>
+              发行自定义合约
+            </Text>
+          </Link>
         </CardFooter>
       </AppBody>
     </Page>
