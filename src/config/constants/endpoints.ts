@@ -22,4 +22,4 @@ export const TC_MOD_SUBGRAPH = 'https://api.thegraph.com/subgraphs/name/pancakes
 
 export const GALAXY_NFT_CLAIMING_API = 'https://graphigo.prd.galaxy.eco/query'
 
-export const TTC_API = "https://matrix.ttcswap.com/api"
+export const TTC_API = "https://matrix.ttcswap.finance/api"
