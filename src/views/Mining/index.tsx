@@ -21,6 +21,7 @@ import {
   useObtainEarnedToken,
   useTotalSupply,
   useDailyProduce,
+  useTotal,
 } from './hook/useJoinMining'
 const ControlContainer = styled.div`
   display: flex;
@@ -77,7 +78,7 @@ const Mining: React.FC = ({ children }) => {
   const { obtainEarnedToken, setObtainEarnedToken } = useObtainEarnedToken()
 
   const { totalSupply, setTotalSupply } = useTotalSupply()
-
+  const {total,setTotal}=useTotal()
   const { dailyProduce, setDailyProduce } = useDailyProduce()
 
   const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } =
@@ -146,7 +147,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('每日产出')}:
               </Text>
               <Text small bold>
-                {(dailyProduce / Math.pow(10, 18)).toFixed(8)}
+                {total}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">

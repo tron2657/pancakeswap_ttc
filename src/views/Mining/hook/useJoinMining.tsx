@@ -86,6 +86,28 @@ export const useDailyProduce = () => {
   return { dailyProduce: Number(0), setDailyProduce: mutate }
 }
 
+export const useTotal = () => {
+  const { library } = useActiveWeb3React()
+  const { account } = useWeb3React()
+  const tokenContract = getTtcMiningContract(library.getSigner())
+
+  const key = useMemo<UseSWRContractKey>(
+    () =>
+      account
+        ? {
+            contract: tokenContract,
+            methodName: 'total',
+            params: [],
+          }
+        : null,
+    [account, tokenContract],
+  )
+
+  const { data, mutate } = useSWRContract(key)
+  if (data && data._hex) return { total: Number(data._hex), setTotal: mutate }
+  return { total: Number(0), setTotal: mutate }
+}
+
 export const useTotalSupply = () => {
   const { library } = useActiveWeb3React()
   const { account } = useWeb3React()
