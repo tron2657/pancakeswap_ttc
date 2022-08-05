@@ -84,7 +84,7 @@ const Issuance = () => {
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
     onUserInput(Field.INPUT, '20')
-    setTTCNum(formattedAmounts[Field.OUTPUT])
+    setTTCNum(Number(formattedAmounts[Field.OUTPUT]))
   }, [])
   return (
     <Page>
