@@ -148,7 +148,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('每日产出')}:
               </Text>
               <Text small bold>
-              {dailyProduce}
+              {(dailyProduce/Math.pow(10,18)).toFixed(8)}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
@@ -159,7 +159,7 @@ const Mining: React.FC = ({ children }) => {
                 </Text>
               </Text>
               <Text small bold>
-              {obtainEarnedToken}
+              {(obtainEarnedToken/Math.pow(10,18)).toFixed(8)}
               </Text>
             </Flex>
             {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
