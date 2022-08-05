@@ -13,16 +13,18 @@ const FarmsPage = () => {
   console.log(chosenFarmsMemoized)
   return (
     <>
-      {chosenFarmsMemoized.map((farm) => (
-        <FarmCard
-          key={farm.pid}
-          farm={farm}
-          displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
-          cakePrice={cakePrice}
-          account={account}
-          removed={false}
-        />
-      ))}
+      {chosenFarmsMemoized.map((farm) =>
+        farm.lpSymbol == 'TTC-USDT LP' ? null : (
+          <FarmCard
+            key={farm.pid}
+            farm={farm}
+            displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
+            cakePrice={cakePrice}
+            account={account}
+            removed={false}
+          />
+        ),
+      )}
     </>
   )
 }

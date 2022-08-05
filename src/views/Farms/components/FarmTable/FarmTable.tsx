@@ -78,7 +78,10 @@ const FarmTable: React.FC<ITableProps> = (props) => {
           <StyledTable>
             <TableBody>
               {rows.map((row) => {
-                return <Row {...row.original} userDataReady={userDataReady} key={`table-row-${row.id}`} />
+                console.log('row==', row)
+                return row.original.farm.label == 'TTC-USDT' ? null : (
+                  <Row {...row.original} userDataReady={userDataReady} key={`table-row-${row.id}`} />
+                )
               })}
             </TableBody>
           </StyledTable>

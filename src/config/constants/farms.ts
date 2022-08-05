@@ -32,18 +32,18 @@ const farms: SerializedFarmConfig[] = [
     token: serializedTokens.ttc,
     quoteToken: serializedTokens.wbnb,
   },
-  // {
-  //   pid: 2,
-  //   v1pid: 251,
-  //   lpSymbol: 'TTC-USDT LP',
+  {
+    pid: 2,
+    v1pid: 251,
+    lpSymbol: 'TTC-USDT LP',
 
-  //   lpAddresses: {
-  //     97: '',
-  //     56: '0x3fb910f48b36e692740de377652a034a8448b753',
-  //   },
-  //   token: serializedTokens.ttc,
-  //   quoteToken: serializedTokens.usdt,
-  // },
+    lpAddresses: {
+      97: '',
+      56: '0x3fb910f48b36e692740de377652a034a8448b753',
+    },
+    token: serializedTokens.ttc,
+    quoteToken: serializedTokens.usdt,
+  },
   {
     pid: 98,
     v1pid: 998,
