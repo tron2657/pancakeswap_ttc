@@ -148,7 +148,7 @@ const Issuance = () => {
             确定发行
           </Button>
           <Link href="/issuance/contact" passHref>
-            <Text mt="10px" color={theme.colors.text}>
+            <Text mt="10px" color={theme.colors.primary}>
               发行自定义合约
             </Text>
           </Link>
