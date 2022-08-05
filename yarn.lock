@@ -17899,10 +17899,10 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-ttcswap-sdk@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/ttcswap-sdk/-/ttcswap-sdk-1.0.0.tgz"
-  integrity sha512-Tsep0lgOsYnKnDFLdQbTYc/eW0hEHuQPbH7cpwhBQy2iWVrHuYm5ZmO5e/NPoRwxSkg5YkEj6r+Zxh0DdPP7uw==
+ttcswap-sdk@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ttcswap-sdk/-/ttcswap-sdk-1.0.1.tgz#f58e8b62d71b53518e780b2fa3da859377cc65b1"
+  integrity sha512-nRPBrb+HJXFoh8DtAgtBG5nu14Zfj1VyoyVgzYjErr974Ja0MbaWdd2Q2801E9Akk2+Tfv7BCEy3dQsc7Og89A==
   dependencies:
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
