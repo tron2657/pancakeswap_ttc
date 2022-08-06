@@ -139,7 +139,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('Total')}:
               </Text>
               <Text small bold>
-                {totalSupply}
+                {total}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
@@ -147,7 +147,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('Daily Output')}:
               </Text>
               <Text small bold>
-                {total}
+                {totalSupply}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
