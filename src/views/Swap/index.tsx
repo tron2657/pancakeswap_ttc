@@ -485,7 +485,7 @@ export default function Swap() {
                         <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
                       </>
                     ) : null}
-                    {console.log(trade)}
+
                     {showWrap ? null : (
                       <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
                         <RowBetween align="center">
