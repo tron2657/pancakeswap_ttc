@@ -93,7 +93,7 @@ const MatrixLayOut = ({ initData, account, showShare, children }) => {
           </Text>
           <p>
             <Text display="inline-block" color="#fff" fontSize="20px" fontWeight="600">
-              {initData?.spot_price}BUSD
+              {initData?.spot_price}USDT
             </Text>
             <Text display="inline-block" color="#FF8900" fontSize="20px" fontWeight="600">
               起步卡位！

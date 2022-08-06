@@ -318,7 +318,7 @@ const MatrixPage = ({ initData, account, code }) => {
         <Button
           width="70%"
           onClick={handleParticepate}
-          disabled={secondsRemaining > 0}
+          disabled={secondsRemaining > 0 || mySport > 0}
           type="button"
           className="btn-gradient"
           scale="sm"
@@ -383,7 +383,10 @@ const MatrixPage = ({ initData, account, code }) => {
                     textAlign="center"
                     display="inline"
                   >
-                    {item.num}U
+                    {item.num}
+                    <span style={{ fontSize: '12px' }}>
+                      USDT的 <span style={{ fontSize: '16px' }}>TTC</span>
+                    </span>
                   </Text>
                 </LinnerWrapper>
               </Box>
