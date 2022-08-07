@@ -232,7 +232,7 @@ const MatrixPage = ({ initData, account, code }) => {
     const data = await postBuySpotApi(account, ttc_num)
     if (data.status) {
       toastSuccess(t(data.msg))
-      setSecondsRemaining(20)
+      setSecondsRemaining(120)
       openCountDown()
     } else {
       toastError(t(data.msg))

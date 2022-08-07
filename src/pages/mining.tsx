@@ -21,6 +21,22 @@ const MiningPage = () => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
   const { account } = useWeb3React()
+
+  const handleCallback = async () => {
+    const _data = await getInitDataApi(account)
+
+    if (_data.status) {
+      // onCurrencySelection(Field.INPUT, inputCurrency)
+      // onCurrencySelection(Field.OUTPUT, outputCurrency)
+      // onUserInput(Field.INPUT, '0.015')
+      // const ttc_num = formattedAmounts[Field.OUTPUT]
+
+      // console.log('ttc_num===', ttc_num)
+      console.log('initData====', _data)
+      setData(_data.result)
+      setLoading(false)
+    }
+  }
   // const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
   useEffect(() => {
     async function init() {
@@ -42,7 +58,11 @@ const MiningPage = () => {
     }
     init()
   }, [account])
-  return loading ? <PageLoader></PageLoader> : <Mining initData={data} account={account}></Mining>
+  return loading ? (
+    <PageLoader></PageLoader>
+  ) : (
+    <Mining initData={data} account={account} callback={handleCallback}></Mining>
+  )
 }
 
 export default MiningPage

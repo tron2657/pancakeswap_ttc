@@ -32,6 +32,7 @@ import { Field } from 'state/swap/actions'
 import TTCModal from './components/ttcModal'
 import useTokenBalance from 'hooks/useTokenBalance'
 import { getBalanceNumber } from 'utils/formatBalance'
+import CountdownCircle from 'views/matrix/components/CountdownCircle'
 
 const handleParticipateApi = async (account: string, ttc_num: string) => {
   const res = await fetch(`${DIVI_API}/user/app_reg?address=${account}&ttc_num=${ttc_num}`, {
@@ -96,31 +97,32 @@ const FarmCardInnerContainer = styled(Flex)`
   padding: 24px;
 `
 
-const Mining = ({ initData, account }) => {
+const Mining = ({ initData, account, callback }) => {
   console.log(initData, account)
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
   const { t } = useTranslation()
   const { toastSuccess, toastError } = useToast()
 
-  const { chainId, library } = useActiveWeb3React()
+  // const { chainId, library } = useActiveWeb3React()
 
-  const [isJoinMining, setIsJoinMining] = useState(false)
+  // const [isJoinMining, setIsJoinMining] = useState(false)
 
-  const { customIfAccess, setCustomIfAccessUpdated } = useCheckCustomIfAccessStatus()
+  // const { customIfAccess, setCustomIfAccessUpdated } = useCheckCustomIfAccessStatus()
 
-  // const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback(setCustomIfAccessUpdated)
+  // // const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback(setCustomIfAccessUpdated)
 
-  const { obtainEarnedToken, setObtainEarnedToken } = useObtainEarnedToken()
+  // const { obtainEarnedToken, setObtainEarnedToken } = useObtainEarnedToken()
 
-  const { totalSupply, setTotalSupply } = useTotalSupply()
-  const { total, setTotal } = useTotal()
-  const { dailyProduce, setDailyProduce } = useDailyProduce()
+  // const { totalSupply, setTotalSupply } = useTotalSupply()
+  // const { total, setTotal } = useTotal()
+  // const { dailyProduce, setDailyProduce } = useDailyProduce()
 
   const [loading, setLoading] = useState(false)
   const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
-  console.log('ttcBalance', getBalanceNumber(ttcBalance))
-
+  const { balance: lpBalance } = useTokenBalance('0x3fb910f48B36E692740dE377652a034a8448B753')
+  console.log('lpBalance', getBalanceNumber(lpBalance))
+  const [secondsRemaining, setSecondsRemaining] = useState(0)
   const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(initData.ttc_contract, initData.from_address2)
 
   const { handleTTCApprove: handleTTCApprove, pendingTx: pendingTTCTx } = useApproveTTC(
@@ -146,10 +148,17 @@ const Mining = ({ initData, account }) => {
   const handleMining = async (ttc_num) => {
     setLoading(true)
     console.log('ttc_num===', ttcNum)
+    if (getBalanceNumber(lpBalance) <= 0) {
+      toastError('lp代币余额为0')
+      return
+    }
     const data = await handleParticipateApi(account, ttc_num)
     setLoading(false)
     if (data.status) {
       toastSuccess(t(data.msg))
+      callback()
+      // setSecondsRemaining(120)
+      // openCountDown()
     } else {
       toastError(t(data.msg))
     }
@@ -166,9 +175,23 @@ const Mining = ({ initData, account }) => {
     setLoading(false)
     if (data.status) {
       toastSuccess(t(data.msg))
+      setSecondsRemaining(120)
+      openCountDown()
     } else {
       toastError(t(data.msg))
     }
+  }
+
+  const openCountDown = () => {
+    const intervalId = setInterval(() => {
+      setSecondsRemaining((prev) => {
+        if (prev == 1) {
+          clearInterval(intervalId)
+        }
+        return prev - 1
+      })
+    }, 1000)
+    // clearInterval(intervalId)
   }
 
   // const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } =
@@ -185,7 +208,7 @@ const Mining = ({ initData, account }) => {
         onClick={handleTTCApprove}
         endIcon={pendingTTCTx ? <AutoRenewIcon color="currentColor" spin /> : null}
       >
-        {t('批准TTC')}
+        {t('批准TTC 参与分红')}
       </Button>
     ) : initData.is_band == 1 ? (
       // <Button mt="8px" width="100%" disabled={!initData.eti_coin} onClick={handleOpenTTCModal}>
@@ -195,11 +218,14 @@ const Mining = ({ initData, account }) => {
         width="100%"
         marginLeft="auto"
         onClick={handleOpenTTCModal}
-        disabled={initData.is_band != 1}
+        disabled={secondsRemaining > 0 || initData.is_band != 1 || initData.eti_coin == 0}
         isLoading={loading}
         endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
       >
-        {t('MiningDraw')}
+        <Flex justifyContent="center" alignItems="center">
+          {t('MiningDraw')}
+          {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
+        </Flex>
       </Button>
     ) : (
       <Button
@@ -209,7 +235,10 @@ const Mining = ({ initData, account }) => {
         isLoading={loading}
         endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
       >
-        {t('MiningJoin')}
+        <Flex justifyContent="center" alignItems="center">
+          {t('MiningJoin')}
+          {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
+        </Flex>
       </Button>
     )
   }
