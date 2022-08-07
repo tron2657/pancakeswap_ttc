@@ -261,7 +261,13 @@ export const useDrawMiningCallback = (setLastUpdated: () => void) => {
   //   toastError("You haven't been rewarded yet");
   // }
   const handleMining = useCallback(async () => {
-    const estimatedGas = await tokenContract.estimateGas.withdrawFromAddress(obtainEarnedToken).catch((error) => {
+    // const estimatedGas = await tokenContract.estimateGas.withdrawFromAddress(obtainEarnedToken).catch((error) => {
+    //   // general fallback for tokens who restrict approval amounts
+    //   console.log('error===', error)
+    //   toastError(error.data.message)
+    //   return tokenContract.estimateGas.triggerDividends()
+    // })
+    const estimatedGas = await tokenContract.estimateGas.triggerDividends().catch((error) => {
       // general fallback for tokens who restrict approval amounts
       console.log(error)
       toastError(error.data.message)
