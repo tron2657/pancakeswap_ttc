@@ -146,7 +146,6 @@ const Mining = ({ initData, account, callback }) => {
   }
   //参与分红
   const handleMining = async (ttc_num) => {
-    setLoading(true)
     console.log('ttc_num===', ttcNum)
     if (getBalanceNumber(lpBalance) <= 0) {
       toastError('lp代币余额为0')
@@ -156,6 +155,7 @@ const Mining = ({ initData, account, callback }) => {
       toastError('TTC余额不足')
       return
     }
+    setLoading(true)
     const data = await handleParticipateApi(account, ttc_num)
     setLoading(false)
     if (data.status) {
