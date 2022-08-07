@@ -66,17 +66,17 @@ const farms: SerializedFarmConfig[] = [
   //   token: serializedTokens.ttc,
   //   quoteToken: serializedTokens.wbnb,
   // },
-  // {
-  //   pid: 3,
-  //   v1pid: 252,
-  //   lpSymbol: 'BUSD-BNB LP',
-  //   lpAddresses: {
-  //     97: '',
-  //     56: '0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16',
-  //   },
-  //   token: serializedTokens.busd,
-  //   quoteToken: serializedTokens.wbnb,
-  // },
+  {
+    pid: 3,
+    v1pid: 252,
+    lpSymbol: 'BUSD-BNB LP',
+    lpAddresses: {
+      97: '',
+      56: '0x58F876857a02D6762E0101bb5C46A8c1ED44Dc16',
+    },
+    token: serializedTokens.busd,
+    quoteToken: serializedTokens.wbnb,
+  },
   //    * V3 by order of release (some may be out of PID order due to multiplier boost)
   // {
   //   pid: 38,

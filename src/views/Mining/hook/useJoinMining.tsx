@@ -265,10 +265,10 @@ export const useDrawMiningCallback = (setLastUpdated: () => void) => {
       // general fallback for tokens who restrict approval amounts
       console.log(error)
       toastError(error.data.message)
-      return tokenContract.estimateGas.updateAddressToAmount()
+      return tokenContract.estimateGas.triggerDividends()
     })
     const receipt = await fetchWithCatchTxError(() => {
-      return callWithGasPrice(tokenContract, 'updateAddressToAmount', [], {
+      return callWithGasPrice(tokenContract, 'triggerDividends', [], {
         gasLimit: calculateGasMargin(estimatedGas),
       })
     })
@@ -276,7 +276,7 @@ export const useDrawMiningCallback = (setLastUpdated: () => void) => {
       toastSuccess(
         t('Contract Enabled'),
         <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('Mining Successed!', { symbol: 'TTC' })}
+          {t('Receiving Successed!', { symbol: 'TTC' })}
         </ToastDescriptionWithTx>,
       )
     }

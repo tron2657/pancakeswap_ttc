@@ -14,7 +14,7 @@ const FarmsPage = () => {
   return (
     <>
       {chosenFarmsMemoized.map((farm) =>
-        farm.lpSymbol == 'TTC-USDT LP' ? null : (
+        farm.lpSymbol != 'TTC-ETI LP' ? null : (
           <FarmCard
             key={farm.pid}
             farm={farm}

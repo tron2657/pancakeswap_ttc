@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { Input, Box, Text, Flex, BnbUsdtPairTokenIcon, ButtonMenu, ButtonMenuItem, Progress } from '@pancakeswap/uikit'
+import {
+  Input,
+  Image,
+  Box,
+  Text,
+  Flex,
+  BnbUsdtPairTokenIcon,
+  ButtonMenu,
+  ButtonMenuItem,
+  Progress,
+} from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import Page from '../Page'
 import useTheme from 'hooks/useTheme'
@@ -12,6 +22,11 @@ import ClearInput from './components/ClearInput'
 import ArcProgress from 'react-arc-progress'
 import InfoWrapper from './components/InfoWrapper'
 import RiskWrapper from './components/RiskWrapper'
+const StyledImage = styled(Image)`
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 58px;
+`
 const Detection = () => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -348,6 +363,7 @@ const Detection = () => {
           <Button mt="24px" width="100%" onClick={handleCheck}>
             开始检测
           </Button>
+          <StyledImage src="/images/LIGHT.png" alt="Pancake illustration" width={927} height={135} />
         </Body>
       </AppBody>
     </Page>
