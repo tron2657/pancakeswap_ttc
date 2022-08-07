@@ -16,6 +16,10 @@ import { useTranslation } from 'contexts/Localization'
 import { useERC20 } from 'hooks/useContract'
 import { FAST_INTERVAL, SLOW_INTERVAL } from 'config/constants'
 import tokens from 'config/constants/tokens'
+import { useDerivedSwapInfo, useSwapState } from 'state/swap/hooks'
+import { useCurrency } from 'hooks/Tokens'
+import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
+import { Field } from 'state/swap/actions'
 //check approve
 export const useCheckCustomIfAccessStatus = () => {
   const { library } = useActiveWeb3React()
@@ -289,4 +293,58 @@ export const useDrawMiningCallback = (setLastUpdated: () => void) => {
   }, [t, toastSuccess, callWithGasPrice, fetchWithCatchTxError])
   setLastUpdated()
   return { handleMining, pendingTx }
+}
+
+export const useTTCNumber = () => {
+  const { library } = useActiveWeb3React()
+  const { account } = useWeb3React()
+  //初始化 BNB-TTC
+  const initInputCurrencyId = 'BNB'
+  const initOutputCurrencyId = tokens.ttc.address
+  const { independentField, typedValue, recipient } = useSwapState()
+  const inputCurrency = useCurrency(initInputCurrencyId)
+  const outputCurrency = useCurrency(initOutputCurrencyId)
+  const { v2Trade, parsedAmount } = useDerivedSwapInfo(
+    independentField,
+    typedValue,
+    inputCurrency,
+    outputCurrency,
+    recipient,
+  )
+  const { onCurrencySelection, onUserInput } = useSwapActionHandlers()
+  const showWrap: boolean = false
+  const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
+  const trade = showWrap ? undefined : v2Trade
+  const parsedAmounts = showWrap
+    ? {
+        [Field.INPUT]: parsedAmount,
+        [Field.OUTPUT]: parsedAmount,
+      }
+    : {
+        [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+      }
+  const formattedAmounts = {
+    [independentField]: typedValue,
+    [dependentField]: showWrap
+      ? parsedAmounts[independentField]?.toExact() ?? ''
+      : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
+  }
+  // onCurrencySelection(Field.INPUT, inputCurrency)
+  // onCurrencySelection(Field.OUTPUT, outputCurrency)
+  // onUserInput(Field.INPUT, BNB_num)
+  // const ttc_num = formattedAmounts[Field.OUTPUT]
+  // const key = useMemo<string>(
+  //   () =>
+  //   ttc_num,
+  //   [ttc_num],
+  // )
+
+  return {
+    onCurrencySelection: onCurrencySelection,
+    inputCurrency: inputCurrency,
+    outputCurrency: outputCurrency,
+    onUserInput: onUserInput,
+    formattedAmounts: formattedAmounts,
+  }
 }

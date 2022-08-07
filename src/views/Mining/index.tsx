@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext } from 'react'
-import { Heading, Card, Text, Button, ArrowForwardIcon, Flex } from '@pancakeswap/uikit'
+import { Heading, Card, Text, Button, ArrowForwardIcon, Flex, useModal, AutoRenewIcon } from '@pancakeswap/uikit'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import styled from 'styled-components'
 import useCatchTxError from 'hooks/useCatchTxError'
@@ -22,7 +22,41 @@ import {
   useTotalSupply,
   useDailyProduce,
   useTotal,
+  useTTCNumber,
 } from './hook/useJoinMining'
+
+import { useCheckTTCApprovalStatus, useApproveTTC } from './hook/useApprove'
+import { DIVI_API } from 'config/constants/endpoints'
+import useToast from 'hooks/useToast'
+import { Field } from 'state/swap/actions'
+import TTCModal from './components/ttcModal'
+import useTokenBalance from 'hooks/useTokenBalance'
+import { getBalanceNumber } from 'utils/formatBalance'
+
+const handleParticipateApi = async (account: string, ttc_num: string) => {
+  const res = await fetch(`${DIVI_API}/user/app_reg?address=${account}&ttc_num=${ttc_num}`, {
+    method: 'post',
+  })
+  if (res.ok) {
+    const json = await res.json()
+
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
+const handleReceiveApi = async (account: string, ttc_num: string) => {
+  const res = await fetch(`${DIVI_API}/buy/buy_spot?address=${account}&ttc_num=${ttc_num}`, {
+    method: 'post',
+  })
+  if (res.ok) {
+    const json = await res.json()
+
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
 const ControlContainer = styled.div`
   display: flex;
   width: 100%;
@@ -62,18 +96,20 @@ const FarmCardInnerContainer = styled(Flex)`
   padding: 24px;
 `
 
-const Mining: React.FC = ({ children }) => {
+const Mining = ({ initData, account }) => {
+  console.log(initData, account)
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
 
   const { t } = useTranslation()
+  const { toastSuccess, toastError } = useToast()
 
-  const { account, chainId, library } = useActiveWeb3React()
+  const { chainId, library } = useActiveWeb3React()
 
   const [isJoinMining, setIsJoinMining] = useState(false)
 
   const { customIfAccess, setCustomIfAccessUpdated } = useCheckCustomIfAccessStatus()
 
-  const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback(setCustomIfAccessUpdated)
+  // const { handleMining: handleMining, pendingTx: pendingTranctionTx } = useJoinMiningCallback(setCustomIfAccessUpdated)
 
   const { obtainEarnedToken, setObtainEarnedToken } = useObtainEarnedToken()
 
@@ -81,16 +117,98 @@ const Mining: React.FC = ({ children }) => {
   const { total, setTotal } = useTotal()
   const { dailyProduce, setDailyProduce } = useDailyProduce()
 
-  const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } =
-    useDrawMiningCallback(setCustomIfAccessUpdated)
+  const [loading, setLoading] = useState(false)
+  const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
+  console.log('ttcBalance', getBalanceNumber(ttcBalance))
+
+  const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(initData.ttc_contract, initData.from_address2)
+
+  const { handleTTCApprove: handleTTCApprove, pendingTx: pendingTTCTx } = useApproveTTC(
+    initData.ttc_contract,
+    initData.from_address2,
+    setTTCLastUpdated,
+  )
+  const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
+  const [ttcNum, setTTCNum] = useState('')
+
+  //处理关闭弹窗
+  const handleConfirmClick = (data) => {
+    console.log('handleConfirmClick==ttc_num', data)
+    setTTCNum(data)
+    initData.is_band == 1 ? handleDrawMining(data) : handleMining(data)
+  }
+
+  //打开TTC手续费弹窗
+  const handleOpenTTCModal = () => {
+    onPresentMobileModal()
+  }
+  //参与分红
+  const handleMining = async (ttc_num) => {
+    setLoading(true)
+    console.log('ttc_num===', ttcNum)
+    const data = await handleParticipateApi(account, ttc_num)
+    setLoading(false)
+    if (data.status) {
+      toastSuccess(t(data.msg))
+    } else {
+      toastError(t(data.msg))
+    }
+  }
+
+  //领取分红
+  const handleDrawMining = async (ttc_num) => {
+    if (getBalanceNumber(ttcBalance) < Number(ttc_num)) {
+      toastError('TTC余额不足')
+      return
+    }
+    setLoading(true)
+    const data = await handleReceiveApi(account, ttc_num)
+    setLoading(false)
+    if (data.status) {
+      toastSuccess(t(data.msg))
+    } else {
+      toastError(t(data.msg))
+    }
+  }
+
+  // const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } =
+  //   useDrawMiningCallback(setCustomIfAccessUpdated)
+  const [onPresentMobileModal, closePresentMobileModal] = useModal(<TTCModal customOnDismiss={handleConfirmClick} />)
 
   const renderApprovalOrStakeButton = () => {
-    return customIfAccess ? (
-      <Button mt="8px" width="100%" disabled={pendingDrawTranctionTx} onClick={handleDrawMining}>
+    return !isTTCApproved ? (
+      <Button
+        mt="8px"
+        width="100%"
+        isLoading={pendingTTCTx}
+        disabled={pendingTTCTx}
+        onClick={handleTTCApprove}
+        endIcon={pendingTTCTx ? <AutoRenewIcon color="currentColor" spin /> : null}
+      >
+        {t('批准TTC')}
+      </Button>
+    ) : initData.is_band == 1 ? (
+      // <Button mt="8px" width="100%" disabled={!initData.eti_coin} onClick={handleOpenTTCModal}>
+      //   {t('MiningDraw')}
+      // </Button>
+      <Button
+        width="100%"
+        marginLeft="auto"
+        onClick={handleOpenTTCModal}
+        disabled={initData.is_band != 1}
+        isLoading={loading}
+        endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
+      >
         {t('MiningDraw')}
       </Button>
     ) : (
-      <Button mt="8px" width="100%" disabled={pendingTranctionTx} onClick={handleMining}>
+      <Button
+        mt="8px"
+        width="100%"
+        onClick={handleOpenTTCModal}
+        isLoading={loading}
+        endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
+      >
         {t('MiningJoin')}
       </Button>
     )
@@ -102,6 +220,12 @@ const Mining: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (account) {
+      onCurrencySelection(Field.INPUT, inputCurrency)
+      onCurrencySelection(Field.OUTPUT, outputCurrency)
+      onUserInput(Field.INPUT, '0.015')
+      const ttc_num = formattedAmounts[Field.OUTPUT]
+      setTTCNum(ttc_num)
+      console.log('ttc_num===', ttc_num)
     }
   }, [account])
 
@@ -139,7 +263,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('Total')}:
               </Text>
               <Text small bold>
-                {total}
+                {initData.coin_sum}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
@@ -147,7 +271,7 @@ const Mining: React.FC = ({ children }) => {
                 {t('Daily Output')}:
               </Text>
               <Text small bold>
-                {totalSupply}
+                {initData.day_put_num}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
@@ -158,7 +282,8 @@ const Mining: React.FC = ({ children }) => {
                 </Text>
               </Text>
               <Text small bold>
-                {(obtainEarnedToken / Math.pow(10, 18)).toFixed(8)}
+                {initData.eti_coin}
+                {/* {(obtainEarnedToken / Math.pow(10, 18)).toFixed(8)} */}
               </Text>
             </Flex>
             {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
