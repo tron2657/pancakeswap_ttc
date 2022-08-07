@@ -152,6 +152,10 @@ const Mining = ({ initData, account, callback }) => {
       toastError('lp代币余额为0')
       return
     }
+    if (getBalanceNumber(ttcBalance) < Number(ttc_num)) {
+      toastError('TTC余额不足')
+      return
+    }
     const data = await handleParticipateApi(account, ttc_num)
     setLoading(false)
     if (data.status) {
