@@ -141,19 +141,16 @@ const postBuySpotApi = async (account: string, ttc_num: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
-const handleConfirmClick = async (data: any) => {
-  console.log(data)
-}
 
 const usdtAddress = '0x55d398326f99059fF775485246999027B3197955'
 
-const MatrixPage = ({ initData, account, code }) => {
+const MatrixPage = ({ initData, account, code, callback }) => {
   const { chainId } = useActiveWeb3React()
   //   const code = router.query.user_sn || ''
   console.log('router===code', code)
   const { t } = useTranslation()
   const [onPresentMobileModal, closePresentMobileModal] = useModal(
-    <InviteModal code={code} customOnDismiss={handleConfirmClick} />,
+    <InviteModal code={code} customOnDismiss={callback} />,
   )
   //   const [collections] = await Promise.all([])
   const [mySport, setMySport] = useState(0)
@@ -193,7 +190,7 @@ const MatrixPage = ({ initData, account, code }) => {
     recipient,
   )
   const { onCurrencySelection, onUserInput } = useSwapActionHandlers()
-  const showWrap: boolean = false 
+  const showWrap: boolean = false
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
@@ -215,7 +212,7 @@ const MatrixPage = ({ initData, account, code }) => {
   const handleParticepate = async () => {
     if (!initData.is_band) {
       onPresentMobileModal()
-      return;
+      return
     }
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
@@ -255,6 +252,11 @@ const MatrixPage = ({ initData, account, code }) => {
     }, 1000)
     // clearInterval(intervalId)
   }
+
+  // const handleConfirmClick = async (data: any) => {
+  //   callback()
+  //   console.log(data)
+  // }
 
   useEffect(() => {
     async function init() {
@@ -344,13 +346,12 @@ const MatrixPage = ({ initData, account, code }) => {
         </Button>
       </Link>
       <Box mt="10px">
-         <Text color="#fff" fontSize="14px" textAlign="center">
-         卡位请添加MX（MATRIX）合约地址，空投120枚
-
+        <Text color="#fff" fontSize="14px" textAlign="center">
+          卡位请添加MX（MATRIX）合约地址，空投120枚
         </Text>
         <Flex mt="10px" flexWrap="wrap" justifyContent="center" alignItems="center">
           <Text color="#fff" fontSize="14px" fontWeight="600" mr="5px">
-          0xf38E5F3C87DDf64BF2Faf1Bf6ce0d00d82763158
+            0xf38E5F3C87DDf64BF2Faf1Bf6ce0d00d82763158
           </Text>
           <CopyButton
             buttonColor="#D77C0C"
@@ -361,18 +362,16 @@ const MatrixPage = ({ initData, account, code }) => {
             tooltipTop={20}
           />
         </Flex>
-       
-        
       </Box>
-      <Box>
+      <Box mb="20px">
         <Link href="/matrix/about" passHref>
-        <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
-          <ArrowRight></ArrowRight>
-          <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-            9阶出局制
-          </Text>
-          <ArrowLeft></ArrowLeft>
-        </Flex>
+          <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
+            <ArrowRight></ArrowRight>
+            <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
+              9阶出局制
+            </Text>
+            <ArrowLeft></ArrowLeft>
+          </Flex>
         </Link>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
           一个9阶下面三个3阶
@@ -387,15 +386,23 @@ const MatrixPage = ({ initData, account, code }) => {
           一个B阶下面三个A阶
         </Text>
       </Box>
-      <Box>
       <Link href="/matrix/about" passHref>
-        <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
-          <ArrowRight></ArrowRight>
-          <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-            资金分配
-          </Text>
-          <ArrowLeft></ArrowLeft>
-        </Flex>
+        {/* <Text color="#fff" fontSize="16px" textAlign="center">
+          我的点位
+        </Text> */}
+        <Button className="border-btn" type="button" scale="sm">
+          查看规则
+        </Button>
+      </Link>
+      <Box>
+        <Link href="/matrix/about" passHref>
+          <Flex justifyContent="center" alignItems="center" mt="20px" mb="24px">
+            <ArrowRight></ArrowRight>
+            <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
+              资金分配
+            </Text>
+            <ArrowLeft></ArrowLeft>
+          </Flex>
         </Link>
         <Flex flexWrap="wrap" justifyContent="space-between">
           {inviteList.map((item) => {

@@ -23,7 +23,7 @@ const CurrentMatrixPage = () => {
   const [data, setData] = useState(null)
   const { account } = useWeb3React()
   const router = useRouter()
-  console.log(router.query.code)
+  console.log('code====', router.query.code)
   useEffect(() => {
     async function init() {
       if (account) {
@@ -38,11 +38,23 @@ const CurrentMatrixPage = () => {
     }
     init()
   }, [account])
+
+  const handleInit = async () => {
+    if (account) {
+      const _data = await getInitDataApi(account)
+
+      if (_data.status) {
+        console.log('initData====', _data)
+        setData(_data.result)
+        // setLoading(false)
+      }
+    }
+  }
   return loading ? (
     <PageLoader></PageLoader>
   ) : (
     <MatrixPageLayout initData={data} account={account} showShare={true}>
-      <MatrixPage initData={data} account={account} code="" />
+      <MatrixPage initData={data} account={account} code={router.query.code} callback={handleInit} />
     </MatrixPageLayout>
   )
 }

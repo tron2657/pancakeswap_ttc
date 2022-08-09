@@ -73,6 +73,17 @@ const getMyListApi = async (account: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
+const getMySportListApi = async (account: string) => {
+  const res = await fetch(`${TTC_API}/buy/my_spot?address=${account}`, {
+    method: 'get',
+  })
+  if (res.ok) {
+    const json = await res.json()
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
 
 const MatrixSharePage = () => {
   const { t } = useTranslation()
@@ -80,6 +91,7 @@ const MatrixSharePage = () => {
   const [initData, setInitData] = useState({})
   const [list, setList] = useState([])
   const [copyLink, setCopyLink] = useState('')
+  const [mySport, setMySport] = useState(0)
   const levelObj = {
     1: '组队中',
     2: 'A岗',
@@ -93,6 +105,8 @@ const MatrixSharePage = () => {
     async function init() {
       if (account) {
         const _initData = await bindUserCodeApi(account)
+        const sport = await getMySportListApi(account)
+        setMySport(sport.result.length)
         const _copyLink = window.location.origin + '/matrix/' + _initData.result.user_sn
         setInitData(_initData)
         setCopyLink(_copyLink)
@@ -115,20 +129,29 @@ const MatrixSharePage = () => {
           </Text>
           <ArrowLeft></ArrowLeft>
         </Flex>
-
-        <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
-          <Text color="#fff" fontSize="16px" fontWeight="600" mr="5px">
-            {copyLink}
-          </Text>
-          <CopyButton
-            buttonColor="#D77C0C"
-            width="24px"
-            text={copyLink}
-            tooltipMessage={t('Copied')}
-            tooltipRight={40}
-            tooltipTop={20}
-          />
-        </Flex>
+        {mySport ? (
+          <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
+            <Text color="#fff" fontSize="16px" fontWeight="600" mr="5px">
+              {copyLink}
+            </Text>
+            <CopyButton
+              buttonColor="#D77C0C"
+              width="24px"
+              text={copyLink}
+              tooltipMessage={t('Copied')}
+              tooltipRight={40}
+              tooltipTop={20}
+            />
+          </Flex>
+        ) : (
+          <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
+            <Link href="/matrix" passHref>
+              <Text color="#D77C0C" fontSize="16px" fontWeight="600" mr="5px">
+                卡位后生成分享链接
+              </Text>
+            </Link>
+          </Flex>
+        )}
       </Box>
       <Box>
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">

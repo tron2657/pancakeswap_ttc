@@ -37,11 +37,23 @@ const CurrentMatrixPage = () => {
     }
     init()
   }, [account])
+
+  const handleInit = async () => {
+    if (account) {
+      const _data = await getInitDataApi(account)
+
+      if (_data.status) {
+        console.log('initData====', _data)
+        setData(_data.result)
+        // setLoading(false)
+      }
+    }
+  }
   return loading ? (
     <PageLoader></PageLoader>
   ) : (
     <MatrixPageLayout initData={data} account={account} showShare={true}>
-      <MatrixPage initData={data} account={account} code="" />
+      <MatrixPage initData={data} account={account} code="" callback={handleInit} />
     </MatrixPageLayout>
   )
 }
