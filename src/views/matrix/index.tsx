@@ -213,6 +213,10 @@ const MatrixPage = ({ initData, account, code }) => {
   }
 
   const handleParticepate = async () => {
+    if (!initData.is_band) {
+      onPresentMobileModal()
+      return;
+    }
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
     onUserInput(Field.INPUT, '0.0015')
@@ -361,6 +365,7 @@ const MatrixPage = ({ initData, account, code }) => {
         
       </Box>
       <Box>
+        <Link href="/matrix/about" passHref>
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>
           <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
@@ -368,6 +373,7 @@ const MatrixPage = ({ initData, account, code }) => {
           </Text>
           <ArrowLeft></ArrowLeft>
         </Flex>
+        </Link>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
           一个9阶下面三个3阶
         </Text>
@@ -382,6 +388,7 @@ const MatrixPage = ({ initData, account, code }) => {
         </Text>
       </Box>
       <Box>
+      <Link href="/matrix/about" passHref>
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>
           <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
@@ -389,6 +396,7 @@ const MatrixPage = ({ initData, account, code }) => {
           </Text>
           <ArrowLeft></ArrowLeft>
         </Flex>
+        </Link>
         <Flex flexWrap="wrap" justifyContent="space-between">
           {inviteList.map((item) => {
             return (
