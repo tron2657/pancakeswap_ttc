@@ -165,7 +165,7 @@ const MatrixPage = ({ initData, account, code }) => {
   const [bid, setBid] = useState('')
   console.log('initData====', initData)
   const { isUsdtApproved, setUsdtLastUpdated } = useCheckUsdtApprovalStatus(initData.from_address)
-  const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(initData.from_address)
+  const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(initData.from_address2)
   const { handleUsdtApprove: handleUsdtApprove, pendingTx: pendingUsdtTx } = useApproveUsdt(
     initData.from_address,
     setUsdtLastUpdated,
