@@ -17,6 +17,7 @@ import { useDerivedSwapInfo, useSwapState } from 'state/swap/hooks'
 import { useCurrency } from 'hooks/Tokens'
 import { Field } from 'state/swap/actions'
 import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
+import { CopyButton } from './components/CopyButton'
 const StyleMatrixLayout = styled.div`
   /* align-items: center;
   display: flex;
@@ -192,7 +193,7 @@ const MatrixPage = ({ initData, account, code }) => {
     recipient,
   )
   const { onCurrencySelection, onUserInput } = useSwapActionHandlers()
-  const showWrap: boolean = false
+  const showWrap: boolean = false 
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
   const trade = showWrap ? undefined : v2Trade
   const parsedAmounts = showWrap
@@ -338,6 +339,27 @@ const MatrixPage = ({ initData, account, code }) => {
           我的点位 {mySport} 个
         </Button>
       </Link>
+      <Box mt="10px">
+         <Text color="#fff" fontSize="14px" textAlign="center">
+         卡位请添加MX（MATRIX）合约地址，空投120枚
+
+        </Text>
+        <Flex mt="10px" flexWrap="wrap" justifyContent="center" alignItems="center">
+          <Text color="#fff" fontSize="14px" fontWeight="600" mr="5px">
+          0xf38E5F3C87DDf64BF2Faf1Bf6ce0d00d82763158
+          </Text>
+          <CopyButton
+            buttonColor="#D77C0C"
+            width="24px"
+            text="0xf38E5F3C87DDf64BF2Faf1Bf6ce0d00d82763158"
+            tooltipMessage={t('Copied')}
+            tooltipRight={40}
+            tooltipTop={20}
+          />
+        </Flex>
+       
+        
+      </Box>
       <Box>
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>
