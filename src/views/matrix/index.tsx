@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Button, Text, Box, Flex, useModal, Image } from '@pancakeswap/uikit'
+import { Button, Text, Box, Flex, useModal, Image, AutoRenewIcon } from '@pancakeswap/uikit'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTranslation } from 'contexts/Localization'
 import Link from 'next/link'
@@ -156,6 +156,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
   const [mySport, setMySport] = useState(0)
   const [inviteList, setInviteList] = useState([])
   const [secondsRemaining, setSecondsRemaining] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   const { toastSuccess, toastError } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
@@ -214,6 +215,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
       onPresentMobileModal()
       return
     }
+
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
     onUserInput(Field.INPUT, '0.0015')
@@ -230,13 +232,15 @@ const MatrixPage = ({ initData, account, code, callback }) => {
       toastError('TTC手续费不足')
       return
     }
-
+    setLoading(true)
     const data = await postBuySpotApi(account, ttc_num)
     if (data.status) {
       toastSuccess(t(data.msg))
+      setLoading(false)
       setSecondsRemaining(120)
       openCountDown()
     } else {
+      setLoading(false)
       toastError(t(data.msg))
     }
   }
@@ -329,9 +333,11 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           type="button"
           className="btn-gradient"
           scale="sm"
+          isLoading={loading}
         >
           <Flex justifyContent="center" alignItems="center">
             立即卡位
+            {loading ? <AutoRenewIcon color="currentColor" spin /> : null}
             {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
           </Flex>
         </Button>
