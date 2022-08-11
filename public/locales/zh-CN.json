@@ -1724,5 +1724,9 @@
   "Total": "总量",
   "Daily Output": "每日产出",
   "Earned": "已赚取", 
-  "Dividend rules: ": "分红规则："
+  "Dividend rules: ": "分红规则：",
+  "Earn today": "今日赚取",
+  "Accumulated earning": "累计赚取",
+  "Recent Earnings": "最近赚取记录",
+  "Recent dividend records": "最近的分红记录"
 }

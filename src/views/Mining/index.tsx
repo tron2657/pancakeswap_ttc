@@ -9,21 +9,8 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import PageHeader from 'components/PageHeader'
 import CardHeading from './components/CardHeading'
 import tokens from 'config/constants/tokens'
-import fetchFarms from 'state/farmsV1/fetchFarms'
-import getFarmsPrices from 'state/farmsV1/getFarmsPrices'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useFarmFromPid } from 'state/farmsV1/hooks'
 
-import {
-  useJoinMiningCallback,
-  useCheckCustomIfAccessStatus,
-  useDrawMiningCallback,
-  useObtainEarnedToken,
-  useTotalSupply,
-  useDailyProduce,
-  useTotal,
-  useTTCNumber,
-} from './hook/useJoinMining'
+import { useTTCNumber } from './hook/useJoinMining'
 
 import { useCheckTTCApprovalStatus, useApproveTTC } from './hook/useApprove'
 import { DIVI_API } from 'config/constants/endpoints'
@@ -33,6 +20,7 @@ import TTCModal from './components/ttcModal'
 import useTokenBalance from 'hooks/useTokenBalance'
 import { getBalanceNumber } from 'utils/formatBalance'
 import CountdownCircle from 'views/matrix/components/CountdownCircle'
+import EarnListModal from './components/earnListModal'
 
 const handleParticipateApi = async (account: string, ttc_num: string) => {
   const res = await fetch(`${DIVI_API}/user/app_reg?address=${account}&ttc_num=${ttc_num}`, {
@@ -140,6 +128,8 @@ const Mining = ({ initData, account, callback }) => {
     initData.is_band == 1 ? handleDrawMining(data) : handleMining(data)
   }
 
+  const handleConfirmListClick = () => {}
+
   //打开TTC手续费弹窗
   const handleOpenTTCModal = () => {
     onPresentMobileModal()
@@ -201,6 +191,9 @@ const Mining = ({ initData, account, callback }) => {
   // const { handleMining: handleDrawMining, pendingTx: pendingDrawTranctionTx } =
   //   useDrawMiningCallback(setCustomIfAccessUpdated)
   const [onPresentMobileModal, closePresentMobileModal] = useModal(<TTCModal customOnDismiss={handleConfirmClick} />)
+  const [onEarnListMobileModal, closeEarnListMobileModal] = useModal(
+    <EarnListModal list={initData.list} customOnDismiss={handleConfirmListClick} />,
+  )
 
   const renderApprovalOrStakeButton = () => {
     return !isTTCApproved ? (
@@ -319,7 +312,27 @@ const Mining = ({ initData, account, callback }) => {
                 {/* {(obtainEarnedToken / Math.pow(10, 18)).toFixed(8)} */}
               </Text>
             </Flex>
+            <Flex justifyContent="space-between">
+              <Text small color="textSubtle">
+                {t('Earn today')}:
+              </Text>
+              <Text small bold>
+                {initData.day_num}
+              </Text>
+            </Flex>
+            <Flex justifyContent="space-between">
+              <Text small color="textSubtle">
+                {t('Accumulated earning')}:
+              </Text>
+              <Text small bold>
+                {initData.sum_num}
+              </Text>
+            </Flex>
             {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
+
+            <Text textAlign="center" onClick={onEarnListMobileModal} small mt={'8px'} color="primary">
+              {t('Recent Earnings')}
+            </Text>
             <Text small mt={'8px'} color="textSubtle">
               {t('Dividend rules: ')}
             </Text>

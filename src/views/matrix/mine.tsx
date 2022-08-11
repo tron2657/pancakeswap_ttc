@@ -120,7 +120,17 @@ const getMyListApi = async (account: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
-
+const getMySNodeApi = async (account: string) => {
+  const res = await fetch(`${TTC_API}/user/my_s_node?address=${account}`, {
+    method: 'get',
+  })
+  if (res.ok) {
+    const json = await res.json()
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
 const MatrixMinePage = () => {
   const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
@@ -150,12 +160,15 @@ const MatrixMinePage = () => {
     5: '三阶',
     6: '九阶',
   }
+  const [mySnode, setMySnode] = useState(null)
 
   useEffect(() => {
     async function init() {
       if (account) {
         const data = await getMyListApi(account)
         let _list = data.result
+        const s_node = await getMySNodeApi(account)
+        setMySnode(s_node.result)
         // list.forEach((element) => {
         //   let _arr = new Array(element.son)
         //   for (let index = 0; index < _arr.length; index++) {
@@ -180,13 +193,19 @@ const MatrixMinePage = () => {
           </Text>
           <ArrowLeft></ArrowLeft>
         </Flex>
+        <Text mb="5px" color="#fff" fontSize="18px" textAlign="center" ml="10px" mr="10px">
+          两代内点位数 {mySnode?.num1}
+        </Text>
+        <Text mb="20px" color="#fff" fontSize="18px" textAlign="center" ml="10px" mr="10px">
+          三代内点位数 {mySnode?.num2}
+        </Text>
         {list.length ? (
           <Flex flexWrap="wrap" justifyContent="flex-start">
             {list.map((item) => {
               return (
                 <Box width="31%" background="#FFFFFF" margin="5px 1%">
                   <Text color="#CA9A33" fontSize="16px" textAlign="center">
-                    {levelObj[item.level]}
+                    {levelObj[item.level]} {item.name}
                   </Text>
                   <LinnerWrapper>
                     <Flex justifyContent="center" mb="12px">
