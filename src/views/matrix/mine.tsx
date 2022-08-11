@@ -205,7 +205,7 @@ const MatrixMinePage = () => {
               return (
                 <Box width="31%" background="#FFFFFF" margin="5px 1%">
                   <Text color="#CA9A33" fontSize="16px" textAlign="center">
-                    {levelObj[item.level]} {item.name}
+                    {levelObj[item.level]} {item['name']}
                   </Text>
                   <LinnerWrapper>
                     <Flex justifyContent="center" mb="12px">
