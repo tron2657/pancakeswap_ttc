@@ -205,7 +205,7 @@ const Mining = ({ initData, account, callback }) => {
         onClick={handleTTCApprove}
         endIcon={pendingTTCTx ? <AutoRenewIcon color="currentColor" spin /> : null}
       >
-        {t('批准TTC 参与分红')}
+        {t('参与分红')}
       </Button>
     ) : initData.is_band == 1 ? (
       // <Button mt="8px" width="100%" disabled={!initData.eti_coin} onClick={handleOpenTTCModal}>
