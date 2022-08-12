@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext } from 'react'
-import { Heading, Card, Text, Button, ArrowForwardIcon, Flex, useModal, AutoRenewIcon } from '@pancakeswap/uikit'
+import { Heading, Card, Text, Box, Button, ArrowForwardIcon, Flex, useModal, AutoRenewIcon } from '@pancakeswap/uikit'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import styled from 'styled-components'
 import useCatchTxError from 'hooks/useCatchTxError'
@@ -207,36 +207,36 @@ const Mining = ({ initData, account, callback }) => {
       >
         {t('参与分红')}
       </Button>
-    ) : initData.is_band == 1 ? (
-      // <Button mt="8px" width="100%" disabled={!initData.eti_coin} onClick={handleOpenTTCModal}>
-      //   {t('MiningDraw')}
-      // </Button>
-      <Button
-        width="100%"
-        marginLeft="auto"
-        onClick={handleOpenTTCModal}
-        disabled={secondsRemaining > 0 || initData.is_band != 1 || initData.eti_coin == 0}
-        isLoading={loading}
-        endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
-      >
-        <Flex justifyContent="center" alignItems="center">
-          {t('MiningDraw')}
-          {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
-        </Flex>
-      </Button>
     ) : (
-      <Button
-        mt="8px"
-        width="100%"
-        onClick={handleOpenTTCModal}
-        isLoading={loading}
-        endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
-      >
-        <Flex justifyContent="center" alignItems="center">
-          {t('MiningJoin')}
-          {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
-        </Flex>
-      </Button>
+      <Box>
+        <Button
+          mt="8px"
+          width="100%"
+          onClick={handleOpenTTCModal}
+          isLoading={loading}
+          disabled={initData.is_band == 1}
+          endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
+        >
+          <Flex justifyContent="center" alignItems="center">
+            {t('MiningJoin')}
+            {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
+          </Flex>
+        </Button>
+        <Button
+          mt="8px"
+          width="100%"
+          marginLeft="auto"
+          onClick={handleOpenTTCModal}
+          disabled={secondsRemaining > 0 || !initData.is_day_order || initData.is_band != 1 || initData.eti_coin == 0}
+          isLoading={loading}
+          endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
+        >
+          <Flex justifyContent="center" alignItems="center">
+            {t('MiningDraw')}
+            {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
+          </Flex>
+        </Button>
+      </Box>
     )
   }
 
@@ -302,10 +302,10 @@ const Mining = ({ initData, account, callback }) => {
             </Flex>
             <Flex justifyContent="space-between">
               <Text small color="primary">
-                {t('ETI')}{' '}
                 <Text color="textSubtle" as="span">
-                  {t('Earned')}:
+                  {t('Available')}
                 </Text>
+                {t('ETI')}{' '}
               </Text>
               <Text small bold>
                 {initData.eti_coin}

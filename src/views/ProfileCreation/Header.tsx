@@ -19,8 +19,10 @@ const steps = (t: TranslateFunction) => [
   t('Join Team'),
   t('Set Name'),
 ]
-
-const Header: React.FC = () => {
+interface Props {
+  isNode?: boolean
+}
+const Header: React.FC<Props> = ({ isNode = false }) => {
   const { t } = useTranslation()
   const { currentStep } = useContext(ProfileCreationContext)
 
@@ -32,15 +34,15 @@ const Header: React.FC = () => {
       <Heading as="h2" scale="lg" mb="8px">
         {t('Show off your stats and collectibles with your unique profile')}
       </Heading>
-      <Text color="textSubtle" mb="8px">
+      {/* <Text color="textSubtle" mb="8px">
         {t('Total cost: 1.5 CAKE')}
-      </Text>
+      </Text> */}
       <Link href={`${nftsBaseUrl}/profile`}>
-        <Button mb="24px" scale="sm" variant="secondary">
-          {t('Back to profile')}
+        <Button mb="24px" scale="sm" variant="secondary" disabled={!isNode}>
+          {t('节点账户地址')}
         </Button>
       </Link>
-      <Breadcrumbs>
+      {/* <Breadcrumbs>
         {steps(t).map((translationKey, index) => {
           return (
             <Text key={t(translationKey)} color={index <= currentStep ? 'text' : 'textDisabled'}>
@@ -48,7 +50,7 @@ const Header: React.FC = () => {
             </Text>
           )
         })}
-      </Breadcrumbs>
+      </Breadcrumbs> */}
     </Wrapper>
   )
 }

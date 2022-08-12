@@ -62,7 +62,7 @@ const BoxWrapper = styled.div`
 const LinnerWrapper = styled.div`
   background: linear-gradient(174deg, #a86c00 0%, #e6bf5d 59%, #b67e00 100%);
   border: 2px solid #ffffff;
-  height: 90px;
+  height: 130px;
   line-height: 90px;
   text-align: center;
   display: flex;
@@ -95,22 +95,22 @@ const ArrowRight = styled.div`
   background-size: 100% 100%;
 `
 const DotActive = styled.div`
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   background: #875b04;
   box-shadow: 0px 1px 0px 0px #e19700;
   border-radius: 50%;
 `
 
 const Dot = styled.div`
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   background: #ffffff;
   box-shadow: 0px 1px 0px 0px #e19700;
   border-radius: 50%;
 `
 const getMyListApi = async (account: string) => {
-  const res = await fetch(`${TTC_API}/buy/my_spot?address=${account}`, {
+  const res = await fetch(`${TTC_API}/buy/my_spot_new?address=${account}`, {
     method: 'get',
   })
   if (res.ok) {
@@ -200,11 +200,11 @@ const MatrixMinePage = () => {
           三代内点位数 {mySnode?.num2}
         </Text>
         {list.length ? (
-          <Flex flexWrap="wrap" justifyContent="flex-start">
+          <Flex flexWrap="wrap" justifyContent="center">
             {list.map((item) => {
               return (
-                <Box width="31%" background="#FFFFFF" margin="5px 1%">
-                  <Text color="#CA9A33" fontSize="16px" textAlign="center">
+                <Box width="50%" background="#FFFFFF" padding="10px 0" margin="5px 1%">
+                  <Text color="#CA9A33" fontSize="16px" mb="10px" textAlign="center">
                     {levelObj[item.level]} {item['name']}
                   </Text>
                   <LinnerWrapper>

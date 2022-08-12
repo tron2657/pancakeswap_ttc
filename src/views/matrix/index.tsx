@@ -119,7 +119,7 @@ const getInviteListApi = async (account: string) => {
   return null
 }
 const getMyListApi = async (account: string) => {
-  const res = await fetch(`${TTC_API}/buy/my_spot?address=${account}`, {
+  const res = await fetch(`${TTC_API}/buy/my_spot_new?address=${account}`, {
     method: 'get',
   })
   if (res.ok) {
@@ -153,11 +153,11 @@ const MatrixPage = ({ initData, account, code, callback }) => {
     <InviteModal code={code} customOnDismiss={callback} />,
   )
   //   const [collections] = await Promise.all([])
-  const [mySport, setMySport] = useState(0)
+  const [mySport, setMySport] = useState([])
   const [inviteList, setInviteList] = useState([])
   const [secondsRemaining, setSecondsRemaining] = useState(0)
   const [loading, setLoading] = useState(false)
-
+  const [status, setStatus] = useState(1)
   const { toastSuccess, toastError } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
   const [bid, setBid] = useState('')
@@ -272,7 +272,11 @@ const MatrixPage = ({ initData, account, code, callback }) => {
         closePresentMobileModal()
       }
       const sport = await getMyListApi(account)
-      setMySport(sport.result.length)
+      setMySport(sport.result)
+      // if (sport.result.lenght) {
+      //   setStatus(sport.result[0].status)
+      // }
+
       // const invite = await getInviteListApi(account)
       const invite = [
         {
@@ -313,14 +317,20 @@ const MatrixPage = ({ initData, account, code, callback }) => {
             width="45%"
             className="btn-gradient"
             type="button"
-            disabled={pendingUsdtTx}
+            disabled={pendingUsdtTx || (mySport.length && mySport[0].status == 0)}
             onClick={handleUsdtApprove}
           >
             {t('批准USDT')}
           </Button>
         ) : null}
         {!isTTCApproved ? (
-          <Button width="45%" className="btn-gradient" type="button" disabled={pendingTTCTx} onClick={handleTTCApprove}>
+          <Button
+            width="45%"
+            className="btn-gradient"
+            type="button"
+            disabled={pendingTTCTx || (mySport.length && mySport[0].status == 0)}
+            onClick={handleTTCApprove}
+          >
             {t('批准TTC')}
           </Button>
         ) : null}
@@ -329,7 +339,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
         <Button
           width="70%"
           onClick={handleParticepate}
-          disabled={secondsRemaining > 0 || mySport > 0}
+          disabled={secondsRemaining > 0 || (mySport.length && mySport[0].status == 0)}
           type="button"
           className="btn-gradient"
           scale="sm"
@@ -348,7 +358,8 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           我的点位
         </Text> */}
         <Button className="border-btn" type="button" scale="sm">
-          我的点位 {mySport} 个
+          {mySport.length ? (mySport[0].status == 0 ? '已出局' : '查看我的点位') : '我的点位0个'}
+          {/* 我的点位 {mySport} 个 */}
         </Button>
       </Link>
       <Box mt="10px">
@@ -357,12 +368,12 @@ const MatrixPage = ({ initData, account, code, callback }) => {
         </Text>
         <Flex mt="10px" flexWrap="wrap" justifyContent="center" alignItems="center">
           <Text color="#fff" fontSize="14px" fontWeight="600" mr="5px">
-            0xf38E5F3C87DDf64BF2Faf1Bf6ce0d00d82763158
+            0x9e7bDCfB92d81D03a0f8a0EaFc9e4D327f152a27
           </Text>
           <CopyButton
             buttonColor="#D77C0C"
             width="24px"
-            text="0xf38E5F3C87DDf64BF2Faf1Bf6ce0d00d82763158"
+            text="0x9e7bDCfB92d81D03a0f8a0EaFc9e4D327f152a27"
             tooltipMessage={t('Copied')}
             tooltipRight={40}
             tooltipTop={20}
