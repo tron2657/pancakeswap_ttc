@@ -1705,5 +1705,6 @@
   "The minimum airdrop ETI is 0.01 permanent binding address": "The minimum airdrop ETI is 0.01 permanent binding address",
   "ProduceRuleDesc3":"Get bonus rewards, up to level 9 rewards",
   "Earn dividends at 20:00 every day after participation": "Earn dividends at 20:00 every day after participation",
-  
+  "Receive %value% award ": "Receive a %value% award" ,
+  "Join": "Join"
 }

@@ -35,7 +35,7 @@ const ProfileCreation = () => {
       if (account) {
         const _data = await isAddressApi(account)
         if (_data.status) {
-          setIsNode(_data.result)
+          setIsNode(_data.result == 'true')
         }
       }
     }

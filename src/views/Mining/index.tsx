@@ -218,7 +218,7 @@ const Mining = ({ initData, account, callback }) => {
           endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
         >
           <Flex justifyContent="center" alignItems="center">
-            {t('MiningJoin')}
+            {t('Join')}
             {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
           </Flex>
         </Button>
@@ -232,7 +232,7 @@ const Mining = ({ initData, account, callback }) => {
           endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
         >
           <Flex justifyContent="center" alignItems="center">
-            {t('MiningDraw')}
+            {t('Receive %value% award', { value: '1%' })}
             {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
           </Flex>
         </Button>
