@@ -147,7 +147,7 @@ const MatrixSharePage = () => {
           <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
             <Link href="/matrix" passHref>
               <Text color="#D77C0C" fontSize="16px" fontWeight="600" mr="5px">
-                卡位后生成分享链接
+                购买NFT卡牌后生成分享链接
               </Text>
             </Link>
           </Flex>
@@ -180,19 +180,19 @@ const MatrixSharePage = () => {
       </Box>
       <Box>
         <Text color="#fff" fontSize="24px" textAlign="center" mt="40px" mb="24px">
-          9阶出局制
+          金色全网结束
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个9阶下面三个3阶
+          3个白色NFT合成1个黄色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个3阶下面三个1阶
+          3个黄色NFT合成1个红色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个1阶下面三个B阶
+          3个红色NFT合成1个蓝色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center">
-          一个B阶下面三个A阶
+          3个蓝色NFT合成1个金色NFT
         </Text>
       </Box>
 

@@ -35,23 +35,43 @@ const MatrixAboutage = () => {
   return (
     <StyleMatrixLayout>
       <Box padding="20px">
-      <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-                  进120u，20u做后期MX底池分配，100u参与全网分红。 分红比例分别是： 九阶28%拿243次 三阶20%拿81次 一阶16%拿27次
-          B岗8%拿9次 A岗10%拿3次 推荐奖18%推荐人每次拿。
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          TTC矩阵NFT应用生态合成分红机制：
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          注： A岗位拿3次，分别对应下面3位新人进场的跳排点位，有10%的岗位工资。{' '}
+          合成白色NFT：拿3个*10USDT=30USDT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          B岗位拿9次，分别拿对应下面的9为新人进场的跳排点位，有8%的岗位工资。
+          合成黄色NFT：拿9个*8USDT=72 USDT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一阶、三阶、九阶，当发展层每个新人进场的时候都拿，16%、20%、和28%。 一阶拿本盘面27（人）次。
-          三阶拿3个盘面27×3＝81次。 九阶拿9个盘面27×9＝243次。
+          这里会考核邀请推荐，没有推荐不会自动合成（请看推荐考核机制）
         </Text>
-        <Text color="#fff" fontSize="16px" textAlign="center">
-         
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          合成红色NFT：拿27个*16USDT=432USDT
         </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          合成蓝色NFT：拿81个*20USDT=1620USDT
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          合成金色NFT：拿243个*28USDT=6804USDT
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          合计：8958USDT （满邀请推荐，根据当前价格，合成金色NFT可拿约8～9个TTC结束）
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          推荐考核机制：
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          1，直推或者间推3个地址，拿后期合成30％分红
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          2，直推或者间推5个地址，拿后期合成60％分红
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
+          3，直推或者间推6个地址，拿后期合成90％分红
+        </Text>
+        <Text color="#fff" fontSize="16px" textAlign="center"></Text>
       </Box>
       <Box mt="25px">
         <Text color="#D77C0C" fontSize="16px" fontWeight="bold" textAlign="center">

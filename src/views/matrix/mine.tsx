@@ -189,16 +189,16 @@ const MatrixMinePage = () => {
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>
           <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-            我的点位
+            我的卡牌
           </Text>
           <ArrowLeft></ArrowLeft>
         </Flex>
-        <Text mb="5px" color="#fff" fontSize="18px" textAlign="center" ml="10px" mr="10px">
+        {/* <Text mb="5px" color="#fff" fontSize="18px" textAlign="center" ml="10px" mr="10px">
           两代内点位数 {mySnode?.num1}
         </Text>
         <Text mb="20px" color="#fff" fontSize="18px" textAlign="center" ml="10px" mr="10px">
           三代内点位数 {mySnode?.num2}
-        </Text>
+        </Text> */}
         {list.length ? (
           <Flex flexWrap="wrap" justifyContent="center">
             {list.map((item) => {
@@ -233,19 +233,19 @@ const MatrixMinePage = () => {
       </Box>
       <Box>
         <Text color="#fff" fontSize="24px" textAlign="center" mt="40px" mb="24px">
-          9阶出局制
+          金色全网结束
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个9阶下面三个3阶
+          3个白色NFT合成1个黄色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个3阶下面三个1阶
+          3个黄色NFT合成1个红色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个1阶下面三个B阶
+          3个红色NFT合成1个蓝色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center">
-          一个B阶下面三个A阶
+          3个蓝色NFT合成1个金色NFT
         </Text>
       </Box>
 

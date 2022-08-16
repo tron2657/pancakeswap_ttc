@@ -285,23 +285,23 @@ const MatrixPage = ({ initData, account, code, callback }) => {
         },
         {
           num: 10,
-          name: 'A岗奖励',
+          name: '白色奖励',
         },
         {
           num: 8,
-          name: 'B岗奖励',
+          name: '黄色奖励',
         },
         {
           num: 16,
-          name: '一阶奖励',
+          name: '红色奖励',
         },
         {
           num: 20,
-          name: '三阶奖励',
+          name: '蓝色奖励',
         },
         {
           num: 28,
-          name: '九阶奖励',
+          name: '金色奖励',
         },
       ]
       setInviteList(invite)
@@ -346,7 +346,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           isLoading={loading}
         >
           <Flex justifyContent="center" alignItems="center">
-            立即卡位
+            购买NFT
             {loading ? <AutoRenewIcon color="currentColor" spin /> : null}
             {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
           </Flex>
@@ -358,7 +358,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           我的点位
         </Text> */}
         <Button className="border-btn" type="button" scale="sm">
-          {mySport.length ? (mySport[0].status == 0 ? '已出局' : '查看我的点位') : '我的点位0个'}
+          {mySport.length ? (mySport[0].status == 0 ? '已出局' : '查看我的NFT') : '我的NFT0个'}
           {/* 我的点位 {mySport} 个 */}
         </Button>
       </Link>
@@ -385,22 +385,22 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
             <ArrowRight></ArrowRight>
             <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-              9阶出局制
+              金色全网结束
             </Text>
             <ArrowLeft></ArrowLeft>
           </Flex>
         </Link>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个9阶下面三个3阶
+          3个白色NFT合成1个黄色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个3阶下面三个1阶
+          3个黄色NFT合成1个红色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          一个1阶下面三个B阶
+          3个红色NFT合成1个蓝色NFT
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center">
-          一个B阶下面三个A阶
+          3个蓝色NFT合成1个金色NFT
         </Text>
       </Box>
       <Link href="/matrix/about" passHref>
@@ -416,7 +416,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           <Flex justifyContent="center" alignItems="center" mt="20px" mb="24px">
             <ArrowRight></ArrowRight>
             <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-              资金分配
+              合成奖励
             </Text>
             <ArrowLeft></ArrowLeft>
           </Flex>

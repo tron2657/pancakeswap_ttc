@@ -96,7 +96,7 @@ const MatrixLayOut = ({ initData, account, showShare, children }) => {
               {initData?.spot_price}USDT
             </Text>
             <Text display="inline-block" color="#FF8900" fontSize="20px" fontWeight="600">
-              起步卡位！
+              购买NFT卡牌
             </Text>
           </p>
         </BoxWrapper>
