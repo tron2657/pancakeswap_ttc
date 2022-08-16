@@ -104,7 +104,7 @@ const MatrixLayOut = ({ initData, account, showShare, children }) => {
           全网公排 跳排
         </Text>
         <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
-          出局不出圈 三三裂变 生生不息 循环造血
+          生生不息 循环造血
         </Text>
       </MatrixTop>
       {children}

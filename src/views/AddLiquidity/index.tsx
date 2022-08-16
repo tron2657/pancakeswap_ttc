@@ -51,7 +51,7 @@ export default function AddLiquidity() {
   const gasPrice = useGasPrice()
 
   // const currencyA = useCurrency(currencyIdA)
-  const currencyA = useCurrency(tokens.eti.address)
+  const currencyA = useCurrency(tokens.ttc.address)
   const currencyB = useCurrency(currencyIdB)
 
   useEffect(() => {

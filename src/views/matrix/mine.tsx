@@ -199,6 +199,9 @@ const MatrixMinePage = () => {
         <Text mb="20px" color="#fff" fontSize="18px" textAlign="center" ml="10px" mr="10px">
           三代内点位数 {mySnode?.num2}
         </Text> */}
+        <Text mb="5px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
+          {mySnode?.num1} & {mySnode?.num2}
+        </Text>
         {list.length ? (
           <Flex flexWrap="wrap" justifyContent="center">
             {list.map((item) => {
