@@ -153,12 +153,12 @@ const MatrixMinePage = () => {
   ])
   const dotList = [1, 2, 3]
   const levelObj = {
-    1: '组队中',
-    2: 'A岗',
-    3: 'B岗',
-    4: '一阶',
-    5: '三阶',
-    6: '九阶',
+    1: t('In the team'),
+    2: t('White reward'),
+    3: t('Yellow reward'),
+    4: t('Red reward'),
+    5: t('Blue reward'),
+    6: t('Gold Award'),
   }
   const [mySnode, setMySnode] = useState(null)
 
@@ -189,7 +189,7 @@ const MatrixMinePage = () => {
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>
           <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-            我的卡牌
+            {t('My cards')}
           </Text>
           <ArrowLeft></ArrowLeft>
         </Flex>
@@ -230,31 +230,31 @@ const MatrixMinePage = () => {
           </Flex>
         ) : (
           <Text color="#fff" fontSize="14px" textAlign="center" ml="10px" mb="12px">
-            暂无数据
+            {t('No data')}
           </Text>
         )}
       </Box>
       <Box>
         <Text color="#fff" fontSize="24px" textAlign="center" mt="40px" mb="24px">
-          金色全网结束
+          {t('Golden full network end')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          3个白色NFT合成1个黄色NFT
+          {t('3 white NFTs to synthesize 1 yellow NFT')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          3个黄色NFT合成1个红色NFT
+          {t('3 yellow NFTs to 1 red NFT')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          3个红色NFT合成1个蓝色NFT
+          {t('3 red NFTs to synthesize 1 Blue NFT')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center">
-          3个蓝色NFT合成1个金色NFT
+          {t('3 Blue NFTs combined with 1 gold NFT')}
         </Text>
       </Box>
 
       <Box mt="25px">
         <Text color="#D77C0C" fontSize="16px" fontWeight="bold" textAlign="center">
-          公平 公正 公开 透明 无资金池
+          {t('Fair, just, open and transparent, no fund pool')}
         </Text>
       </Box>
     </StyleMatrixLayout>

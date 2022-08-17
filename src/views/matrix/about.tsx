@@ -36,46 +36,56 @@ const MatrixAboutage = () => {
     <StyleMatrixLayout>
       <Box padding="20px">
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          TTC矩阵NFT应用生态合成分红机制：
+          {t('TTC matrix NFT application ecological synthesis dividend mechanism:')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          合成白色NFT：拿3个*10USDT=30USDT
+          {t('Synthetic white NFT: take 3 * 10usdt = 30usdt')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          合成黄色NFT：拿9个*8USDT=72 USDT
+          {t('Synthetic yellow NFT: take 9 * 8usdt = 72 usdt')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          这里会考核邀请推荐，没有推荐不会自动合成（请看推荐考核机制）
+          {t(
+            'There will be evaluation invitation and recommendation. No recommendation will be automatically synthesized (see the recommendation evaluation mechanism)',
+          )}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          合成红色NFT：拿27个*16USDT=432USDT
+          {t('Synthetic red NFT: take 27 * 16usdt = 432usdt')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          合成蓝色NFT：拿81个*20USDT=1620USDT
+          {t('Synthetic blue NFT: take 81 * 20usdt = 1620usdt')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          合成金色NFT：拿243个*28USDT=6804USDT
+          {t('合成金色NFT：拿243个*28USDT=6804USDT')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          合计：8958USDT （满邀请推荐，根据当前价格，合成金色NFT可拿约8～9个TTC结束）
+          {t(
+            'Total: 8958usdt (recommended by full invitation, according to the current price, the synthetic gold NFT can end with about 8-9 TTCs)',
+          )}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          推荐考核机制：
+          {t('Recommended assessment mechanism:')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          1，直推或者间推3个地址，拿后期合成30％分红
+          {t(
+            '1. Directly push or indirectly push three addresses, and get 30% of the dividends synthesized in the later period',
+          )}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          2，直推或者间推5个地址，拿后期合成60％分红
+          {t(
+            '2. Directly push or indirectly push 5 addresses, and get 60% of the dividends synthesized in the later period',
+          )}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          3，直推或者间推6个地址，拿后期合成90％分红
+          {t(
+            '3. Directly push or indirectly push 6 addresses, and get 90% of the dividends synthesized in the later period',
+          )}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center"></Text>
       </Box>
       <Box mt="25px">
         <Text color="#D77C0C" fontSize="16px" fontWeight="bold" textAlign="center">
-          公平 公正 公开 透明 无资金池
+          {t('Fair, just, open and transparent, no fund pool')}
         </Text>
       </Box>
     </StyleMatrixLayout>

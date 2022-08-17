@@ -225,11 +225,11 @@ const MatrixPage = ({ initData, account, code, callback }) => {
     // console.log('OUTPUT====', formattedAmounts[Field.OUTPUT])
     console.log('立即卡位')
     if (getBalanceNumber(usdtBalance) < Number(initData.spot_price)) {
-      toastError('USDT余额不足')
+      toastError(t('Usdt balance is insufficient'))
       return
     }
     if (getBalanceNumber(ttcBalance) < Number(ttc_num)) {
-      toastError('TTC手续费不足')
+      toastError(t('Insufficient TTC handling fee'))
       return
     }
     setLoading(true)
@@ -281,27 +281,27 @@ const MatrixPage = ({ initData, account, code, callback }) => {
       const invite = [
         {
           num: 18,
-          name: '分享奖励',
+          name: t('Share rewards'),
         },
         {
           num: 10,
-          name: '白色奖励',
+          name: t('White reward'),
         },
         {
           num: 8,
-          name: '黄色奖励',
+          name: t('Yellow reward'),
         },
         {
           num: 16,
-          name: '红色奖励',
+          name: t('Red reward'),
         },
         {
           num: 20,
-          name: '蓝色奖励',
+          name: t('Blue reward'),
         },
         {
           num: 28,
-          name: '金色奖励',
+          name: t('Gold Award'),
         },
       ]
       setInviteList(invite)
@@ -320,7 +320,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
             disabled={pendingUsdtTx || (mySport.length && mySport[0].status == 0)}
             onClick={handleUsdtApprove}
           >
-            {t('批准USDT')}
+            {t('Approve usdt')}
           </Button>
         ) : null}
         {!isTTCApproved ? (
@@ -331,7 +331,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
             disabled={pendingTTCTx || (mySport.length && mySport[0].status == 0)}
             onClick={handleTTCApprove}
           >
-            {t('批准TTC')}
+            {t('Approve TTC')}
           </Button>
         ) : null}
       </Flex>
@@ -346,7 +346,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           isLoading={loading}
         >
           <Flex justifyContent="center" alignItems="center">
-            购买NFT
+            {t('Buy NFT')}
             {loading ? <AutoRenewIcon color="currentColor" spin /> : null}
             {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
           </Flex>
@@ -358,13 +358,13 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           我的点位
         </Text> */}
         <Button className="border-btn" type="button" scale="sm">
-          {mySport.length ? (mySport[0].status == 0 ? '已出局' : '查看我的NFT') : '我的NFT0个'}
+          {mySport.length ? (mySport[0].status == 0 ? t('Out') : t('View my NFT')) : t('my NFT 0')}
           {/* 我的点位 {mySport} 个 */}
         </Button>
       </Link>
       <Box mt="10px">
         <Text color="#fff" fontSize="14px" textAlign="center">
-          卡位请添加MX（MATRIX）合约地址，空投120枚
+          {t('Please add MX (matrix) contract address for card slot, and air drop 120 pieces')}
         </Text>
         <Flex mt="10px" flexWrap="wrap" justifyContent="center" alignItems="center">
           <Text color="#fff" fontSize="14px" fontWeight="600" mr="5px">
@@ -385,22 +385,22 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
             <ArrowRight></ArrowRight>
             <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-              金色全网结束
+              {t('Golden full network end')}
             </Text>
             <ArrowLeft></ArrowLeft>
           </Flex>
         </Link>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          3个白色NFT合成1个黄色NFT
+          {t('3 white NFTs to synthesize 1 yellow NFT')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          3个黄色NFT合成1个红色NFT
+          {t('3 yellow NFTs to 1 red NFT')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          3个红色NFT合成1个蓝色NFT
+          {t('3 red NFTs to synthesize 1 Blue NFT')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center">
-          3个蓝色NFT合成1个金色NFT
+          {t('3 Blue NFTs combined with 1 gold NFT')}
         </Text>
       </Box>
       <Link href="/matrix/about" passHref>
@@ -408,7 +408,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           我的点位
         </Text> */}
         <Button className="border-btn" type="button" scale="sm">
-          查看规则
+          {t('View rules')}
         </Button>
       </Link>
       <Box>
@@ -416,7 +416,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           <Flex justifyContent="center" alignItems="center" mt="20px" mb="24px">
             <ArrowRight></ArrowRight>
             <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
-              合成奖励
+              {t('Synthetic reward')}
             </Text>
             <ArrowLeft></ArrowLeft>
           </Flex>
@@ -439,7 +439,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
                   >
                     {item.num}
                     <span style={{ fontSize: '12px' }}>
-                      USDT的 <span style={{ fontSize: '16px' }}>TTC</span>
+                      USDT{t('of')} <span style={{ fontSize: '16px' }}>TTC</span>
                     </span>
                   </Text>
                 </LinnerWrapper>
@@ -501,16 +501,16 @@ const MatrixPage = ({ initData, account, code, callback }) => {
       </Box>
       <Box mt="25px">
         <Text color="#D77C0C" fontSize="16px" fontWeight="bold" textAlign="center">
-          公平 公正 公开 透明 无资金池
+          {t('Fair, just, open and transparent, no fund pool')}
         </Text>
       </Box>
       <BorderWrapper>
         <Text color="#D77C0C" display="inline" fontSize="16px" fontWeight="bold" textAlign="center">
-          准备一点
+          {t('Be prepared')}
           <Text color="#fff" display="inline" fontSize="16px" fontWeight="bold" textAlign="center">
             TTC
           </Text>
-          做手续费
+          {t('Handling fee')}
         </Text>
       </BorderWrapper>
     </StyleMatrixLayout>

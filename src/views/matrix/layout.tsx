@@ -96,15 +96,15 @@ const MatrixLayOut = ({ initData, account, showShare, children }) => {
               {initData?.spot_price}USDT
             </Text>
             <Text display="inline-block" color="#FF8900" fontSize="20px" fontWeight="600">
-              购买NFT卡牌
+              {t('Buy NFT cards')}
             </Text>
           </p>
         </BoxWrapper>
         <Text color="#D77C0C" fontSize="20px" fontWeight="600" mt="10px">
-          全网公排 跳排
+          {t('Public row of the whole network')} {t('Skip row')}
         </Text>
         <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
-          生生不息 循环造血
+          {t('Endless circulation and hematopoiesis')}
         </Text>
       </MatrixTop>
       {children}
