@@ -46,7 +46,7 @@ const StakeButton: React.FC<StackedActionProps> = ({
   const { toastSuccess } = useToast()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { allowance, tokenBalance, stakedBalance } = useFarmUser(pid)
-  const { onStake } = useStakeFarms(pid)
+  const { onStake } = useStakeFarms('pid', '')
   const { onUnstake } = useUnstakeFarms(pid)
   const lpPrice = useLpTokenPrice(lpSymbol)
   const cakePrice = usePriceCakeBusd()
@@ -90,21 +90,21 @@ const StakeButton: React.FC<StackedActionProps> = ({
     }
   }
 
-  const [onPresentDeposit] = useModal(
-    <DepositModal
-      max={tokenBalance}
-      lpPrice={lpPrice}
-      lpLabel={lpLabel}
-      apr={apr}
-      displayApr={displayApr}
-      stakedBalance={stakedBalance}
-      onConfirm={handleStake}
-      tokenName={lpSymbol}
-      multiplier={multiplier}
-      addLiquidityUrl={addLiquidityUrl}
-      cakePrice={cakePrice}
-    />,
-  )
+  // const [onPresentDeposit] = useModal(
+  //   <DepositModal
+  //     max={tokenBalance}
+  //     lpPrice={lpPrice}
+  //     lpLabel={lpLabel}
+  //     apr={apr}
+  //     displayApr={displayApr}
+  //     stakedBalance={stakedBalance}
+  //     onConfirm={handleStake}
+  //     tokenName={lpSymbol}
+  //     multiplier={multiplier}
+  //     addLiquidityUrl={addLiquidityUrl}
+  //     cakePrice={cakePrice}
+  //   />,
+  // )
   const [onPresentWithdraw] = useModal(
     <WithdrawModal max={stakedBalance} onConfirm={handleUnstake} tokenName={lpSymbol} />,
   )
@@ -129,7 +129,7 @@ const StakeButton: React.FC<StackedActionProps> = ({
 
   const handleDeposit = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation()
-    onPresentDeposit()
+    // onPresentDeposit()
   }
 
   const handleWithdraw = (event: React.MouseEvent<HTMLElement>) => {
@@ -152,7 +152,8 @@ const StakeButton: React.FC<StackedActionProps> = ({
     }
 
     return (
-      <Button width={isDesktop ? '142px' : '120px'} onClick={onPresentDeposit} marginLeft="auto">
+      // onClick={onPresentDeposit}
+      <Button width={isDesktop ? '142px' : '120px'} marginLeft="auto">
         {t('Stake')}
       </Button>
     )

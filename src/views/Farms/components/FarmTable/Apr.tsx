@@ -16,11 +16,11 @@ export interface AprProps {
   cakePrice: BigNumber
   originalValue: number
   hideButton?: boolean
-  change_coin_num: string | number
-  out_coin_num: string | number
-  in_coin_num: string | number
-  y_coin_num: string | number
-  end_day: string | number
+  // change_coin_num: string | number
+  // out_coin_num: string | number
+  // in_coin_num: string | number
+  // y_coin_num: string | number
+  // end_day: string | number
 }
 
 const Container = styled.div`
