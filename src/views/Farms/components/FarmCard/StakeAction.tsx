@@ -85,41 +85,42 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     }
   }
 
-  const [onPresentDeposit] = useModal(
-    <DepositModal
-      max={tokenBalance}
-      stakedBalance={stakedBalance}
-      onConfirm={handleStake}
-      tokenName={lpSymbol}
-      multiplier={multiplier}
-      lpPrice={lpPrice}
-      lpLabel={lpLabel}
-      apr={apr}
-      displayApr={displayApr}
-      addLiquidityUrl={addLiquidityUrl}
-      cakePrice={cakePrice}
-    />,
-  )
-  const [onPresentWithdraw] = useModal(
-    <WithdrawModal max={stakedBalance} onConfirm={handleUnstake} tokenName={lpSymbol} />,
-  )
+  // const [onPresentDeposit] = useModal(
+  //   <DepositModal
+  //     max={tokenBalance}
+  //     stakedBalance={stakedBalance}
+  //     onConfirm={handleStake}
+  //     tokenName={lpSymbol}
+  //     multiplier={multiplier}
+  //     lpPrice={lpPrice}
+  //     lpLabel={lpLabel}
+  //     apr={apr}
+  //     displayApr={displayApr}
+  //     addLiquidityUrl={addLiquidityUrl}
+  //     cakePrice={cakePrice}
+  //   />,
+  // )
+  // const [onPresentWithdraw] = useModal(
+  //   <WithdrawModal max={stakedBalance} onConfirm={handleUnstake} tokenName={lpSymbol} />,
+  // )
 
   const renderStakingButtons = () => {
     return stakedBalance.eq(0) ? (
       <Button
-        onClick={onPresentDeposit}
+        // onClick={onPresentDeposit}
         disabled={['history', 'archived'].some((item) => router.pathname.includes(item))}
       >
         {t('Stake LP')}
       </Button>
     ) : (
       <IconButtonWrapper>
-        <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
+        {/* onClick={onPresentWithdraw} */}
+        <IconButton variant="tertiary" mr="6px">
           <MinusIcon color="primary" width="14px" />
         </IconButton>
         <IconButton
           variant="tertiary"
-          onClick={onPresentDeposit}
+          // onClick={onPresentDeposit}
           disabled={['history', 'archived'].some((item) => router.pathname.includes(item))}
         >
           <AddIcon color="primary" width="14px" />
