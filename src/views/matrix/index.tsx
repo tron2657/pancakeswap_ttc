@@ -218,7 +218,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
 
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
-    onUserInput(Field.INPUT, '0.0015')
+    onUserInput(Field.INPUT, '0.015')
     const ttc_num = formattedAmounts[Field.OUTPUT]
     console.log('ttc_num====', ttc_num)
     // console.log('INPUT====', formattedAmounts[Field.INPUT])

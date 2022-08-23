@@ -1,41 +1,33 @@
+import { useState, useEffect } from 'react'
 import styled, { keyframes, css } from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import { LinkExternal, Text, useMatchBreakpointsContext } from '@pancakeswap/uikit'
-import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
-import { getAddress } from 'utils/addressHelpers'
-import { getBscScanLink } from 'utils'
-import { FarmWithStakedValue } from '../../types'
-
+import { format } from 'date-fns'
+import { useTTCNumber } from 'views/Farms/hooks/useApprove'
+import { Field } from 'state/swap/actions'
 import HarvestAction from './HarvestAction'
 import StakedAction from './StakedAction'
-import Apr, { AprProps } from '../Apr'
-import Multiplier, { MultiplierProps } from '../Multiplier'
-import Liquidity, { LiquidityProps } from '../Liquidity'
-
-export interface ActionPanelProps {
-  apr: AprProps
-  multiplier: MultiplierProps
-  liquidity: LiquidityProps
-  details: FarmWithStakedValue
-  userDataReady: boolean
-  expanded: boolean
-}
 
 const expandAnimation = keyframes`
   from {
     max-height: 0px;
+    opacity: 0;
+    
   }
   to {
-    max-height: 500px;
+    max-height: auto;
+    opacity: 1;
   }
 `
 
 const collapseAnimation = keyframes`
   from {
-    max-height: 500px;
+    max-height: auto;
+    opacity: 1;
   }
   to {
     max-height: 0px;
+    opacity: 0;
   }
 `
 
@@ -43,17 +35,18 @@ const Container = styled.div<{ expanded }>`
   animation: ${({ expanded }) =>
     expanded
       ? css`
-          ${expandAnimation} 300ms linear forwards
+          ${expandAnimation} 300ms linear forwards;
         `
       : css`
-          ${collapseAnimation} 300ms linear forwards
+          ${collapseAnimation} 300ms linear forwards;
         `};
+
   overflow: hidden;
   background: ${({ theme }) => theme.colors.dropdown};
   display: flex;
   width: 100%;
   flex-direction: column-reverse;
-  padding: 24px;
+  padding: 0 24px;
 
   ${({ theme }) => theme.mediaQueries.lg} {
     flex-direction: row;
@@ -90,6 +83,8 @@ const ActionContainer = styled.div`
 
 const InfoContainer = styled.div`
   min-width: 200px;
+  /* margin-top: 24px; */
+  padding: 24px 0;
 `
 
 const ValueContainer = styled.div``
@@ -100,39 +95,52 @@ const ValueWrapper = styled.div`
   justify-content: space-between;
   margin: 4px 0px;
 `
+const ThemeValueWrapper = styled.div`
+  color: ${({ theme }) => theme.colors.text};
 
-const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
-  details,
-  apr,
-  multiplier,
-  liquidity,
-  userDataReady,
-  expanded,
-}) => {
+  text-align: right;
+  margin-right: 14px;
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    text-align: left;
+    margin-right: 0;
+  }
+`
+
+export interface ActionPanelProps {
+  details: any
+  userDataReady: boolean
+  expanded: boolean
+}
+const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details, userDataReady, expanded }) => {
   const farm = details
-
+  console.log('props', details)
   const { isDesktop } = useMatchBreakpointsContext()
-
   const {
     t,
     currentLanguage: { locale },
   } = useTranslation()
-  const isActive = farm.multiplier !== '0X'
-  const { quoteToken, token } = farm
-  const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('PANCAKE', '')
-  const liquidityUrlPathParts = getLiquidityUrlPathParts({
-    quoteTokenAddress: quoteToken.address,
-    tokenAddress: token.address,
-  })
-  const lpAddress = getAddress(farm.lpAddresses)
-  const bsc = getBscScanLink(lpAddress, 'address')
-  const info = `/info/pool/${lpAddress}`
+  const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
+  const [ttcNum, setTTCNum] = useState('')
 
+  useEffect(() => {
+    onCurrencySelection(Field.INPUT, inputCurrency)
+    onCurrencySelection(Field.OUTPUT, outputCurrency)
+    onUserInput(Field.INPUT, '0.015')
+    onUserInput(Field.INPUT, '0.015')
+    const ttc_num = formattedAmounts[Field.OUTPUT]
+    setTTCNum(ttc_num)
+    console.log('ttc_num===', ttc_num)
+  }, [])
   return (
+    // style={{ height: farm['order_list'].length >= 2 ? '500px' : 'auto', overflow: 'auto' }}
     <Container expanded={expanded}>
-      <InfoContainer>
-        <ValueContainer>
-          {farm.isCommunity && farm.auctionHostingEndDate && (
+      <ActionContainer>
+        <HarvestAction farm={farm} />
+        <StakedAction farm={farm} />
+        <InfoContainer>
+          <ValueContainer>
+            {/* {farm.isCommunity && farm.auctionHostingEndDate && (
             <ValueWrapper>
               <Text>{t('Auction Hosting Ends')}</Text>
               <Text paddingLeft="4px">
@@ -143,25 +151,35 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
                 })}
               </Text>
             </ValueWrapper>
-          )}
-          {!isDesktop && (
-            <>
-              <ValueWrapper>
-                <Text>{t('APR')}</Text>
-                <Apr {...apr} />
-              </ValueWrapper>
-              <ValueWrapper>
-                <Text>{t('Multiplier')}</Text>
-                <Multiplier {...multiplier} />
-              </ValueWrapper>
-              <ValueWrapper>
-                <Text>{t('Liquidity')}</Text>
-                <Liquidity {...liquidity} />
-              </ValueWrapper>
-            </>
-          )}
-        </ValueContainer>
-        {isActive && (
+          )} */}
+            {!isDesktop && (
+              <>
+                <ValueWrapper>
+                  <Text>{t('总产出')}</Text>
+                  <ThemeValueWrapper>{farm['change_coin_num']}</ThemeValueWrapper>
+                </ValueWrapper>
+                <ValueWrapper>
+                  <Text>{t('已产出')}</Text>
+                  <ThemeValueWrapper>{farm['y_coin_num']}</ThemeValueWrapper>
+                </ValueWrapper>
+                <ValueWrapper>
+                  <Text>{t('剩余')}</Text>
+                  <ThemeValueWrapper>{farm['out_coin_num']}</ThemeValueWrapper>
+                </ValueWrapper>
+                <ValueWrapper>
+                  <Text>{t('质押总计')}</Text>
+                  <ThemeValueWrapper>{farm['in_coin_num']}</ThemeValueWrapper>
+                </ValueWrapper>
+                <ValueWrapper>
+                  <Text>{t('结束时间')}</Text>
+                  <ThemeValueWrapper>
+                    {format(Number(farm['end_time']) * 1000, 'yyyy-MM-dd HH:mm:ss')}
+                  </ThemeValueWrapper>
+                </ValueWrapper>
+              </>
+            )}
+          </ValueContainer>
+          {/* {isActive && (
           <StakeContainer>
             <StyledLinkExternal href={`/add/${liquidityUrlPathParts}`}>
               {t('Get %symbol%', { symbol: lpLabel })}
@@ -169,11 +187,8 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
           </StakeContainer>
         )}
         <StyledLinkExternal href={bsc}>{t('View Contract')}</StyledLinkExternal>
-        <StyledLinkExternal href={info}>{t('See Pair Info')}</StyledLinkExternal>
-      </InfoContainer>
-      <ActionContainer>
-        <HarvestAction {...farm} userDataReady={userDataReady} />
-        <StakedAction {...farm} userDataReady={userDataReady} lpLabel={lpLabel} displayApr={apr.value} />
+        <StyledLinkExternal href={info}>{t('See Pair Info')}</StyledLinkExternal> */}
+        </InfoContainer>
       </ActionContainer>
     </Container>
   )

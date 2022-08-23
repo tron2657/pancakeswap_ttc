@@ -24,7 +24,7 @@ describe('info/utils/formatInfoNumbers', () => {
     ${0.123}       | ${'standard'} | ${false}         | ${false}       | ${false}  | ${'0.12'}
     ${0.00129}     | ${'standard'} | ${false}         | ${false}       | ${false}  | ${'0.0012'}
     ${0.00000001}  | ${'standard'} | ${false}         | ${false}       | ${false}  | ${'0.000000010'}
-    ${0.000000015} | ${'standard'} | ${false}         | ${false}       | ${false}  | ${'0.000000015'}
+    ${0.015} | ${'standard'} | ${false}         | ${false}       | ${false}  | ${'0.015'}
     ${1}           | ${'compact'}  | ${false}         | ${false}       | ${false}  | ${'1.00'}
     ${1}           | ${'standard'} | ${false}         | ${false}       | ${false}  | ${'1.00'}
     ${1420.22}     | ${'compact'}  | ${false}         | ${false}       | ${false}  | ${'1.42K'}

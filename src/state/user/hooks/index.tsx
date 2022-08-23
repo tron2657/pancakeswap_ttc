@@ -43,6 +43,7 @@ import {
 } from '../actions'
 import { deserializeToken, serializeToken } from './helpers'
 import { GAS_PRICE_GWEI } from '../../types'
+import { fetchPledgeListAsync } from 'state/pledge/reducer'
 
 export function useAudioModeManager(): [boolean, () => void] {
   const dispatch = useAppDispatch()
@@ -430,7 +431,6 @@ export function usePairAdder(): (pair: Pair) => void {
  * @param tokenB the other token
  */
 export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
- 
   return new Token(tokenA.chainId, Pair.getAddress(tokenA, tokenB), 18, 'TTC-LP', 'TTC LPs')
 }
 
@@ -452,7 +452,6 @@ export function useTrackedTokenPairs(): [Token, Token][] {
     [],
   )
 
- 
   // pairs for every token against every base
   const generatedPairs: [Token, Token][] = useMemo(
     () =>

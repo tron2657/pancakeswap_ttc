@@ -25,3 +25,5 @@ export const GALAXY_NFT_CLAIMING_API = 'https://graphigo.prd.galaxy.eco/query'
 export const TTC_API = "https://matrix.ttcswap.finance/api"
 
 export const DIVI_API = "https://divi.ttcswap.com/api"
+
+export const PLEDGE_API = "https://dev-ttc.yun089.com/api"

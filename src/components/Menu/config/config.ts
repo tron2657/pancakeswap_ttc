@@ -77,7 +77,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
       },
       {
         label: t('Pools'),
-        href: '/pools',
+        href: '/stake',
       },
     ],
   },
@@ -150,10 +150,10 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
         label: t('Matrix NFT'),
         href: '/matrix',
       },
-      // {
-      //   label: t('Voting'),
-      //   href: '/voting',
-      // },
+      {
+        label: t('Voting'),
+        href: '/voting',
+      },
       // {
       //   type: DropdownMenuItemType.DIVIDER,
       // },

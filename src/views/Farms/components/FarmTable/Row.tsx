@@ -24,6 +24,11 @@ export interface RowProps {
   liquidity: LiquidityProps
   details: FarmWithStakedValue
   type: 'core' | 'community'
+  change_coin_num: string | number
+  out_coin_num: string | number
+  in_coin_num: string | number
+  y_coin_num: string | number
+  end_day: string | number
 }
 
 interface RowPropsWithLoading extends RowProps {
@@ -70,7 +75,9 @@ const FarmMobileCell = styled.td`
 `
 
 const Row: React.FunctionComponent<RowPropsWithLoading> = (props) => {
-  const { details, userDataReady } = props
+  console.log('props', props)
+  const { details, userDataReady, change_coin_num, out_coin_num, in_coin_num, y_coin_num, end_day } = props
+
   const hasStakedAmount = !!useFarmUser(details.pid).stakedBalance.toNumber()
   const [actionPanelExpanded, setActionPanelExpanded] = useState(hasStakedAmount)
   const shouldRenderChild = useDelayedUnmount(actionPanelExpanded, 300)
@@ -190,7 +197,18 @@ const Row: React.FunctionComponent<RowPropsWithLoading> = (props) => {
       {shouldRenderChild && (
         <tr>
           <td colSpan={7}>
-            <ActionPanel {...props} expanded={actionPanelExpanded} />
+            <ActionPanel
+              {...props.apr}
+              details={details}
+              userDataReady={true}
+              expanded={actionPanelExpanded}
+
+              // change_coin_num={change_coin_num}
+              // out_coin_num={out_coin_num}
+              // in_coin_num={in_coin_num}
+              // y_coin_num={y_coin_num}
+              // end_day={end_day}
+            />
           </td>
         </tr>
       )}

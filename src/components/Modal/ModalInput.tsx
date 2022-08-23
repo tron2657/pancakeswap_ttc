@@ -29,13 +29,13 @@ const StyledTokenInput = styled.div<InputProps>`
 
 const StyledInput = styled(Input)`
   box-shadow: none;
-  width: 60px;
+  width: 100%;
   margin: 0 8px;
   padding: 0 8px;
   border: none;
-
+  text-align: right;
   ${({ theme }) => theme.mediaQueries.xs} {
-    width: 80px;
+    width: 100%;
   }
 
   ${({ theme }) => theme.mediaQueries.sm} {
@@ -80,7 +80,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
           <Text fontSize="14px">{inputTitle}</Text>
           <Text fontSize="14px">{t('Balance: %balance%', { balance: displayBalance(max) })}</Text>
         </Flex>
-        <Flex alignItems="flex-end" justifyContent="space-around">
+        <Flex alignItems="flex-end" justifyContent="flex-end">
           <StyledInput
             pattern={`^[0-9]*[.,]?[0-9]{0,${decimals}}$`}
             inputMode="decimal"
@@ -90,20 +90,20 @@ const ModalInput: React.FC<ModalInputProps> = ({
             placeholder="0"
             value={value}
           />
-          <Button scale="sm" onClick={onSelectMax} mr="8px">
+          {/* <Button scale="sm" onClick={onSelectMax} mr="8px">
             {t('Max')}
-          </Button>
-          <Text fontSize="16px">{symbol}</Text>
+          </Button> */}
+          {/* <Text fontSize="16px">{symbol}</Text> */}
         </Flex>
       </StyledTokenInput>
-      {isBalanceZero && (
+      {/* {isBalanceZero && (
         <StyledErrorMessage fontSize="14px" color="failure">
           {t('No tokens to stake')}:{' '}
           <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
             {t('Get %symbol%', { symbol })}
           </Link>
         </StyledErrorMessage>
-      )}
+      )} */}
     </div>
   )
 }

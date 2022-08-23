@@ -16,6 +16,7 @@ import { Token, ChainId } from 'ttcswap-sdk'
 import { TokenInfo, TokenList, Tags } from '@uniswap/token-lists'
 import { parseUnits } from '@ethersproject/units'
 import { NftToken, State as NftMarketState } from './nftMarket/types'
+import { State as PledgetState } from './pledge/types'
 
 /**
  * Token instances created from token info.
@@ -635,5 +636,6 @@ export interface State {
   pools: PoolsState
   predictions: PredictionsState
   lottery: LotteryState
-  nftMarket: NftMarketState
+  nftMarket: NftMarketState,
+  pledge: PledgetState
 }

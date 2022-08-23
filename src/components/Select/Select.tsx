@@ -34,7 +34,7 @@ const DropDownListContainer = styled.div`
   }
 `
 
-const DropDownContainer = styled(Box)<{ isOpen: boolean }>`
+const DropDownContainer = styled(Box)<{ isOpen: boolean; zIndex: number }>`
   cursor: pointer;
   width: 100%;
   position: relative;
@@ -43,7 +43,7 @@ const DropDownContainer = styled(Box)<{ isOpen: boolean }>`
   height: 40px;
   min-width: 136px;
   user-select: none;
-  z-index: 20;
+  z-index: zIndex ? zIndex : 20;
 
   ${({ theme }) => theme.mediaQueries.sm} {
     min-width: 168px;
@@ -97,6 +97,7 @@ export interface SelectProps extends BoxProps {
   onOptionChange?: (option: OptionProps) => void
   placeHolderText?: string
   defaultOptionIndex?: number
+  zIndex?: number
 }
 
 export interface OptionProps {
@@ -109,6 +110,7 @@ const Select: React.FunctionComponent<SelectProps> = ({
   onOptionChange,
   defaultOptionIndex = 0,
   placeHolderText,
+  zIndex = 20,
   ...props
 }) => {
   const dropdownRef = useRef(null)
@@ -143,7 +145,7 @@ const Select: React.FunctionComponent<SelectProps> = ({
   }, [])
 
   return (
-    <DropDownContainer isOpen={isOpen} {...props}>
+    <DropDownContainer isOpen={isOpen} zIndex={zIndex} {...props}>
       <DropDownHeader onClick={toggling}>
         <Text color={!optionSelected && placeHolderText ? 'text' : undefined}>
           {!optionSelected && placeHolderText ? placeHolderText : options[selectedOptionIndex].label}

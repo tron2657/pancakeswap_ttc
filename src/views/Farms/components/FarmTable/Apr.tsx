@@ -16,6 +16,11 @@ export interface AprProps {
   cakePrice: BigNumber
   originalValue: number
   hideButton?: boolean
+  change_coin_num: string | number
+  out_coin_num: string | number
+  in_coin_num: string | number
+  y_coin_num: string | number
+  end_day: string | number
 }
 
 const Container = styled.div`
@@ -55,9 +60,9 @@ const Apr: React.FC<AprProps> = ({
   const liquidityUrlPathParts = getLiquidityUrlPathParts({ quoteTokenAddress, tokenAddress })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
 
-  return originalValue !== 0 ? (
+  return Number(value) !== 0 ? (
     <Container>
-      {originalValue ? (
+      {Number(value) ? (
         <ApyButton
           variant={hideButton ? 'text' : 'text-and-button'}
           pid={pid}
@@ -65,7 +70,7 @@ const Apr: React.FC<AprProps> = ({
           lpLabel={lpLabel}
           multiplier={multiplier}
           cakePrice={cakePrice}
-          apr={originalValue}
+          apr={Number(value)}
           displayApr={value}
           addLiquidityUrl={addLiquidityUrl}
         />
@@ -77,7 +82,7 @@ const Apr: React.FC<AprProps> = ({
     </Container>
   ) : (
     <Container>
-      <AprWrapper>{originalValue}%</AprWrapper>
+      <AprWrapper>{value}%</AprWrapper>
     </Container>
   )
 }

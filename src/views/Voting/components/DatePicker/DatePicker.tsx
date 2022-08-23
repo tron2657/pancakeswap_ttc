@@ -1,6 +1,8 @@
-import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker'
+import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker'
 import { Input, InputProps } from '@pancakeswap/uikit'
-
+// the locale you want
+import el from 'date-fns/locale/zh-CN'
+registerLocale('el', el) // regis
 import 'react-datepicker/dist/react-datepicker.css'
 
 export interface DatePickerProps extends ReactDatePickerProps {
@@ -9,7 +11,13 @@ export interface DatePickerProps extends ReactDatePickerProps {
 
 const DatePicker: React.FC<DatePickerProps> = ({ inputProps = {}, ...props }) => {
   return (
-    <ReactDatePicker customInput={<Input {...inputProps} />} portalId="reactDatePicker" dateFormat="PPP" {...props} />
+    <ReactDatePicker
+      locale={el}
+      customInput={<Input {...inputProps} />}
+      portalId="reactDatePicker"
+      dateFormat="PPP"
+      {...props}
+    />
   )
 }
 

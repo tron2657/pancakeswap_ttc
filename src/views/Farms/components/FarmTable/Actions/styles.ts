@@ -1,3 +1,4 @@
+import { Top } from './../../../../../../packages/uikit/src/components/Dropdown/index.stories';
 import styled from 'styled-components'
 
 export const ActionContainer = styled.div`
@@ -6,8 +7,8 @@ export const ActionContainer = styled.div`
   border-radius: 16px;
   flex-grow: 1;
   flex-basis: 0;
-  margin-bottom: 16px;
-
+  /* margin-bottom: 16px; */
+  margin-top: 24px;
   ${({ theme }) => theme.mediaQueries.sm} {
     margin-left: 12px;
     margin-right: 12px;
