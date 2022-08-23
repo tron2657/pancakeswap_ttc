@@ -44,7 +44,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   quoteTokenAmountTotal,
 }) => {
   const { t } = useTranslation()
-  const { onStake } = useStakeFarms(pid)
+  const { onStake } = useStakeFarms('', '')
   const { onUnstake } = useUnstakeFarms(pid)
   const { tokenBalance, stakedBalance } = useFarmUser(pid)
   const cakePrice = usePriceCakeBusd()
