@@ -17,5 +17,6 @@ export interface FormState {
   coin_contract2: string,
   coin1_coin2_price: string,
   id: any,
-  coin_num: number
+  coin_num: number,
+  balance: any
 }

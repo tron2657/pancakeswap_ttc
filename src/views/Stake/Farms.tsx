@@ -299,10 +299,13 @@ const Farms = ({ initData, children }) => {
     <>
       <PageHeader>
         <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-          {t('Farms')}
+          {t('糖浆池')}
         </Heading>
         <Heading scale="lg" color="text">
-          {t('Stake LP tokens to earn.')}
+          {t('只需要质押一些代币即可赚取。')}
+        </Heading>
+        <Heading scale="lg" color="text">
+          {t('高年化率，低风险。')}
         </Heading>
         <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>
           <Button p="0" variant="text">

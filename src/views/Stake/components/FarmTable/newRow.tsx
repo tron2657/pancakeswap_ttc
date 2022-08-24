@@ -22,7 +22,7 @@ const Container = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
 `
 const CellInner = styled.div`
-  padding: 24px;
+  padding: 15px;
 
   ${({ theme }) => theme.mediaQueries.xl} {
     padding-right: 32px;
@@ -105,7 +105,7 @@ const NewRow: React.FC<NewRowProps> = (props) => {
   const handleRenderRow = () => {
     return (
       <CellInner>
-        <Flex justifyContent="space-between" alignItems="center">
+        {/* <Flex justifyContent="space-between" alignItems="center">
           <Flex justifyContent="flex-start" alignItems="center" flex="auto">
             <StakeTokenImage
               primarySrc={primarySrc}
@@ -119,15 +119,30 @@ const NewRow: React.FC<NewRowProps> = (props) => {
           </Flex>
 
           {details['is_t'] ? <CoreTag marginRight="16px" scale="sm" /> : null}
-        </Flex>
+        </Flex> */}
         <Flex mt="15px" justifyContent="space-around" alignItems="center" onClick={toggleActionPanel}>
-          <Flex width="30%" flexDirection="column" alignItems="flex-start">
-            <Text>已赚取</Text>
-            <AmountText earned={Number(details['order_sum_j'])}>{Number(details['order_sum_j']).toFixed(4)}</AmountText>
+          <Flex width="20%">
+            <StakeTokenImage
+              primarySrc={primarySrc}
+              secondarySrc={secondarySrc}
+              width={40}
+              height={40}
+            ></StakeTokenImage>
           </Flex>
-          <Flex width="30%" flexDirection="column" alignItems="flex-start">
+          <Flex width="20%" flexDirection="column" alignItems="center">
+            <Text>质押</Text>
+            <Text>{details['coin_name']}</Text>
+            {/* <AmountText earned={Number(details['order_sum_j'])}>{Number(details['order_sum_j']).toFixed(4)}</AmountText> */}
+          </Flex>
+          <Flex width="20%" flexDirection="column" alignItems="center">
+            <Text>赚取</Text>
+            <Text>{details['coin_name2']}</Text>
+            {/* <ThemeText>{details['year_profit']}</ThemeText> */}
+          </Flex>
+          <Flex width="30%" flexDirection="column" alignItems="center">
             <Text>年利化率</Text>
-            <ThemeText>{details['year_profit']}</ThemeText>
+            <Text textAlign="center">{details['year_profit']}</Text>
+            {/* <ThemeText>{details['year_profit']}</ThemeText> */}
           </Flex>
           <Box width="30%">
             <Details actionPanelToggled={actionPanelExpanded} />

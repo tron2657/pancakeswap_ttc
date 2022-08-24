@@ -1,5 +1,7 @@
 import { ContextApi } from 'contexts/Localization/types'
 import { format, parseISO, isValid } from 'date-fns'
+import useTokenBalance from 'hooks/useTokenBalance'
+import { getBalanceNumber } from 'utils/formatBalance'
 import { MINIMUM_CHOICES } from './Choices'
 import { FormState } from './types'
 
@@ -15,11 +17,32 @@ export const combineDateAndTime = (date: Date, time: Date) => {
 }
 
 export const getFormErrors = (formData: FormState, t: ContextApi['t']) => {
-  const { name, body, choices, startDate, startTime, endDate, endTime, snapshot } = formData
-  const errors: { [key: string]: string[] } = {}
+  const { name,
+    body,
+    id,
+    outPut,
+    coin_contract,
+    coin_name,
+    coin_name2,
+    choices,
+    startDate,
+    startTime,
+    endDate,
+    endTime,
+    duration,
+    coin_contract2,
+    balance,
+    coin1_coin2_price, snapshot } = formData
 
-  if (!name) {
-    errors.name = [t('%field% is required', { field: 'Title' })]
+  const errors: { [key: string]: string[] } = {}
+  const { balance: lpBalance } = useTokenBalance(coin_contract)
+
+  if (!outPut) {
+    errors.outPut = [t('%field% is required', { field: '质押总产出' })]
+  }
+
+  if (outPut > getBalanceNumber(lpBalance)) {
+    errors.outPut = [t('质押总产出不能大于您的产出代币余额',)]
   }
 
   if (!body) {

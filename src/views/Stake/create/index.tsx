@@ -123,6 +123,10 @@ const RenderSelect = ({ contract }) => {
   return <SecondaryLabel>余额：{getBalanceNumber(lpBalance)}</SecondaryLabel>
 }
 
+const RenderLabelToken = ({ coinList, coin_name2, coin_name }) => {
+  const { t } = useTranslation()
+  return <SecondaryLabel>{t(`每质押100枚${coinList[0].value.field} ${coin_name2}产出${coin_name}数量`)}</SecondaryLabel>
+}
 // const ActionButton = () => {
 //   return (
 
@@ -148,6 +152,7 @@ const CreateProposal = ({ initData }) => {
     coin1_coin2_price: '',
     id: '',
     coin_num: 0,
+    balance: 0,
   }))
   // const [onPresentMobileModal, closePresentMobileModal] = useModal(
   //   <InviteModal coinList={code} customOnDismiss={callback} />,
@@ -188,6 +193,7 @@ const CreateProposal = ({ initData }) => {
     duration,
     coin_contract2,
     coin1_coin2_price,
+    balance,
     snapshot,
   } = state
   const formErrors = getFormErrors(state, t)
@@ -312,8 +318,8 @@ const CreateProposal = ({ initData }) => {
 
   const getYearProfit = (put, day) => {
     console.log('_year_profit==', put, day)
-    let _year_profit = ((put / 100) * day) / 365
-    setYearProfit(_year_profit * 100)
+    let _year_profit = ((1 + put / 100) / day) * 365
+    setYearProfit(_year_profit / 100)
   }
 
   const handleEasyMdeChange = (value: string) => {
@@ -335,7 +341,7 @@ const CreateProposal = ({ initData }) => {
 
     updateValue(coin_contract, newOption.value.field)
     console.log('coin_contract==', newOption)
-    if (coin_ame === 'coin1_coin2_price') {
+    if (coin_ame === 'coin_name') {
       setBalanceContract(newOption.value.field)
     }
   }
@@ -443,7 +449,6 @@ const CreateProposal = ({ initData }) => {
           })
           setCoinList(_list)
           setBalanceContract(_list[0].value.field)
-
           setLoading(false)
         }
       }
@@ -494,7 +499,7 @@ const CreateProposal = ({ initData }) => {
                 onChange={handleChange}
                 required
               />
-              {formErrors.name && fieldsState.name && <FormErrors errors={formErrors.name} />}
+              {formErrors.outPut && fieldsState.outPut && <FormErrors errors={formErrors.outPut} />}
             </Box>
             <Box mb="24px">
               <SecondaryLabel>{t('Start Date')}</SecondaryLabel>
@@ -556,7 +561,14 @@ const CreateProposal = ({ initData }) => {
             </Box>
             <Box mb="24px">
               <Flex justifyContent="space-between">
-                <SecondaryLabel>{t('每质押100枚LT产出TTC数量')}</SecondaryLabel>
+                {/* <RenderLabelToken coinList={coinList} coin_name2={coin_name2} coin_name={coin_name}></RenderLabelToken> */}
+                <SecondaryLabel>
+                  {t(
+                    `每质押100枚${coin_name2 ? coin_name2 : coinList[0].value.direction}产出${
+                      coin_name ? coin_name : coinList[0].value.direction
+                    }数量`,
+                  )}
+                </SecondaryLabel>
                 <SecondaryLabel>
                   {t('年利化率：')}
                   {yearProfit.toFixed(4)}%
