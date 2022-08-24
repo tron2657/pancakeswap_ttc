@@ -130,7 +130,7 @@ const getPledgeListApi = async (
   coin_name: any,
 ) => {
   const res = await fetch(
-    `${PLEDGE_API}/pledge/pledge_list?address=${account}&is_user=${is_user}&sort=${sort}&lp_type=${lp_type}&is_status=${is_status}&coin_name=${coin_name}`,
+    `${PLEDGE_API}/pledge/pledge_list?address=${'0x2F70b06575415Fc6E253097B5df71F26C50896fe'}&is_user=${is_user}&sort=${sort}&lp_type=${lp_type}&is_status=${is_status}&coin_name=${coin_name}`,
     {
       method: 'post',
     },

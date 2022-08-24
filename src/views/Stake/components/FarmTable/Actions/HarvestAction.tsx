@@ -28,17 +28,17 @@ const RenderReceiveBtn = ({ item, farm }) => {
   //   () => {},
   // )
 
-  const handleReceive = async () => {
+  const handleReceive = async (list_id) => {
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
     onUserInput(Field.INPUT, '0.015')
     onUserInput(Field.INPUT, '0.015')
     const ttc_num = formattedAmounts[Field.OUTPUT]
-    console.log('account==', account, 'ttcNum===', ttc_num, 'id===', farm['id'])
+    console.log('account==', account, 'ttcNum===', ttc_num, 'id===', list_id)
 
     setLoading(true)
 
-    const data = await handleReceiveApi(account, ttc_num, farm['id'])
+    const data = await handleReceiveApi(account, ttc_num, list_id)
     setLoading(false)
     if (data.status) {
       toastSuccess(t(data.msg))
@@ -52,7 +52,13 @@ const RenderReceiveBtn = ({ item, farm }) => {
   console.log('status=====', item)
   if (item['status'] == 3) {
     return (
-      <Button disabled={Number(item['j_num']) == 0 || loading} onClick={handleReceive} ml="4px">
+      <Button
+        disabled={Number(item['j_num']) == 0 || loading}
+        onClick={() => {
+          handleReceive(item['id'])
+        }}
+        ml="4px"
+      >
         {t('领取')}
       </Button>
     )

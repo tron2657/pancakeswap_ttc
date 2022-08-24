@@ -89,18 +89,18 @@ const InfoContainer = styled.div`
 
 const ValueContainer = styled.div``
 
-const ValueWrapper = styled.div`
-  display: flex;
+const ValueWrapper = styled.div<{ isBlock?: any }>`
+  display: ${({ isBlock }) => (isBlock ? 'block' : 'flex')};
   align-items: center;
   justify-content: space-between;
   margin: 4px 0px;
+  line-height: 1.2;
 `
-const ThemeValueWrapper = styled.div`
+const ThemeValueWrapper = styled.div<{ isBlock?: any }>`
   color: ${({ theme }) => theme.colors.text};
-
-  text-align: right;
+  text-align: ${({ isBlock }) => (isBlock ? 'left' : 'right')};
   margin-right: 14px;
-
+  line-height: 1.2;
   ${({ theme }) => theme.mediaQueries.lg} {
     text-align: left;
     margin-right: 0;
@@ -176,10 +176,12 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details, userD
                     {format(Number(farm['end_time']) * 1000, 'yyyy-MM-dd HH:mm:ss')}
                   </ThemeValueWrapper>
                 </ValueWrapper>
-                <ValueWrapper>
+                <ValueWrapper isBlock={true}>
                   <Text>{t('说明')}</Text>
-                  <ThemeValueWrapper>{farm['info']}</ThemeValueWrapper>
+
+                  <ThemeValueWrapper isBlock={true}>{farm['info']}</ThemeValueWrapper>
                 </ValueWrapper>
+                {/* <Text>{farm['info']}</Text> */}
               </>
             )}
           </ValueContainer>

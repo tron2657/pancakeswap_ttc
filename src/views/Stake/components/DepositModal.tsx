@@ -102,7 +102,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
     },
   ]
   const [activeIndex, setActiveIndex] = useState(0)
-  const [selectDuration, setselectDuration] = useState(detail['day'])
+  const [selectDuration, setSelectDuration] = useState(detail['day'])
   const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
   const [ttcNum, setTTCNum] = useState('')
   const { balance: lpBalance } = useTokenBalance(detail['coin_contract'])
@@ -156,6 +156,8 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
     const ttc_num = formattedAmounts[Field.OUTPUT]
     setTTCNum(ttc_num)
     console.log('ttc_num===', ttc_num)
+    let active = durations.findIndex((item) => item.val == detail['day'])
+    setActiveIndex(active)
   }, [])
 
   return (

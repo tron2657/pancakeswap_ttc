@@ -1,19 +1,9 @@
-import { useState, useEffect } from 'react'
-import { Button, Heading, Skeleton, Text } from '@pancakeswap/uikit'
+import { useState } from 'react'
+import { Button, Heading, Text } from '@pancakeswap/uikit'
 import { useWeb3React } from '@web3-react/core'
-import BigNumber from 'bignumber.js'
-import Balance from 'components/Balance'
 import { useTranslation } from 'contexts/Localization'
-import { ToastDescriptionWithTx } from 'components/Toast'
 import useToast from 'hooks/useToast'
-import useCatchTxError from 'hooks/useCatchTxError'
 import { useAppDispatch } from 'state'
-import { fetchFarmUserDataAsync } from 'state/farms'
-import { usePriceCakeBusd } from 'state/farms/hooks'
-import { BIG_ZERO } from 'utils/bigNumber'
-import { getBalanceAmount } from 'utils/formatBalance'
-import { FarmWithStakedValue } from '../../types'
-import useHarvestFarm from '../../../hooks/useHarvestFarm'
 import { ActionContainer, ActionContent, ActionTitles } from './styles'
 import { PLEDGE_API } from 'config/constants/endpoints'
 import { useTTCNumber } from 'views/Farms/hooks/useApprove'
@@ -22,10 +12,82 @@ import styled from 'styled-components'
 
 const OverFlowBox = styled.div``
 
+const RenderReceiveBtn = ({ item, farm }) => {
+  const { toastSuccess, toastError } = useToast()
+  const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
+  const [ttcNum, setTTCNum] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { t } = useTranslation()
+  const { account } = useWeb3React()
+
+  // const { d, h, m, s } = useCountDown(
+  //   {
+  //     currentTime: new Date().getTime(),
+  //     endTime: new Date('2022-08-31').getTime(),
+  //   },
+  //   () => {},
+  // )
+
+  const handleReceive = async (list_id) => {
+    onCurrencySelection(Field.INPUT, inputCurrency)
+    onCurrencySelection(Field.OUTPUT, outputCurrency)
+    onUserInput(Field.INPUT, '0.015')
+    onUserInput(Field.INPUT, '0.015')
+    const ttc_num = formattedAmounts[Field.OUTPUT]
+    console.log('account==', account, 'ttcNum===', ttc_num, 'id===', list_id)
+
+    setLoading(true)
+
+    const data = await handleReceiveApi(account, ttc_num, list_id)
+    setLoading(false)
+    if (data.status) {
+      toastSuccess(t(data.msg))
+      // setSecondsRemaining(120)
+      // openCountDown()
+    } else {
+      toastError(t(data.msg))
+    }
+  }
+
+  console.log('status=====', item)
+  if (item['status'] == 3) {
+    return (
+      <Button
+        disabled={Number(item['j_num']) == 0 || loading}
+        onClick={() => {
+          handleReceive(item['id'])
+        }}
+        ml="4px"
+      >
+        {t('领取')}
+      </Button>
+    )
+  }
+  if (item['status'] == 4) {
+    return (
+      <Button disabled={true} ml="4px">
+        {t('已领取')}
+      </Button>
+    )
+  }
+  if (item['status'] <= 3) {
+    return (
+      <Button disabled={true} ml="4px">
+        {t('待领取')}
+        {`${item['end_day']}${t('天')}`}
+      </Button>
+    )
+  }
+  return (
+    <Button disabled={true} ml="4px">
+      {t('待领取')}
+    </Button>
+  )
+}
+
 const handleReceiveApi = async (account: string, ttc_num: string, id: any) => {
   const res = await fetch(`${PLEDGE_API}/pledge/put_order?address=${account}&ttc_num=${ttc_num}&id=${id}`, {
     method: 'post',
-    // body: JSON.stringify({ account: account, ttc_num: ttc_num, id: id }),
   })
   if (res.ok) {
     const json = await res.json()
@@ -46,28 +108,27 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({ farm }) =>
   const [ttcNum, setTTCNum] = useState('')
   const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
-  const dispatch = useAppDispatch()
   const { account } = useWeb3React()
 
-  const handleReceive = async (id) => {
-    onCurrencySelection(Field.INPUT, inputCurrency)
-    onCurrencySelection(Field.OUTPUT, outputCurrency)
-    onUserInput(Field.INPUT, '0.015')
-    onUserInput(Field.INPUT, '0.015')
-    const ttc_num = formattedAmounts[Field.OUTPUT]
-    console.log('account==', account, 'ttcNum===', ttc_num, 'id===', id)
+  // const handleReceive = async () => {
+  //   onCurrencySelection(Field.INPUT, inputCurrency)
+  //   onCurrencySelection(Field.OUTPUT, outputCurrency)
+  //   onUserInput(Field.INPUT, '0.015')
+  //   onUserInput(Field.INPUT, '0.015')
+  //   const ttc_num = formattedAmounts[Field.OUTPUT]
+  //   console.log('account==', account, 'ttcNum===', ttc_num, 'id===', farm['id'])
 
-    setLoading(true)
-    const data = await handleReceiveApi(account, ttc_num, id)
-    setLoading(false)
-    if (data.status) {
-      toastSuccess(t(data.msg))
-      // setSecondsRemaining(120)
-      // openCountDown()
-    } else {
-      toastError(t(data.msg))
-    }
-  }
+  //   setLoading(true)
+  //   const data = await handleReceiveApi(account, ttc_num, farm['id'])
+  //   setLoading(false)
+  //   if (data.status) {
+  //     toastSuccess(t(data.msg))
+  //     // setSecondsRemaining(120)
+  //     // openCountDown()
+  //   } else {
+  //     toastError(t(data.msg))
+  //   }
+  // }
 
   return (
     <OverFlowBox>
@@ -76,10 +137,10 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({ farm }) =>
           <ActionContainer>
             <ActionTitles>
               <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="4px">
-                {farm['coin_name']}
+                TTC
               </Text>
               <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-                {t('提取')}
+                {t('Earned')}
               </Text>
             </ActionTitles>
             <ActionContent>
@@ -96,17 +157,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({ farm }) =>
                   />
                 )} */}
               </div>
-              {/* disabled={Number(farm['order_sum_j']) == 0 || loading} */}
-
-              <Button
-                disabled={Number(item['j_num']) == 0}
-                onClick={() => {
-                  handleReceive(item['id'])
-                }}
-                ml="4px"
-              >
-                {t('领取')}
-              </Button>
+              <RenderReceiveBtn item={item} farm={farm}></RenderReceiveBtn>
               {/* <Button
           disabled={earnings.eq(0) || pendingTx || !userDataReady}
           onClick={async () => {

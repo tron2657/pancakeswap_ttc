@@ -262,7 +262,7 @@ const StakeManage = () => {
                           <ValueWrapper>
                             <Text>{t('年化收益率')}</Text>
                             <ThemeValueWrapper>
-                              {item.year_profit}%
+                              {item.year_profit * 100}%
                               {/* {format(Number(farm['end_time']) * 1000, 'yyyy-MM-dd HH:mm:ss')} */}
                             </ThemeValueWrapper>
                           </ValueWrapper>
@@ -270,7 +270,7 @@ const StakeManage = () => {
                             {t('产出规则')}
                           </Text>
                           <Text mt="6px" fontSize="14px">
-                            {t('质押到期后连本带息一起领取')}
+                            {item.info}
                           </Text>
                         </>
                       </ValueContainer>
@@ -285,7 +285,8 @@ const StakeManage = () => {
                       variant="secondary"
                       disabled={item.status != 3}
                     >
-                      {t('提取剩余TTC')}
+                      {t('提取剩余')}
+                      {item.coin_name}
                     </Button>
                   </ActionContainer>
                 </Container>

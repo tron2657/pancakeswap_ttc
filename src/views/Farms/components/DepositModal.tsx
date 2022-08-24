@@ -136,6 +136,8 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
     const ttc_num = formattedAmounts[Field.OUTPUT]
     setTTCNum(ttc_num)
     console.log('ttc_num===', ttc_num)
+    let active = durations.findIndex((item) => item.val == detail['day'])
+    setActiveIndex(active)
   }, [])
 
   return (
