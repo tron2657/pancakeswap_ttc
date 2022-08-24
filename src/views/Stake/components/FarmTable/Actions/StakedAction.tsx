@@ -55,11 +55,12 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
   const { toastSuccess, toastError } = useToast()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { account } = useWeb3React()
-  const { onStake } = useStakeFarms(farm['coin_contract'], farm['from_address3'])
+  const { onStake } = useStakeFarms(farm['coin_contract2'], farm['from_address3'])
   const router = useRouter()
   // const initData = useFetchInitData()
   // console.log('initData===', initData)
   const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
+
   const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(tokens.ttc.address, farm['from_address3'])
   const { handleTTCApprove: handleTTCApprove, pendingTx: pendingTTCTx } = useApproveTTC(
     tokens.ttc.address,

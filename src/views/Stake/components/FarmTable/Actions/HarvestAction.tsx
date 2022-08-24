@@ -32,7 +32,7 @@ const RenderReceiveBtn = ({ item, farm }) => {
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
     onUserInput(Field.INPUT, '0.015')
-    onUserInput(Field.INPUT, '0.015')
+
     const ttc_num = formattedAmounts[Field.OUTPUT]
     console.log('account==', account, 'ttcNum===', ttc_num, 'id===', list_id)
 

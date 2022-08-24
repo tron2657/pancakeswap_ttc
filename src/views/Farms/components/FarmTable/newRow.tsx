@@ -126,7 +126,7 @@ const NewRow: React.FC<NewRowProps> = (props) => {
           </Flex>
           <Flex width="30%" flexDirection="column" alignItems="flex-start">
             <Text>年利化率</Text>
-            <ThemeText>{Number(details['year_profit'] * 100).toFixed(2)}</ThemeText>
+            <ThemeText>{Number(details['year_profit'] * 100).toFixed(2)}%</ThemeText>
           </Flex>
           <Box width="30%">
             <Details actionPanelToggled={actionPanelExpanded} />

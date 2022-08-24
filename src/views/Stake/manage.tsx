@@ -256,8 +256,11 @@ const StakeManage = () => {
                             <ThemeValueWrapper>{item.day}天</ThemeValueWrapper>
                           </ValueWrapper>
                           <ValueWrapper>
-                            <Text>{t('每质押100LT产出')}</Text>
-                            <ThemeValueWrapper>{item.profit * 100}TTC</ThemeValueWrapper>
+                            <Text>每质押100{item.coin_name2}产出</Text>
+                            <ThemeValueWrapper>
+                              {item.profit * 100}
+                              {item.coin_name}
+                            </ThemeValueWrapper>
                           </ValueWrapper>
                           <ValueWrapper>
                             <Text>{t('年化收益率')}</Text>

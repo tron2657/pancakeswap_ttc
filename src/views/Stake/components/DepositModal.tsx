@@ -80,10 +80,10 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
 
   // const { compounding, activeCompoundingIndex, stakingDuration, editingCurrency } = state.controls
   const durations = [
-    {
-      val: 1,
-      name: '1天',
-    },
+    // {
+    //   val: 1,
+    //   name: '1天',
+    // },
     {
       val: 7,
       name: '7天',
@@ -105,7 +105,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
   const [selectDuration, setSelectDuration] = useState(detail['day'])
   const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
   const [ttcNum, setTTCNum] = useState('')
-  const { balance: lpBalance } = useTokenBalance(detail['coin_contract'])
+  const { balance: lpBalance } = useTokenBalance(detail['coin_contract2'])
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(lpBalance)
   }, [lpBalance])
@@ -151,8 +151,8 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
   useEffect(() => {
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
-    onUserInput(Field.INPUT, '0.000015')
-    onUserInput(Field.INPUT, '0.000015')
+    onUserInput(Field.INPUT, '0.015')
+    onUserInput(Field.INPUT, '0.015')
     const ttc_num = formattedAmounts[Field.OUTPUT]
     setTTCNum(ttc_num)
     console.log('ttc_num===', ttc_num)
@@ -237,7 +237,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
           {t('预期年利化率')}
         </Text>
         <Text color="textSubtle" bold fontSize="12px" textTransform="uppercase">
-          {detail['profit']}%
+          {detail['year_profit']}%
         </Text>
       </Flex>
       {/* <LinkExternal href={addLiquidityUrl} style={{ alignSelf: 'center' }}>

@@ -126,8 +126,8 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details, userD
   useEffect(() => {
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
-    onUserInput(Field.INPUT, '0.000015')
-    onUserInput(Field.INPUT, '0.000015')
+    onUserInput(Field.INPUT, '0.015')
+    onUserInput(Field.INPUT, '0.015')
     const ttc_num = formattedAmounts[Field.OUTPUT]
     setTTCNum(ttc_num)
     console.log('ttc_num===', ttc_num)
