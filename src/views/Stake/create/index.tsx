@@ -334,13 +334,11 @@ const CreateProposal = ({ initData }) => {
     updateValue(key, value)
   }
 
-  const handleSelectChange = (newOption: OptionProps, coin_ame: string, coin_contract: string) => {
+  const handleSelectChange = (newOption: OptionProps, coin_ame: string, coin_contract_addr: string) => {
     console.log('handleSelectChange==', newOption, name)
-
     updateValue(coin_ame, newOption.value.direction)
+    updateValue(coin_contract_addr, newOption.value.field)
 
-    updateValue(coin_contract, newOption.value.field)
-    console.log('coin_contract==', newOption)
     if (coin_ame === 'coin_name') {
       setBalanceContract(newOption.value.field)
     }
@@ -578,7 +576,7 @@ const CreateProposal = ({ initData }) => {
                   text={body}
                   day={duration}
                   coin_name2={coin_name2 ? coin_name2 : coinList[0].value.direction}
-                  coin_contract2={balanceContract}
+                  coin_contract2={coin_contract2 ? coin_contract2 : coinList[0].value.field}
                   coin1_coin2_price={coin1_coin2_price}
                   start_time={combineDateAndTime(startDate, startTime)}
                   end_time={combineDateAndTime(endDate, endTime)}
