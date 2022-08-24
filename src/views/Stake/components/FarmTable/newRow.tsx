@@ -131,17 +131,17 @@ const NewRow: React.FC<NewRowProps> = (props) => {
           </Flex>
           <Flex width="20%" flexDirection="column" alignItems="center">
             <Text>质押</Text>
-            <Text>{details['coin_name']}</Text>
+            <Text>{details['coin_name2']}</Text>
             {/* <AmountText earned={Number(details['order_sum_j'])}>{Number(details['order_sum_j']).toFixed(4)}</AmountText> */}
           </Flex>
           <Flex width="20%" flexDirection="column" alignItems="center">
             <Text>赚取</Text>
-            <Text>{details['coin_name2']}</Text>
+            <Text>{details['coin_name']}</Text>
             {/* <ThemeText>{details['year_profit']}</ThemeText> */}
           </Flex>
           <Flex width="30%" flexDirection="column" alignItems="center">
             <Text>年利化率</Text>
-            <Text textAlign="center">{details['year_profit']}%</Text>
+            <Text textAlign="center">{Number(details['year_profit']).toFixed(2)}%</Text>
             {/* <ThemeText>{details['year_profit']}</ThemeText> */}
           </Flex>
           <Box width="30%">
