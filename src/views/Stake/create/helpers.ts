@@ -42,7 +42,8 @@ export const getFormErrors = (formData: FormState, t: ContextApi['t']) => {
   }
 
   if (outPut > getBalanceNumber(lpBalance)) {
-    errors.outPut = [t('质押总产出不能大于您的产出代币余额',)]
+    console.log('outPut===lpBalance', coin_contract, outPut, getBalanceNumber(lpBalance))
+    errors.outPut = [t('质押总产出不能大于您的产出代币余额', { field: '质押总产出' })]
   }
 
   if (!body) {

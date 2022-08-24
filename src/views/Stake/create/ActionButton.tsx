@@ -14,6 +14,7 @@ import { useApproveTTC, useCheckTTCApprovalStatus, useTTCNumber } from '../hooks
 import { Field } from 'state/swap/actions'
 import useCatchTxError from 'hooks/useCatchTxError'
 import useCreateFarms from '../hooks/useCreateFarm'
+import { setPlegeListParams } from 'state/pledge/reducer'
 
 const handlePreCreateApi = async (account) => {
   const res = await fetch(`${PLEDGE_API}/pledge/pledge?address=${account}`, {
@@ -29,13 +30,13 @@ const handlePreCreateApi = async (account) => {
 }
 
 const handleCreateApi = async (params) => {
-  const res = await fetch(`${PLEDGE_API}/pledge/pledge_add`, {
-    method: 'post',
-    // headers: {
-    //   'Content-Type': 'application/x-www-form-urlencoded',
-    // },
-    body: JSON.stringify(params),
-  })
+  const res = await fetch(
+    `${PLEDGE_API}/pledge/pledge_add?address=${params.address}&id=${params.id}&coin1_coin2_price=${params.coin1_coin2_price}&coin_contract=${params.coin_contract}&coin_contract2=${params.coin_contract2}&coin_hash=${params.coin_hash}&coin_name=${params.coin_name}&coin_name2=${params.coin_name2}&coin_num=${params.coin_num}&day=${params.day}&end_time=${params.end_time}&start_time=${params.start_time}&lp_type=${params.lp_type}&text=${params.text}&ttc_num=${params.ttc_num}&type=${params.type}`,
+    {
+      method: 'post',
+      // body: JSON.stringify(params),
+    },
+  )
   if (res.ok) {
     const json = await res.json()
 
@@ -58,6 +59,7 @@ export interface ActionButtonProps {
   start_time: any
   end_time: any
   initData: any
+  disabled: boolean
 }
 
 const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
@@ -72,7 +74,7 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
   coin1_coin2_price,
   text,
   day,
-
+  disabled,
   initData,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -112,6 +114,7 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
       toastError('TTC余额不足')
       return
     }
+    setIsLoading(true)
     const receipt = await fetchWithCatchTxError(() => {
       return onCreate(coin_num)
     })
@@ -152,6 +155,7 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
     const data = await handleCreateApi(params)
     if (data.status) {
       toastSuccess(t(data.msg))
+      setIsLoading(false)
       // setSecondsRemaining(120)
       // openCountDown()
     } else {
@@ -168,7 +172,7 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
           isLoading={isLoading}
           endIcon={isLoading ? <AutoRenewIcon spin color="currentColor" /> : null}
           // disabled={!isEmpty(formErrors)}
-          disabled={pendingTx}
+          disabled={isLoading || disabled}
           onClick={handleCreate}
           mb="16px"
         >

@@ -198,10 +198,10 @@ const CreateProposal = ({ initData }) => {
   } = state
   const formErrors = getFormErrors(state, t)
   const durations = [
-    {
-      val: 1,
-      name: '1天',
-    },
+    // {
+    //   val: 1,
+    //   name: '1天',
+    // },
     {
       val: 7,
       name: '7天',
@@ -319,7 +319,7 @@ const CreateProposal = ({ initData }) => {
   const getYearProfit = (put, day) => {
     console.log('_year_profit==', put, day)
     let _year_profit = ((1 + put / 100) / day) * 365
-    setYearProfit(_year_profit / 100)
+    setYearProfit(_year_profit)
   }
 
   const handleEasyMdeChange = (value: string) => {
@@ -356,57 +356,6 @@ const CreateProposal = ({ initData }) => {
     const data = await handlePreCreateApi(account)
     if (data.status == 1) {
       updateValue('id', data.result.id)
-    }
-  }
-
-  const handleCreate = async () => {
-    handlePreCreate()
-    const ttc_num = formattedAmounts[Field.OUTPUT]
-    if (getBalanceNumber(ttcBalance) < Number(ttcNum)) {
-      toastError('TTC余额不足')
-      return
-    }
-    const receipt = await fetchWithCatchTxError(() => {
-      return null
-    })
-    if (receipt?.status) {
-      let params = {
-        address: account,
-        coin_num: outPut,
-        coin_hash: receipt.transactionHash,
-        coin_name: coin_name,
-        coin_contract: coin_contract,
-        coin_name2: coin_name2,
-        coin_contract2: coin_contract2,
-        ttc_num: ttc_num,
-        type: coin_name2 == coin_name ? 1 : 2,
-        lp_type: 2,
-        coin1_coin2_price: coin1_coin2_price,
-        text: body,
-        day: duration,
-        id: '',
-      }
-      postCreate(params)
-      toastSuccess(
-        `${t('Staked')}!`,
-        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('Your funds have been staked in the farm')}
-        </ToastDescriptionWithTx>,
-      )
-
-      // dispatch(fetchPledgeListAsync({ account: account, params: statePledgeListParams }))
-      // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
-    }
-  }
-
-  const postCreate = async (params) => {
-    const data = await handleCreateApi(params)
-    if (data.status) {
-      toastSuccess(t(data.msg))
-      // setSecondsRemaining(120)
-      // openCountDown()
-    } else {
-      toastError(t(data.msg))
     }
   }
 
@@ -449,6 +398,7 @@ const CreateProposal = ({ initData }) => {
           })
           setCoinList(_list)
           setBalanceContract(_list[0].value.field)
+          updateValue('coin_contract', _list[0].value.field)
           setLoading(false)
         }
       }
@@ -467,7 +417,7 @@ const CreateProposal = ({ initData }) => {
             <Box mb="24px">
               <Flex justifyContent="space-between">
                 <SecondaryLabel>{t('质押币种')}</SecondaryLabel>
-                <RenderSelect contract={balanceContract} />
+                {/* <RenderSelect contract={balanceContract} /> */}
                 {/* {balanceContract} */}
               </Flex>
               <Select
@@ -479,7 +429,12 @@ const CreateProposal = ({ initData }) => {
               />
             </Box>
             <Box mb="24px">
-              <SecondaryLabel>{t('产出币种')}</SecondaryLabel>
+              <Flex justifyContent="space-between">
+                <SecondaryLabel>{t('产出币种')}</SecondaryLabel>
+                <RenderSelect contract={balanceContract} />
+                {/* {balanceContract} */}
+              </Flex>
+
               <Select
                 options={coinList}
                 zIndex={89}
@@ -499,6 +454,7 @@ const CreateProposal = ({ initData }) => {
                 onChange={handleChange}
                 required
               />
+
               {formErrors.outPut && fieldsState.outPut && <FormErrors errors={formErrors.outPut} />}
             </Box>
             <Box mb="24px">
@@ -626,6 +582,7 @@ const CreateProposal = ({ initData }) => {
                   coin1_coin2_price={coin1_coin2_price}
                   start_time={combineDateAndTime(startDate, startTime)}
                   end_time={combineDateAndTime(endDate, endTime)}
+                  disabled={!endDate || !outPut || !startDate || !coin1_coin2_price}
                   initData={initData}
                 ></ActionButton>
               </>

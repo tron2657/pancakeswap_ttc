@@ -102,7 +102,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
     },
   ]
   const [activeIndex, setActiveIndex] = useState(0)
-  const [selectDuration, setselectDuration] = useState(1)
+  const [selectDuration, setselectDuration] = useState(detail['day'])
   const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
   const [ttcNum, setTTCNum] = useState('')
   const { balance: lpBalance } = useTokenBalance(detail['coin_contract'])
@@ -123,8 +123,8 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
   }, [fullBalance, setVal])
 
   const handleTabClick = (newIndex: number) => {
-    setActiveIndex(newIndex)
-    setselectDuration(durations[newIndex].val)
+    // setActiveIndex(newIndex)
+    // setselectDuration(durations[newIndex].val)
   }
 
   const handlePlwdge = () => {}
@@ -159,7 +159,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
   }, [])
 
   return (
-    <Modal title={t('Stake LP tokens')} onDismiss={onDismiss}>
+    <Modal title={`${t('Stake')}${detail['coin_name2']}`} onDismiss={onDismiss}>
       <ModalInput
         value={val}
         onSelectMax={handleSelectMax}
@@ -203,15 +203,15 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
               {t('ROI at current rates')}
             </Text>
             <Text fontSize="12px" color="textSubtle">
-              100%
+              {Number(val) * Number(detail['profit'])}
             </Text>
           </RoiCardInner>
         </RoiCardWrapper>
       </Flex>
       <ModalActions>
-        <Button variant="secondary" onClick={onDismiss} width="100%" disabled={pendingTx}>
+        {/* <Button variant="secondary" onClick={onDismiss} width="100%" disabled={pendingTx}>
           {t('Cancel')}
-        </Button>
+        </Button> */}
         {pendingTx ? (
           <Button width="100%" isLoading={pendingTx} endIcon={<AutoRenewIcon spin color="currentColor" />}>
             {t('Confirming')}

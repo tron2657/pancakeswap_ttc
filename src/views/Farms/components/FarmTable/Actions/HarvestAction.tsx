@@ -76,10 +76,10 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({ farm }) =>
           <ActionContainer>
             <ActionTitles>
               <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="4px">
-                TTC
+                {farm['coin_name']}
               </Text>
               <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-                {t('Earned')}
+                {t('提取')}
               </Text>
             </ActionTitles>
             <ActionContent>

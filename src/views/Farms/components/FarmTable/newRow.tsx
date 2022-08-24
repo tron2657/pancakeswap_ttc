@@ -114,16 +114,14 @@ const NewRow: React.FC<NewRowProps> = (props) => {
               width={40}
               height={40}
             ></StakeTokenImage>
-            <Text>
-              {details['coin_name']}-{details['coin_name2']}
-            </Text>
+            <Text>{details['coin_name2']}</Text>
           </Flex>
 
           {details['is_t'] ? <CoreTag marginRight="16px" scale="sm" /> : null}
         </Flex>
         <Flex mt="15px" justifyContent="space-around" alignItems="center" onClick={toggleActionPanel}>
-          <Flex width="30%" flexDirection="column" alignItems="flex-start">
-            <Text>已赚取</Text>
+          <Flex width="40%" flexDirection="column" alignItems="flex-start">
+            <Text>已赚取{details['coin_name']}</Text>
             <AmountText earned={Number(details['order_sum_j'])}>{Number(details['order_sum_j']).toFixed(4)}</AmountText>
           </Flex>
           <Flex width="30%" flexDirection="column" alignItems="flex-start">

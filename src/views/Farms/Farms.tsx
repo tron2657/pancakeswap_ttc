@@ -432,10 +432,10 @@ const Farms = ({ initData, children }) => {
         <Heading scale="lg" color="text">
           {t('Stake LP tokens to earn.')}
         </Heading>
-        <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>
+        <NextLinkFromReactRouter to="/add/BNB/BNB" prefetch={false}>
           <Button p="0" variant="text">
             <Text color="primary" bold fontSize="16px" mr="4px">
-              {t('Community Auctions')}
+              {t('去添加流动性')}
             </Text>
             <ArrowForwardIcon color="primary" />
           </Button>

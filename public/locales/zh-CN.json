@@ -974,7 +974,7 @@
   "Setting a high slippage tolerance can help transactions succeed, but you may not get such a good price. Use with caution.": "设置较高的滑点容差可以帮助交易成功，但您可能无法获得如此优惠的价格。请谨慎使用。",
   "Bypasses confirmation modals and allows high slippage trades. Use at your own risk.": "绕过确认模式并允许高滑点交易。使用风险自负。",
   "Fun sounds to make a truly immersive pancake-flipping trading experience": "在交易时让用户身临其境地体验到煎饼翻转的有趣提示音",
-  "ROI at current rates": "当前汇率下的投资回报率",
+  "ROI at current rates": "当前汇率下的投资回报",
   "Farm Multiplier": "农场倍数",
   "“My Balance” here includes both LP Tokens in your wallet, and LP Tokens already staked in this farm.": "此处的“我的余额”包含您钱包中的 LP 代币和已质押在此农场中的 LP 代币。",
   "“My Balance” here includes both %assetSymbol% in your wallet, and %assetSymbol% already staked in this pool.": "此处的“我的余额”包含您钱包中的 %assetSymbol% 和已质押在此糖浆池中的 %assetSymbol%。",

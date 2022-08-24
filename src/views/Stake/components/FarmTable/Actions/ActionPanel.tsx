@@ -176,6 +176,10 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details, userD
                     {format(Number(farm['end_time']) * 1000, 'yyyy-MM-dd HH:mm:ss')}
                   </ThemeValueWrapper>
                 </ValueWrapper>
+                <ValueWrapper>
+                  <Text>{t('说明')}</Text>
+                  <ThemeValueWrapper>{farm['info']}</ThemeValueWrapper>
+                </ValueWrapper>
               </>
             )}
           </ValueContainer>

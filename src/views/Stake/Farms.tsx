@@ -307,14 +307,14 @@ const Farms = ({ initData, children }) => {
         <Heading scale="lg" color="text">
           {t('高年化率，低风险。')}
         </Heading>
-        <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>
+        {/* <NextLinkFromReactRouter to="/farms/auction" prefetch={false}>
           <Button p="0" variant="text">
             <Text color="primary" bold fontSize="16px" mr="4px">
               {t('Community Auctions')}
             </Text>
             <ArrowForwardIcon color="primary" />
           </Button>
-        </NextLinkFromReactRouter>
+        </NextLinkFromReactRouter> */}
       </PageHeader>
       <Page>
         <ControlContainer>
@@ -418,7 +418,9 @@ const Farms = ({ initData, children }) => {
           </Flex>
         )}
         <Link href="/stake/manage" passHref>
-          <Text textAlign="center">管理糖浆池</Text>
+          <Text textAlign="center" color="primary">
+            管理糖浆池
+          </Text>
         </Link>
         <div ref={observerRef} />
         <StyledImage src="/images/decorations/3dpan.png" alt="Pancake illustration" width={120} height={103} />
