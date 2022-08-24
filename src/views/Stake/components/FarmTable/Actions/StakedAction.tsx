@@ -84,7 +84,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
       return onStake(amount)
     })
     if (receipt?.status) {
-      postStake(amount, '0.00001', duration, id, receipt.transactionHash)
+      postStake(amount, ttcNum, duration, id, receipt.transactionHash)
       toastSuccess(
         `${t('Staked')}!`,
         <ToastDescriptionWithTx txHash={receipt.transactionHash}>

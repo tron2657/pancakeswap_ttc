@@ -141,7 +141,7 @@ const NewRow: React.FC<NewRowProps> = (props) => {
           </Flex>
           <Flex width="30%" flexDirection="column" alignItems="center">
             <Text>年利化率</Text>
-            <Text textAlign="center">{Number(details['year_profit']).toFixed(2)}%</Text>
+            <Text textAlign="center">{Number(details['year_profit'] * 100).toFixed(2)}%</Text>
             {/* <ThemeText>{details['year_profit']}</ThemeText> */}
           </Flex>
           <Box width="30%">
