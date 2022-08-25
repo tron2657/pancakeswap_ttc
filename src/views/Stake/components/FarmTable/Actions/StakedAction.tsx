@@ -55,7 +55,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
   const { toastSuccess, toastError } = useToast()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { account } = useWeb3React()
-  const { onStake } = useStakeFarms(farm['put_address'], farm['from_address3'])
+  const { onStake } = useStakeFarms(farm['coin_contract2'], farm['put_address'])
   const router = useRouter()
   // const initData = useFetchInitData()
   // console.log('initData===', initData)

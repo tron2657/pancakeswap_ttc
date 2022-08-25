@@ -320,7 +320,7 @@ const CreateProposal = ({ initData, createPost }) => {
   const getYearProfit = (put, day) => {
     console.log('_year_profit==', put, day)
     let _year_profit = ((1 + put / 100) / day) * 365
-    setYearProfit(_year_profit * 100)
+    setYearProfit(_year_profit)
   }
 
   const handleEasyMdeChange = (value: string) => {
