@@ -194,6 +194,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
             width="100%"
             onClick={onPresentDeposit}
             variant="secondary"
+            disabled={farm['status'] != 2}
             // disabled={['history', 'archived'].some((item) => router.pathname.includes(item))}
           >
             {t('Stake')}

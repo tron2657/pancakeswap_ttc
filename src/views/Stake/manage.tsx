@@ -223,8 +223,11 @@ const StakeManage = () => {
                       <Text>
                         质押{item.coin_name}赚取{item.coin_name2}
                         <Text color="textSubtle" fontSize="14px" display="inline-block">
-                          ({new Date().getTime() < item.start_time ? '未开始' : ''}
-                          {new Date().getTime() > item.end_time ? '已结束' : ''})
+                          {/* ({new Date().getTime() < Number(item['start_time']) * 1000 ? '未开始' : ''}
+                          {new Date().getTime() > Number(item['end_time']) * 1000 ? '已结束' : ''}) */}
+                          {item['status'] == 99 ? '(未开始)' : ''}
+                          {item['status'] == 2 ? '(进行中)' : ''}
+                          {item['status'] == 4 ? '(已结束)' : ''}
                         </Text>
                       </Text>
                     </Flex>

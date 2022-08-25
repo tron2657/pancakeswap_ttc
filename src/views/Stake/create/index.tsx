@@ -409,7 +409,7 @@ const CreateProposal = ({ initData }) => {
   ) : (
     <Container py="40px">
       <AppBody>
-        <AppHeader backTo="/stake/create" title={t('创建糖浆池')} subtitle={t('创建糖浆池 发起质押活动')} noConfig />
+        <AppHeader backTo="/stake/manage" title={t('创建糖浆池')} subtitle={t('创建糖浆池 发起质押活动')} noConfig />
         <Body>
           <form onSubmit={handleSubmit}>
             <Box mb="24px">

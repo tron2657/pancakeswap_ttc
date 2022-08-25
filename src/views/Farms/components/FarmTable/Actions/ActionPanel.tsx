@@ -171,6 +171,12 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details, userD
                   <ThemeValueWrapper>{farm['in_coin_num']}</ThemeValueWrapper>
                 </ValueWrapper>
                 <ValueWrapper>
+                  <Text>{t('开始时间')}</Text>
+                  <ThemeValueWrapper>
+                    {format(Number(farm['start_time']) * 1000, 'yyyy-MM-dd HH:mm:ss')}
+                  </ThemeValueWrapper>
+                </ValueWrapper>
+                <ValueWrapper>
                   <Text>{t('结束时间')}</Text>
                   <ThemeValueWrapper>
                     {format(Number(farm['end_time']) * 1000, 'yyyy-MM-dd HH:mm:ss')}
