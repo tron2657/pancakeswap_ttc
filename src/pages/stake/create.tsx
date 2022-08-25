@@ -16,6 +16,19 @@ const getInitDataApi = async (account: string) => {
   return null
 }
 
+const handlePreCreateApi = async (account) => {
+  const res = await fetch(`${PLEDGE_API}/pledge/pledge?address=${account}`, {
+    method: 'get',
+  })
+  if (res.ok) {
+    const json = await res.json()
+
+    return json
+  }
+  console.error('Failed to fetch', res.statusText)
+  return null
+}
+
 const getCoinListApi = async (account: string) => {
   const res = await fetch(`${PLEDGE_API}/pledge/coin_list`, {
     method: 'get',
@@ -48,6 +61,7 @@ const CreateStakePage = () => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
   const [coinList, setCoinList] = useState([])
+  const [createPost, setCreatePost] = useState({})
   const { account } = useWeb3React()
   useEffect(() => {
     async function init() {
@@ -64,13 +78,18 @@ const CreateStakePage = () => {
           // console.log('ttc_num===', ttc_num)
           console.log('initData====', _data)
           setData(_data.result)
-
+        }
+        const _post = await handlePreCreateApi(account)
+        if (_post.status == 1) {
+          setCreatePost(_post.result)
+          console.log('createPost===', _post.result)
           setLoading(false)
+          // updateValue('putAddress', data.result.put_address)
         }
       }
     }
     init()
   }, [account])
-  return loading ? <PageLoader></PageLoader> : <CreateStake initData={data}></CreateStake>
+  return loading ? <PageLoader></PageLoader> : <CreateStake createPost={createPost} initData={data}></CreateStake>
 }
 export default CreateStakePage

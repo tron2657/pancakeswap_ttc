@@ -237,7 +237,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
           {t('预期年利化率')}
         </Text>
         <Text color="textSubtle" bold fontSize="12px" textTransform="uppercase">
-          {Number(detail['year_profit']) * 100}%
+          {Number(detail['year_profit'])}%
         </Text>
       </Flex>
       {/* <LinkExternal href={addLiquidityUrl} style={{ alignSelf: 'center' }}>

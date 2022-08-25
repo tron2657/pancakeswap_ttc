@@ -60,6 +60,7 @@ export interface ActionButtonProps {
   end_time: any
   initData: any
   disabled: boolean
+  createPost: any
 }
 
 const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
@@ -76,6 +77,7 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
   day,
   disabled,
   initData,
+  createPost,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
   const { t } = useTranslation()
@@ -93,8 +95,8 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
   const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
   const [ttcNum, setTTCNum] = useState('')
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
-  console.log('coin_contract===', coin_contract)
-  const { onCreate } = useCreateFarms(coin_contract, initData['from_address3'])
+  console.log('createPost===', createPost)
+  const { onCreate } = useCreateFarms(coin_contract, createPost['put_address'])
 
   const handlePreCreate = async () => {
     const data = await handlePreCreateApi(account)
@@ -108,7 +110,7 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
   }
 
   const handleCreate = async () => {
-    const id = await handlePreCreate()
+    // const id = await handlePreCreate()
     const ttc_num = formattedAmounts[Field.OUTPUT]
     if (getBalanceNumber(ttcBalance) < Number(ttcNum)) {
       toastError('TTC余额不足')
@@ -133,7 +135,7 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
         coin1_coin2_price: coin1_coin2_price,
         text: text,
         day: day,
-        id: id,
+        id: createPost['id'],
         start_time: start_time,
         end_time: end_time,
       }

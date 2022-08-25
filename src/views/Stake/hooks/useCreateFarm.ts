@@ -61,7 +61,7 @@
 // // }
 
 
-import { useCallback } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { stakeFarm } from 'utils/calls'
 import BigNumber from 'bignumber.js'
 import { useMasterchef } from 'hooks/useContract'
@@ -79,10 +79,23 @@ import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useSWRContract, UseSWRContractKey } from 'hooks/useSWRContract'
 import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
+import { PLEDGE_API } from 'config/constants/endpoints'
+import { init } from '@sentry/nextjs'
+
+
 
 const useCreateFarms = (contractAddress: string, toAddress: string) => {
     const masterChefContract = useMasterchef()
+    const { account } = useWeb3React()
     const { callWithGasPrice } = useCallWithGasPrice()
+    // const [post, setPost] = useState({})
+    // useEffect(() => {
+    //     async function initData() {
+    //         const _post = await handlePreCreate(account)
+    //         setPost(_post)
+    //     }
+    //     initData()
+    // }, [post]);
     const transferContract = contractAddress
     const CreateContractApprover = useERC20(transferContract)
     const handleCreate = useCallback(

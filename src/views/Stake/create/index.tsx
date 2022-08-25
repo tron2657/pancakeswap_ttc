@@ -133,7 +133,7 @@ const RenderLabelToken = ({ coinList, coin_name2, coin_name }) => {
 //   )
 // }
 
-const CreateProposal = ({ initData }) => {
+const CreateProposal = ({ initData, createPost }) => {
   const [state, setState] = useState<FormState>(() => ({
     name: '',
     body: '',
@@ -226,6 +226,7 @@ const CreateProposal = ({ initData }) => {
   const [coinList, setCoinList] = useState([])
   const [balanceContract, setBalanceContract] = useState('')
   const [yearProfit, setYearProfit] = useState(0)
+
   const accountEllipsis = (account: string) => {
     return account ? `${account.substring(0, 4)}......${account.substring(account.length - 4)}` : null
   }
@@ -353,7 +354,10 @@ const CreateProposal = ({ initData }) => {
   const handlePreCreate = async () => {
     const data = await handlePreCreateApi(account)
     if (data.status == 1) {
-      updateValue('id', data.result.id)
+      updateValue('createPost', data.result)
+      // setCreatePost(data.result)
+      console.log('createPost===', data.result)
+      // updateValue('putAddress', data.result.put_address)
     }
   }
 
@@ -582,6 +586,7 @@ const CreateProposal = ({ initData }) => {
                   end_time={combineDateAndTime(endDate, endTime)}
                   disabled={!endDate || !outPut || !startDate || !coin1_coin2_price}
                   initData={initData}
+                  createPost={createPost}
                 ></ActionButton>
               </>
             ) : (
