@@ -173,7 +173,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details, userD
                 <ValueWrapper>
                   <Text>{t('开始时间')}</Text>
                   <ThemeValueWrapper>
-                    {/* {format(Number(farm['start_time']) * 1000, 'yyyy-MM-dd HH:mm:ss')} */}
+                    {format(Number(farm['start_time']) * 1000, 'yyyy-MM-dd HH:mm:ss')}
                   </ThemeValueWrapper>
                 </ValueWrapper>
                 <ValueWrapper>
