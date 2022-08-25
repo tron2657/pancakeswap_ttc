@@ -292,30 +292,30 @@ const Mining = ({ initData, account, callback }) => {
                 {initData.coin_sum}
               </Text>
             </Flex>
-            {/* <Flex justifyContent="space-between">
+            <Flex justifyContent="space-between">
               <Text small color="textSubtle">
-                {t('剩余总量')}:
+                {t('Total remaining')}:
               </Text>
               <Text small bold>
-                {initData.coin_sum}
+                {initData.total_supply ? initData.total_supply : 0}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
               <Text small color="textSubtle">
-                {t('累积销毁')}:
+                {t('Cumulative destruction')}:
               </Text>
               <Text small bold>
-                {initData.coin_sum}
+                {initData.total_burn ? initData.total_burn : 0}
               </Text>
             </Flex>
             <Flex justifyContent="space-between">
               <Text small color="textSubtle">
-                {t('分红奖金池')}:
+                {t('Dividend bonus pool')}:
               </Text>
               <Text small bold>
-                {initData.coin_sum}
+                {initData.pool ? initData.pool : 0}
               </Text>
-            </Flex> */}
+            </Flex>
             <Flex justifyContent="space-between">
               <Text small color="textSubtle">
                 {t('Daily Output')}:
