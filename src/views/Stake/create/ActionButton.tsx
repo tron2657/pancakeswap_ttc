@@ -93,8 +93,8 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
   const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
   const [ttcNum, setTTCNum] = useState('')
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
-  console.log('coin_contract2===', coin_contract2)
-  const { onCreate } = useCreateFarms(coin_contract2, initData['from_address3'])
+  console.log('coin_contract===', coin_contract)
+  const { onCreate } = useCreateFarms(coin_contract, initData['from_address3'])
 
   const handlePreCreate = async () => {
     const data = await handlePreCreateApi(account)
@@ -149,9 +149,11 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
       // dispatch(fetchPledgeListAsync({ account: account, params: statePledgeListParams }))
       // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
     }
+    setIsLoading(false)
   }
 
   const postCreate = async (params) => {
+    setIsLoading(true)
     const data = await handleCreateApi(params)
     if (data.status) {
       toastSuccess(t(data.msg))
