@@ -186,7 +186,7 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({ details, userD
                   <Text>{t('说明')}</Text>
                   <ThemeValueWrapper isBlock={true}>{farm['info']}</ThemeValueWrapper>
                 </ValueWrapper>
-                <Text>{farm['info']}</Text>
+                {/* <Text>{farm['info']}</Text> */}
               </>
             )}
           </ValueContainer>
