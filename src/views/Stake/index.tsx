@@ -19,12 +19,12 @@ const getInitDataApi = async (account: string) => {
 }
 
 const getRegtApi = async (account: string) => {
-  const res = await fetch(`${PLEDGE_API}/user/app_reg`, {
+  const res = await fetch(`${PLEDGE_API}/user/app_reg?address=${account}&ttc_num=0`, {
     method: 'post',
-    body: JSON.stringify({
-      address: account,
-      ttc_num: 0,
-    }),
+    // body: JSON.stringify({
+    //   address: account,
+    //   ttc_num: 0,
+    // }),
   })
   if (res.ok) {
     const json = await res.json()

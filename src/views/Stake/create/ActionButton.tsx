@@ -95,8 +95,8 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
   const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
   const [ttcNum, setTTCNum] = useState('')
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
-  console.log('createPost===', createPost)
-  const { onCreate } = useCreateFarms(coin_contract, createPost['put_address'])
+  console.log('createPost===', day)
+  const { onCreate } = useCreateFarms(coin_contract, initData['put_address'])
 
   const handlePreCreate = async () => {
     const data = await handlePreCreateApi(account)
@@ -112,45 +112,48 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({
   const handleCreate = async () => {
     // const id = await handlePreCreate()
     const ttc_num = formattedAmounts[Field.OUTPUT]
-    if (getBalanceNumber(ttcBalance) < Number(ttcNum)) {
+    console.log('ttc==', getBalanceNumber(ttcBalance), Number(ttc_num))
+    if (getBalanceNumber(ttcBalance) < Number(ttc_num)) {
       toastError('TTC余额不足')
       return
     }
+
     setIsLoading(true)
     const receipt = await fetchWithCatchTxError(() => {
       return onCreate(coin_num)
     })
     if (receipt?.status) {
-      let params = {
-        address: account,
-        coin_num: coin_num,
-        coin_hash: receipt.transactionHash,
-        coin_name: coin_name,
-        coin_contract: coin_contract,
-        coin_name2: coin_name2,
-        coin_contract2: coin_contract2,
-        ttc_num: ttc_num,
-        type: coin_name2 == coin_name ? 1 : 2,
-        lp_type: 2,
-        coin1_coin2_price: coin1_coin2_price,
-        text: text,
-        day: day,
-        id: createPost['id'],
-        start_time: start_time,
-        end_time: end_time,
-      }
-      console.log('post==params', params)
-      await postCreate(params)
-      toastSuccess(
-        `${t('Created')}!`,
-        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('Your funds have been staked in the farm')}
-        </ToastDescriptionWithTx>,
-      )
-
-      // dispatch(fetchPledgeListAsync({ account: account, params: statePledgeListParams }))
-      // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
     }
+    let params = {
+      address: account,
+      coin_num: coin_num,
+      coin_hash: receipt.transactionHash,
+      coin_name: coin_name,
+      coin_contract: coin_contract,
+      coin_name2: coin_name2,
+      coin_contract2: coin_contract2,
+      ttc_num: ttc_num,
+      type: coin_name2 == coin_name ? 1 : 2,
+      lp_type: 2,
+      coin1_coin2_price: coin1_coin2_price,
+      text: text,
+      day: day,
+      // id: id,
+      start_time: start_time,
+      end_time: end_time,
+    }
+    console.log('post==params', params)
+    await postCreate(params)
+    toastSuccess(
+      `${t('Created')}!`,
+      <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+        {t('Your funds have been staked in the farm')}
+      </ToastDescriptionWithTx>,
+    )
+
+    // dispatch(fetchPledgeListAsync({ account: account, params: statePledgeListParams }))
+    // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
+
     setIsLoading(false)
   }
 

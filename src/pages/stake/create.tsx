@@ -42,12 +42,12 @@ const getCoinListApi = async (account: string) => {
 }
 
 const getRegtApi = async (account: string) => {
-  const res = await fetch(`${PLEDGE_API}/user/app_reg`, {
+  const res = await fetch(`${PLEDGE_API}/user/app_reg?address=${account}&ttc_num=0`, {
     method: 'post',
-    body: JSON.stringify({
-      address: account,
-      ttc_num: 0,
-    }),
+    // body: JSON.stringify({
+    //   address: account,
+    //   ttc_num: 0,
+    // }),
   })
   if (res.ok) {
     const json = await res.json()
@@ -78,14 +78,16 @@ const CreateStakePage = () => {
           // console.log('ttc_num===', ttc_num)
           console.log('initData====', _data)
           setData(_data.result)
-        }
-        const _post = await handlePreCreateApi(account)
-        if (_post.status == 1) {
-          setCreatePost(_post.result)
-          console.log('createPost===', _post.result)
           setLoading(false)
-          // updateValue('putAddress', data.result.put_address)
         }
+        // const _post = await handlePreCreateApi(account)
+
+        // if (_post.status == 1) {
+        //   setCreatePost(_post.result)
+        //   console.log('createPost===', _post.result)
+        //   setLoading(false)
+        //   // updateValue('putAddress', data.result.put_address)
+        // }
       }
     }
     init()

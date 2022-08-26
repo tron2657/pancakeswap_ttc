@@ -144,7 +144,7 @@ const CreateProposal = ({ initData, createPost }) => {
     endTime: null,
     snapshot: 0,
     outPut: 0,
-    duration: 1,
+    duration: 7,
     coin_name: '',
     coin_contract: '',
     coin_name2: '',
@@ -221,7 +221,7 @@ const CreateProposal = ({ initData, createPost }) => {
   ]
   const [loading, setLoading] = useState(true)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [selectDuration, setselectDuration] = useState(1)
+  const [selectDuration, setselectDuration] = useState(7)
   const sortByItems = [{ label: t('选择质押币种'), value: { field: '', direction: '' } }]
   const [coinList, setCoinList] = useState([])
   const [balanceContract, setBalanceContract] = useState('')
@@ -400,6 +400,7 @@ const CreateProposal = ({ initData, createPost }) => {
           })
           setCoinList(_list)
           setBalanceContract(_list[0].value.field)
+
           updateValue('coin_contract', _list[0].value.field)
           setLoading(false)
         }
