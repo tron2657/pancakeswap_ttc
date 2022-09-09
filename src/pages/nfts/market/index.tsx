@@ -1,7 +1,7 @@
-import NftMarket from 'views/Nft/market/Collection'
+import NftCardMarket from 'views/Nft/cardMarket'
 
-const NftMarketPage = () => {
-  return <NftMarket />
+const NftCardMarketPage = () => {
+  return <NftCardMarket />
 }
 
-export default NftMarketPage
+export default NftCardMarketPage

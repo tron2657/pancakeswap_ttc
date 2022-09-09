@@ -38,7 +38,7 @@ const farms: SerializedFarmConfig[] = [
     lpSymbol: 'TTC-USDT LP',
 
     lpAddresses: {
-      97: '',
+      97: '0x3fb910f48b36e692740de377652a034a8448b753',
       56: '0x3fb910f48b36e692740de377652a034a8448b753',
     },
     token: serializedTokens.ttc,

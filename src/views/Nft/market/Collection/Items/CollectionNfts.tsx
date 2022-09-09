@@ -14,7 +14,7 @@ const CollectionNfts: React.FC<CollectionNftsProps> = ({ collection }) => {
   const { address: collectionAddress } = collection || {}
   const { t } = useTranslation()
   const { nfts, isFetchingNfts, page, setPage, resultSize, isLastPage } = useCollectionNfts(collectionAddress)
-
+  console.log('nfts===', nfts)
   const handleLoadMore = useCallback(() => {
     setPage(page + 1)
   }, [setPage, page])

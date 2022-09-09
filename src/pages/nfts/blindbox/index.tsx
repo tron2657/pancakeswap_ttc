@@ -1,4 +1,4 @@
-import Fragment from 'views/Nft/fragments'
+import BlindBox from 'views/Nft/blindbox'
 import { Text, Flex, Box } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 
@@ -12,12 +12,12 @@ const Wrapper = styled.div`
   flex-direction: column; */
   min-height: calc(100vh - 104px);
 `
-const FragmentPage = () => {
+const BlindBoxPage = () => {
   return (
     <Wrapper>
-      <Fragment></Fragment>
+      <BlindBox></BlindBox>
     </Wrapper>
   )
 }
 
-export default FragmentPage
+export default BlindBoxPage

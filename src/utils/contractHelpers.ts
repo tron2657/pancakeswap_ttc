@@ -31,6 +31,10 @@ import {
   getFarmAuctionAddress,
   getAnniversaryAchievement,
   getNftMarketAddress,
+  getNftStageAddress,
+  getNftStageMarketAddress,
+  getNftCardAddress,
+  getNftCardMarketAddress,
   getNftSaleAddress,
   getPancakeSquadAddress,
   getTradingCompetitionAddressFanToken,
@@ -77,6 +81,12 @@ import farmAuctionAbi from 'config/abi/farmAuction.json'
 import anniversaryAchievementAbi from 'config/abi/anniversaryAchievement.json'
 import galaxyNFTClaimingAbi from 'config/abi/galaxyNFTClaiming.json'
 import nftMarketAbi from 'config/abi/nftMarket.json'
+import nftStageAbi from 'config/abi/nftStage.json'
+import nftStageMarketAbi from 'config/abi/nftStageMarket.json'
+
+import nftCardAbi from 'config/abi/nftCard.json'
+import nftCardMarketAbi from 'config/abi/nftCardMarket.json'
+
 import nftSaleAbi from 'config/abi/nftSale.json'
 import pancakeSquadAbi from 'config/abi/pancakeSquad.json'
 import erc721CollectionAbi from 'config/abi/erc721collection.json'
@@ -113,6 +123,10 @@ import type {
   BunnySpecialLottery,
   GalaxyNFTClaiming,
   NftMarket,
+  NftStage,
+  NftStageMarket,
+  NftCard,
+  NftCardMarket, 
   NftSale,
   PancakeSquad,
   Erc721collection,
@@ -120,7 +134,7 @@ import type {
   CakeVaultV2,
   TradingCompetitionMobox,
   TradingCompetitionMoD,
- 
+
 } from 'config/abi/types'
 
 export const getContract = (abi: any, address: string, signer?: Signer | Provider) => {
@@ -248,6 +262,23 @@ export const getGalaxyNTFClaimingContract = (signer?: Signer | Provider) => {
 export const getNftMarketContract = (signer?: Signer | Provider) => {
   return getContract(nftMarketAbi, getNftMarketAddress(), signer) as NftMarket
 }
+
+export const getNftStageContract = (signer?: Signer | Provider) => {
+  return getContract(nftStageAbi, getNftStageAddress(), signer) as NftStage
+}
+
+export const getNftStageMarketContract = (signer?: Signer | Provider) => {
+  return getContract(nftStageMarketAbi, getNftStageMarketAddress(), signer) as NftStageMarket
+}
+
+export const getNftCardContract = (signer?: Signer | Provider) => {
+  return getContract(nftCardAbi, getNftCardAddress(), signer) as NftCard
+}
+
+export const getNftCardMarketContract = (signer?: Signer | Provider) => {
+  return getContract(nftCardMarketAbi, getNftCardMarketAddress(), signer) as NftCardMarket
+}
+
 export const getNftSaleContract = (signer?: Signer | Provider) => {
   return getContract(nftSaleAbi, getNftSaleAddress(), signer) as NftSale
 }

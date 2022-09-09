@@ -2139,6 +2139,14 @@ export const mainnetTokens = defineTokens({
 } as const)
 
 export const testnetTokens = defineTokens({
+  ttc: new Token(
+    TESTNET,
+    '0xcF8Af4DF25F71F5187C0B4416108f528a0a88b79',
+    18,
+    'TTC',
+    'TTC',
+    'https://ttcswap.finance/',
+  ),
   wbnb: new Token(
     TESTNET,
     '0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd',

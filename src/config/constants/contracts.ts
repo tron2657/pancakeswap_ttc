@@ -107,6 +107,22 @@ export default {
     56: '0x17539cCa21C7933Df5c980172d22659B8C345C5A',
     97: '0x7f9f37ddcaa33893f9beb3d8748c8d6bfbde6ab2',
   },
+  nftStage: {
+    56: '0xD7BD1FfD94D2cd790D2Bc7BB5960E7d5d7030De6',
+    97: '0x6c8d77A9abdde1c8e98ef6095A9Ff7558D8FCdb3',
+  },
+  nftStageMarket: {
+    56: '0xbA1f9fF7c3832e2dE0780Ca1126330753230381f',
+    97: '0xE40736f2e1bC60a7707233D6563F3BE6af19dc4C',
+  },
+  nftCard: {
+    56: '0x4e4eEb2A79Bf3D9d92C37A105EdD2B6b1393e916',
+    97: '0x6e209c59D49Ac3830948Bf674df06FcA1c3250e8',
+  },
+  nftCardMarket: {
+    56: '0x83Cef96248A13556319C329CfEC271FFB1dE2EFa',
+    97: '0xb664F73f8792fB1D103470101B2e723B16b60A7d',
+  },
   nftSale: {
     56: '0x29fE7148636b7Ae0b1E53777b28dfbaA9327af8E',
     97: '0xe486De509c5381cbdBF3e71F57D7F1f7570f5c46',
@@ -119,9 +135,9 @@ export default {
     56: '0xa9f5623e3a090adba6b69211b2ed263831c8be24',
     97: '',
   },
-  ttcTokenFactoryAddress:{
-    56:'0x85842B211301AcEbd8c77c031Fe6Bc9FFf384B62',
-    97:''
+  ttcTokenFactoryAddress: {
+    56: '0x85842B211301AcEbd8c77c031Fe6Bc9FFf384B62',
+    97: ''
   }
-  
+
 }

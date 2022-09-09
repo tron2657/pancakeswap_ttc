@@ -1,3 +1,4 @@
+import { getNftCardContract, getNftCardMarketContract } from './../utils/contractHelpers';
 import { useMemo } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import {
@@ -30,6 +31,8 @@ import {
   getBunnySpecialLotteryContract,
   getAnniversaryAchievementContract,
   getNftMarketContract,
+  getNftStageContract,
+  getNftStageMarketContract,
   getNftSaleContract,
   getPancakeSquadContract,
   getErc721CollectionContract,
@@ -276,6 +279,26 @@ export const useFarmAuctionContract = (withSignerIfPossible = true) => {
 export const useNftMarketContract = () => {
   const { library } = useActiveWeb3React()
   return useMemo(() => getNftMarketContract(library.getSigner()), [library])
+}
+
+export const useNftStageContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getNftStageContract(library.getSigner()), [library])
+}
+
+export const useNftStageMarketContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getNftStageMarketContract(library.getSigner()), [library])
+}
+
+export const useNftCardContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getNftCardContract(library.getSigner()), [library])
+}
+
+export const useNftCardMarketContract = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getNftCardMarketContract(library.getSigner()), [library])
 }
 
 export const useErc721CollectionContract = (

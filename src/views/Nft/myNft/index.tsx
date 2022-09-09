@@ -19,6 +19,7 @@ import {
   Image,
 } from '@pancakeswap/uikit'
 import { useWeb3React } from '@web3-react/core'
+import Link from 'next/link'
 
 import useSWRImmutable from 'swr/immutable'
 import orderBy from 'lodash/orderBy'
@@ -39,8 +40,14 @@ import PageLoader from 'components/Loader/PageLoader'
 import ToggleView from 'components/ToggleView/ToggleView'
 import { CollectionCard } from './components/CollectibleCard'
 import { BNBAmountLabel } from './components/CollectibleCard/styles'
-import { useNftStageContract, useNftStageMarketContract } from 'hooks/useContract'
+import {
+  useNftStageContract,
+  useNftStageMarketContract,
+  useNftCardContract,
+  useNftCardMarketContract,
+} from 'hooks/useContract'
 import BuyModal from './components/buyModal'
+import SellModal from './components/sellModal'
 
 export const ITEMS_PER_PAGE = 9
 
@@ -69,7 +76,6 @@ export const Arrow = styled.div`
     cursor: pointer;
   }
 `
-
 const StyledImage = styled(Image)`
   margin-left: auto;
   margin-right: auto;
@@ -83,7 +89,7 @@ const getNewSortDirection = (oldSortField: string, newSortField: string, oldSort
   return !oldSortDirection
 }
 
-const Fragment = () => {
+const MyNftCard = () => {
   const { account } = useWeb3React()
   const { t } = useTranslation()
   const { data: shuffledCollections } = useGetShuffledCollections()
@@ -95,7 +101,11 @@ const Fragment = () => {
   const [sortDirection, setSortDirection] = useState<boolean>(false)
   const nftStageMarketContract = useNftStageMarketContract()
   const nftStageContract = useNftStageContract()
+  const nftCardContract = useNftCardContract()
+  const nftCardMarketContract = useNftCardMarketContract()
   const [isLoading, setIsLoading] = useState(false)
+  const [nftCardList, setNftCardList] = useState([])
+
   const [stageList, setStageList] = useState([])
   const { data: collections = [], status } = useSWRImmutable<
     (Collection & Partial<{ lowestPrice: number; highestPrice: number }>)[]
@@ -147,6 +157,14 @@ const Fragment = () => {
     setIsLoading(false)
   }
 
+  const getAllNftCard = async () => {
+    setIsLoading(true)
+    const nftCards = await nftCardContract.getAllToken(account, 100)
+    console.log('log====nftCards', nftCards)
+    setNftCardList(nftCards)
+    setIsLoading(false)
+  }
+
   const getMetaData = async (url) => {
     const res = await fetch(url, {
       method: 'get',
@@ -172,7 +190,7 @@ const Fragment = () => {
 
   useEffect(() => {
     if (account) {
-      fetchMarketItems()
+      getAllNftCard()
     }
   }, [account])
 
@@ -192,13 +210,13 @@ const Fragment = () => {
     )
   }, [account, collections, sortField, sortDirection])
 
-  const RenderBuyBtn = ({ nft, metaData, callback }) => {
-    const [onPresentBuyModal, closePresentBuyModal] = useModal(
-      <BuyModal nft={nft} metaData={metaData} customOnDismiss={fetchMarketItems} />,
+  const RenderSellBtn = ({ nft, metaData, callback }) => {
+    const [onPresentSellModal, closePresentSellModal] = useModal(
+      <SellModal tokenId={nft.toString()} customOnDismiss={callback} />,
     )
     return (
-      <Button as="a" scale="sm" height="28px" padding="0 12px" disabled={nft['sold']} onClick={onPresentBuyModal}>
-        {nft['sold'] ? t('已售') : t('Buy')}
+      <Button as="a" scale="sm" height="28px" padding="0 12px" disabled={nft['sold']} onClick={onPresentSellModal}>
+        {t('Sell')}
       </Button>
     )
   }
@@ -207,11 +225,13 @@ const Fragment = () => {
     const [metaData, setMetaData] = useState(null)
     useEffect(() => {
       const handleGetMetaData = async () => {
-        const url = await nftStageContract.tokenURI(item['tokenId'].toNumber())
+        const url = await nftCardContract.tokenURI(item)
         const metaData = await getMetaData(url)
         setMetaData(metaData)
       }
-      handleGetMetaData()
+      if (account) {
+        handleGetMetaData()
+      }
     }, [account])
 
     return (
@@ -220,6 +240,14 @@ const Fragment = () => {
         avatarSrc={metaData ? metaData.image : ''}
         collectionName={metaData ? metaData.name : ''}
         description={metaData ? metaData.description : ''}
+        url={
+          '/nfts/myNft/' +
+          item.toString() +
+          '?nft=' +
+          JSON.stringify({
+            tokenId: item.toString(),
+          })
+        }
       >
         <Text fontSize="12px" color="textSubtle" mt="5px">
           {t('Price')}
@@ -234,11 +262,7 @@ const Fragment = () => {
             </Text>
           </Box>
           {/* <BNBAmountLabel amount={collection.totalVolumeBNB ? parseFloat(collection.totalVolumeBNB) : 0} /> */}
-          {item.seller == account ? (
-            <></>
-          ) : (
-            <RenderBuyBtn nft={item} metaData={metaData} callback={fetchMarketItems}></RenderBuyBtn>
-          )}
+          <RenderSellBtn nft={item} metaData={metaData} callback={getAllNftCard}></RenderSellBtn>
         </Flex>
       </CollectionCard>
     )
@@ -247,13 +271,13 @@ const Fragment = () => {
     <>
       <PageHeader>
         <Heading as="h1" scale="xxl" color="secondary" mb="24px" data-test="nft-collections-title">
-          获取碎片
+          NFT交易市場
         </Heading>
-        <Heading scale="md">碎片獲取后自動挂賣</Heading>
-        <NextLinkFromReactRouter to="/nfts/blindbox" prefetch={false}>
+
+        <NextLinkFromReactRouter to="/nfts/market" prefetch={false}>
           <Button p="0" variant="text">
             <Text color="primary" bold fontSize="16px" mr="4px">
-              開啓碎片盲盒
+              回交易市场
             </Text>
             <ArrowForwardIcon color="primary" />
           </Button>
@@ -324,11 +348,12 @@ const Fragment = () => {
               {/* {sortedCollections.slice(ITEMS_PER_PAGE * (page - 1), page * ITEMS_PER_PAGE).map((collection) => {
                
               })} */}
-              {stageList.map((item) => {
-                return <RenderItem item={item} callback={fetchMarketItems}></RenderItem>
+              {nftCardList.map((item) => {
+                return <RenderItem item={item} callback={getAllNftCard}></RenderItem>
               })}
             </Grid>
             <StyledImage src="/images/decorations/ttcpan.png" alt="Pancake illustration" width={120} height={103} />
+
             {/* <PageButtons>
               <Arrow
                 onClick={() => {
@@ -353,4 +378,4 @@ const Fragment = () => {
   )
 }
 
-export default Fragment
+export default MyNftCard

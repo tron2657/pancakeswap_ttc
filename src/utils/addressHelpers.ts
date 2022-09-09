@@ -1,3 +1,4 @@
+import { NftStageMarket } from './../config/abi/types/NftStageMarket';
 import { ChainId } from 'ttcswap-sdk'
 import addresses from 'config/constants/contracts'
 import { Address } from 'config/constants/types'
@@ -95,15 +96,32 @@ export const getGalaxyNFTClaimingAddress = () => {
 export const getNftMarketAddress = () => {
   return getAddress(addresses.nftMarket)
 }
+
+export const getNftStageAddress = () => {
+  return getAddress(addresses.nftStage)
+}
+
+export const getNftStageMarketAddress = () => {
+  return getAddress(addresses.nftStageMarket)
+}
+
+export const getNftCardAddress = () => {
+  return getAddress(addresses.nftCard)
+}
+
+export const getNftCardMarketAddress = () => {
+  return getAddress(addresses.nftCardMarket)
+}
+
 export const getNftSaleAddress = () => {
   return getAddress(addresses.nftSale)
 }
 export const getPancakeSquadAddress = () => {
   return getAddress(addresses.pancakeSquad)
 }
-export const getTtcMiningAddress=()=>{
+export const getTtcMiningAddress = () => {
   return getAddress(addresses.ttcMiningAddress);
 }
-export const getTokenFactoryAddress=()=>{
+export const getTokenFactoryAddress = () => {
   return getAddress(addresses.ttcTokenFactoryAddress);
 }
