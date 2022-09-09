@@ -64,7 +64,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
   const nftStageMarketContract = useNftStageMarketContract()
   const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
   const { balance: usdtBalance } = useTokenBalance(tokens.ttc.address)
-
+  console.log('log=====balance', ttcBalance.toNumber())
   const { toastSuccess } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
@@ -184,17 +184,17 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
                 <ConnectWalletButton scale="sm" />
               </Flex>
             ) : (
-              getBalanceNumber(usdtBalance)
+              getBalanceNumber(ttcBalance)
             )}
           </Flex>
         </BorderedBox>
-        <Message p="8px" variant="danger">
+        {/* <Message p="8px" variant="danger" >
           <Text>
             {t('Not enough %symbol% to purchase this NFT', {
               symbol: 'TTC',
             })}
           </Text>
-        </Message>
+        </Message> */}
         <Flex flexDirection="column" pt="16px" alignItems="center">
           {isTTCApproved ? (
             <Button

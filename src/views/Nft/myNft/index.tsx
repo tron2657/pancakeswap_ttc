@@ -215,7 +215,7 @@ const MyNftCard = () => {
       <SellModal tokenId={nft.toString()} customOnDismiss={callback} />,
     )
     return (
-      <Button as="a" scale="sm" height="28px" padding="0 12px" disabled={nft['sold']} onClick={onPresentSellModal}>
+      <Button as="a" scale="sm" height="28px" padding="0 12px" disabled={nft['sold']}>
         {t('Sell')}
       </Button>
     )

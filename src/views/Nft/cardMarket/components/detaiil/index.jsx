@@ -201,7 +201,7 @@ const NftCardDetail = ({ tokenId, nft }) => {
                         {t('您已成功购买!', { symbol: 'TTC' })}
                     </ToastDescriptionWithTx>,
                 )
-                router.push('/nft/market')
+                router.push('/nfts/market')
             }
         }
         return (

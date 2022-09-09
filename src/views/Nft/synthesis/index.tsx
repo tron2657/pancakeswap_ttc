@@ -126,13 +126,13 @@ const Synthesis = () => {
 
     const getAllNftStage = async (itemId) => {
       const items = await nftStageContract.getCardAllSubNft(itemId, account, 100)
-      console.log('log====items', items)
+      console.log('log====getAllNftStage', items)
       setStageLis(items)
     }
 
     const getCardToStageData = async (cardId) => {
       const stages = await nftCardContract.getCardToStageData(cardId)
-      console.log('log====stages', stages)
+      console.log('log====stages', cardId, stages)
       setNeedStageLis(stages)
     }
 
@@ -165,7 +165,10 @@ const Synthesis = () => {
               <FlexWrapper flexDirection="column" justifyContent="center" alignItems="center" mb={10} mr={10}>
                 <Box className="img-wrapper">
                   {/* <img className="img-small" src="/images/blindbox.jpg" /> */}
-                  <RenderNftStage itemId={item}></RenderNftStage>
+                  {/* <RenderNftStage itemId={item}></RenderNftStage> */}
+                  {stageList.map((stage, indexStage) => {
+                    return indexStage == index ? <RenderNftStage itemId={stage}></RenderNftStage> : null
+                  })}
                 </Box>
                 <Box>
                   <Text color="text" fontSize={12}>

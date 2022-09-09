@@ -60,6 +60,7 @@ const BlindBox = () => {
   const [nftList, setNftList] = useState([])
   const [canOpen, setCanOpen] = useState(false)
   const [isOpened, setIsOpend] = useState(false)
+  const [blindUri, setBlindUri] = useState('')
   const nftStageContract = useNftStageContract()
   const handleOpneBox = async () => {
     const receipt = await fetchWithCatchTxError(() => {
@@ -108,8 +109,15 @@ const BlindBox = () => {
     console.log('log==_isOpened==', _isOpened)
     setIsOpend(_isOpened)
   }
+
+  const getBlindBoxUri = async () => {
+    const uri = await nftStageContract.notRevealedUri()
+    console.log('log==uri', uri)
+    setBlindUri(uri)
+  }
   useEffect(() => {
     if (account) {
+      getBlindBoxUri()
       checkOpend()
       checkAccount()
       getAllToken()
@@ -169,7 +177,7 @@ const BlindBox = () => {
         <Box width="100%">
           <StyledCard>
             <Box padding="20px">
-              <img className="blindbox-img" src="/images/blindbox.jpg"></img>
+              <img className="blindbox-img" src={blindUri}></img>
               <Button
                 width="100%"
                 mt={20}
