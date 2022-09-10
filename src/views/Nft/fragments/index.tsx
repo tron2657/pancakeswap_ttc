@@ -216,7 +216,7 @@ const Fragment = () => {
 
     return (
       <CollectionCard
-        bgSrc={metaData ? '/images/blindbox.jpg' : ''}
+        bgSrc={metaData ? metaData.image : '/images/blindbox.jpg'}
         avatarSrc={metaData ? metaData.image : ''}
         collectionName={metaData ? metaData.name : ''}
         description={metaData ? metaData.description : ''}
