@@ -150,6 +150,21 @@ const MyNftCard = () => {
     [sortDirection, sortField],
   )
 
+  const sortedNftCardList = useMemo(() => {
+    const newList = [...nftCardList]
+    console.log('log===a', newList)
+    return sortField
+      ? newList.sort((a, b) => {
+          if (a && b) {
+            return sortField == SORT_FIELD.lowestPrice
+              ? Number(a['price'].toString()) - Number(b['price'].toString())
+              : Number(b['price'].toString()) - Number(a['price'].toString())
+          }
+          return -1
+        })
+      : []
+  }, [nftCardList, sortDirection, sortField])
+
   const fetchMarketItems = async () => {
     setIsLoading(true)
     const items = await nftStageMarketContract.fetchMarketItems()
@@ -348,7 +363,7 @@ const MyNftCard = () => {
               {/* {sortedCollections.slice(ITEMS_PER_PAGE * (page - 1), page * ITEMS_PER_PAGE).map((collection) => {
                
               })} */}
-              {nftCardList.map((item) => {
+              {sortedNftCardList.map((item) => {
                 return <RenderItem item={item} callback={getAllNftCard}></RenderItem>
               })}
             </Grid>

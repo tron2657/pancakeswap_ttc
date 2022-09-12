@@ -69,7 +69,7 @@ const UserMenu = () => {
         <UserMenuItem
           as="button"
           disabled={isWrongNetwork}
-          onClick={() => router.push(`${nftsBaseUrl}/profile/${account.toLowerCase()}`)}
+          onClick={() => router.push(`/nfts/myNft`)} //${nftsBaseUrl}/profile/${account.toLowerCase()}
         >
           {t('Your NFTs')}
         </UserMenuItem>

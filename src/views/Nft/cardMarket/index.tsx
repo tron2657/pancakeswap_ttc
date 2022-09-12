@@ -142,12 +142,27 @@ const NftCardMarket = () => {
 
   const handleSort = useCallback(
     (newField: string) => {
-      setPage(1)
+      // setPage(1)
       setSortField(newField)
-      setSortDirection(getNewSortDirection(sortField, newField, sortDirection))
+      // setSortDirection(getNewSortDirection(sortField, newField, sortDirection))
     },
     [sortDirection, sortField],
   )
+  const sortedStageList = useMemo(() => {
+    const newList = [...stageList]
+    console.log('log===a', sortField)
+    return sortField
+      ? newList.sort((a, b) => {
+          if (a && b) {
+            return sortField == SORT_FIELD.lowestPrice
+              ? Number(a['price'].toString()) - Number(b['price'].toString())
+              : Number(b['price'].toString()) - Number(a['price'].toString())
+          }
+          return -1
+        })
+      : []
+  }, [stageList, sortDirection, sortField])
+
 
   const fetchMarketItems = async () => {
     setIsLoading(true)
@@ -345,7 +360,7 @@ const NftCardMarket = () => {
                
               })} */}
 
-              {stageList.map((item) => {
+              {sortedStageList.map((item) => {
                 return <RenderItem item={item} callback={fetchMarketItems}></RenderItem>
               })}
             </Grid>

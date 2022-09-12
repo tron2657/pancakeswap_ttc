@@ -131,6 +131,18 @@ const getMySNodeApi = async (account: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
+
+const getMyNftApi = async (account: string) => {
+  const res = await fetch(`${TTC_API}/user/my_new_c?address=${account}`, {
+    method: 'get',
+  })
+  if (res.ok) {
+    const json = await res.json()
+    return json
+  }
+  console.error('Failed to fetch NFT collections', res.statusText)
+  return null
+}
 const MatrixMinePage = () => {
   const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
@@ -161,14 +173,18 @@ const MatrixMinePage = () => {
     6: t('Gold Award'),
   }
   const [mySnode, setMySnode] = useState(null)
-
+  const [myNft, setMyNft] = useState(null)
   useEffect(() => {
     async function init() {
       if (account) {
+        const new_nft = await getMyNftApi(account)
+        console.log('log==', new_nft)
+        setMyNft(new_nft.result)
         const data = await getMyListApi(account)
         let _list = data.result
         const s_node = await getMySNodeApi(account)
         setMySnode(s_node.result)
+
         // list.forEach((element) => {
         //   let _arr = new Array(element.son)
         //   for (let index = 0; index < _arr.length; index++) {
@@ -189,6 +205,24 @@ const MatrixMinePage = () => {
         <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
           <ArrowRight></ArrowRight>
           <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
+            {t('Network-wide NFT')}
+          </Text>
+          <ArrowLeft></ArrowLeft>
+        </Flex>
+        <Text mb="5px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
+          {t('The whole network ends golden')}： {myNft?.num1}个
+        </Text>
+        <Text mb="5px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
+          {t('Whole network golden mesh')}： {myNft?.num2}个
+        </Text>
+        <Text mb="20px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
+          {t('Whole network blue mesh')}： {myNft?.num3}个
+        </Text>
+      </Box>
+      <Box>
+        <Flex justifyContent="center" alignItems="center" mt="40px" mb="24px">
+          <ArrowRight></ArrowRight>
+          <Text color="#fff" fontSize="24px" textAlign="center" ml="10px" mr="10px">
             {t('My cards')}
           </Text>
           <ArrowLeft></ArrowLeft>
@@ -201,6 +235,9 @@ const MatrixMinePage = () => {
         </Text> */}
         <Text mb="5px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
           {mySnode?.num1} & {mySnode?.num2}
+        </Text>
+        <Text mb="20px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
+          {t('The current number of net body NFT participation')}： {myNft?.num4}个
         </Text>
         {list.length ? (
           <Flex flexWrap="wrap" justifyContent="center">

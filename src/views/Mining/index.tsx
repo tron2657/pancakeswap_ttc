@@ -34,8 +34,8 @@ const handleParticipateApi = async (account: string, ttc_num: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
-const handleReceiveApi = async (account: string, ttc_num: string) => {
-  const res = await fetch(`${DIVI_API}/buy/buy_spot?address=${account}&ttc_num=${ttc_num}`, {
+const handleReceiveApi = async (account: string, ttc_num: string, input_num: any) => {
+  const res = await fetch(`${DIVI_API}/buy/buy_spot?address=${account}&ttc_num=${ttc_num}&num=${input_num}`, {
     method: 'post',
   })
   if (res.ok) {
@@ -122,10 +122,10 @@ const Mining = ({ initData, account, callback }) => {
   const [ttcNum, setTTCNum] = useState('')
 
   //处理关闭弹窗
-  const handleConfirmClick = (data) => {
-    console.log('handleConfirmClick==ttc_num', data)
+  const handleConfirmClick = (data, input_num) => {
+    console.log('handleConfirmClick==ttc_num', data, input_num)
     setTTCNum(data)
-    initData.is_band == 1 ? handleDrawMining(data) : handleMining(data)
+    initData.is_band == 1 ? handleDrawMining(data, input_num) : handleMining(data)
   }
 
   const handleConfirmListClick = () => {}
@@ -159,13 +159,13 @@ const Mining = ({ initData, account, callback }) => {
   }
 
   //领取分红
-  const handleDrawMining = async (ttc_num) => {
+  const handleDrawMining = async (ttc_num, input_num) => {
     if (getBalanceNumber(ttcBalance) < Number(ttc_num)) {
       toastError('TTC余额不足')
       return
     }
     setLoading(true)
-    const data = await handleReceiveApi(account, ttc_num)
+    const data = await handleReceiveApi(account, ttc_num, input_num)
     setLoading(false)
     if (data.status) {
       toastSuccess(t(data.msg))
@@ -232,7 +232,7 @@ const Mining = ({ initData, account, callback }) => {
           endIcon={loading ? <AutoRenewIcon color="currentColor" spin /> : null}
         >
           <Flex justifyContent="center" alignItems="center">
-            {t('Receive %value% award', { value: '1%' })}
+            {t('Receive %value% award', { value: '' })}
             {secondsRemaining > 0 ? <CountdownCircle secondsRemaining={secondsRemaining} isUpdating={false} /> : null}
           </Flex>
         </Button>

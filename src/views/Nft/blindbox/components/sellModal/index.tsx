@@ -33,7 +33,7 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
   const ttc_contract = useTokenContract(tokens.ttc.address)
   const nftStageContract = useNftStageContract()
   const nftStageMarketContract = useNftStageMarketContract()
-  const { toastSuccess } = useToast()
+  const { toastSuccess, toastError } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(
@@ -52,7 +52,7 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
   const { handleSetApproveAll: handleSetApproveAll, pendingTx: pendingApproveAllTx } =
     useSetApproveAll(setNftApprovalAllLastUpdated)
   const enforcer = (nextUserInput: string) => {
-    if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
+    if (nextUserInput === '' || (inputRegex.test(escapeRegExp(nextUserInput)) && Number(nextUserInput) <= 5)) {
       setPrice(nextUserInput)
     }
   }
@@ -83,6 +83,10 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
 
   const handleSell = async () => {
     let _price = Number(price) * Math.pow(10, 18)
+    if (_price < 1 || _price > 5) {
+      toastError('请将价格设置在1-5TTC')
+      return
+    }
     console.log('log======_price', _price)
     const receipt = await fetchWithCatchTxError(() => {
       return callWithGasPrice(nftStageMarketContract, 'createMarketItem', [

@@ -148,7 +148,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
                 <img className="img-small" src={metaData ? metaData.image : '/images/blindbox.jpg'} width={50} />
                 <Box ml={10}>
                   <Text color="textSubtle" fontSize={12}>
-                    #{nft['tokenId'].toNumber()}
+                    #{nft['itemId'].toNumber()}-{nft['tokenId'].toNumber()}
                   </Text>
                   <Text color="text" fontSize={12}>
                     {metaData ? metaData.description : ''}
