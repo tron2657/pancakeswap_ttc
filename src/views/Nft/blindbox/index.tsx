@@ -30,6 +30,7 @@ import useToast from 'hooks/useToast'
 import useCatchTxError from 'hooks/useCatchTxError'
 import BigNumber from 'bignumber.js'
 import SellModal from './components/sellModal'
+import BlindBoxPriceModal from './components/blindBoxPriceModal'
 
 const Body = styled(CardBody)``
 
@@ -62,6 +63,7 @@ const BlindBox = () => {
   const [isOpened, setIsOpend] = useState(false)
   const [blindUri, setBlindUri] = useState('')
   const nftStageContract = useNftStageContract()
+
   const handleOpneBox = async () => {
     const receipt = await fetchWithCatchTxError(() => {
       return callWithGasPrice(nftStageContract, 'openBox', [])
@@ -171,6 +173,25 @@ const BlindBox = () => {
       </Flex>
     )
   }
+
+  const RenderOpenBox = (callback) => {
+    const [onPresentBlindBoxPriceModal, closeBlindBoxPriceModal] = useModal(
+      <BlindBoxPriceModal customOnDismiss={callback} />,
+    )
+
+    return (
+      <Button width="100%" mt={20} onClick={onPresentBlindBoxPriceModal} disabled={isOpened}>
+        <Flex justifyContent="center" alignItems="center">
+          {isOpened ? '已开启' : '开启盲盒'}
+        </Flex>
+      </Button>
+    )
+  }
+
+  const refreshData = () => {
+    getAllToken()
+    checkOpend()
+  }
   return (
     <Page>
       {canOpen ? (
@@ -178,7 +199,8 @@ const BlindBox = () => {
           <StyledCard>
             <Box padding="20px">
               <img className="blindbox-img" src={blindUri}></img>
-              <Button
+              <RenderOpenBox callback={refreshData}></RenderOpenBox>
+              {/* <Button
                 width="100%"
                 mt={20}
                 onClick={handleOpneBox}
@@ -189,7 +211,7 @@ const BlindBox = () => {
                 <Flex justifyContent="center" alignItems="center">
                   {isOpened ? '已开启' : '开启盲盒'}
                 </Flex>
-              </Button>
+              </Button> */}
               <Text color="textSubtle" mt={15} fontSize={12}>
                 每个地址仅能开启一次
               </Text>

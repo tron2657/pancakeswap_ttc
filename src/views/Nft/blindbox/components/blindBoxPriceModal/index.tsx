@@ -18,13 +18,13 @@ import {
 
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import BigNumber from 'bignumber.js'
 interface InviteModalProps extends InjectedModalProps {
-  tokenId: String
   customOnDismiss: () => void
 }
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group
 
-const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDismiss }) => {
+const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDismiss }) => {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -60,46 +60,19 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
     enforcer(event.target.value.replace(/,/g, '.'))
   }
   const handleConfirmClick = async () => {
-    if (!isApprovedForAll) {
-      const receipt = await fetchWithCatchTxError(() => {
-        return callWithGasPrice(nftStageContract, 'setApprovalForAll', [nftStageMarketContract.address, true])
-      })
-      if (receipt?.status) {
-        toastSuccess(
-          t('Contract Enabled'),
-          <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-            {/* {t('You can now stake in the %symbol% pool!', { symbol: earningTokenSymbol })} */}
-          </ToastDescriptionWithTx>,
-        )
-        handleSell()
-        // dispatch(updateUserAllowance({ sousId, account }))
-      }
-    } else {
-      handleSell()
-    }
-    // handleSell()
-    // handleDismiss()
-  }
-
-  const handleSell = async () => {
-    if (Number(price)  < 1 || Number(price) > 5) {
+    if (Number(price) < 1 || Number(price) > 5) {
       toastError('请将价格设置在1-5TTC')
       return
     }
     let _price = Number(price) * Math.pow(10, 18)
-    console.log('log======_price', _price)
     const receipt = await fetchWithCatchTxError(() => {
-      return callWithGasPrice(nftStageMarketContract, 'createMarketItem', [
-        nftStageContract.address,
-        tokenId,
-        _price.toString(),
-      ])
+      return callWithGasPrice(nftStageContract, 'openBox', [_price.toString()])
     })
     if (receipt?.status) {
       toastSuccess(
         t('Contract Enabled'),
         <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('您已成功挂售!', { symbol: 'TTC' })}
+          {t('您成功获得一张碎片NFT!', { symbol: 'TTC' })}
         </ToastDescriptionWithTx>,
       )
       handleDismiss()
@@ -114,7 +87,7 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
   }, [customOnDismiss, onDismiss])
 
   return (
-    <Modal title={t('输入挂卖')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
+    <Modal title={t('确认开启盲盒')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
       <Flex flexDirection="column" maxWidth="350px">
         <Flex alignItems="center" mb="16px" justifyContent="space-between">
           <Box width="100%">
@@ -124,7 +97,7 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
               pattern="^[0-9]*[.,]?[0-9]*$"
               value={price}
               inputMode="decimal"
-              placeholder="请输入价格"
+              placeholder="请输入碎片挂入市场价格"
               onChange={handleInputChange}
             />
           </Box>
@@ -158,4 +131,4 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
   )
 }
 
-export default SellModal
+export default BlindBoxPriceModal
