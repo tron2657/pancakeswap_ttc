@@ -222,9 +222,11 @@ const Fragment = () => {
     console.log('log===item===', item)
     useEffect(() => {
       const handleGetMetaData = async () => {
-        const url = await nftStageContract.tokenURI(item['tokenId'].toNumber())
+        // const url = await nftStageContract.tokenURI(item['tokenId'].toNumber())
+        const url = await nftStageContract.baseURI()
+        const metaData = await getMetaData(url + '/' + item + '.json')
 
-        const metaData = await getMetaData(url)
+        // const metaData = await getMetaData(url)
         setMetaData(metaData)
       }
       handleGetMetaData()
