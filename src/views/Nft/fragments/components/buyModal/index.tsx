@@ -184,7 +184,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
                 <ConnectWalletButton scale="sm" />
               </Flex>
             ) : (
-              getBalanceNumber(ttcBalance)
+              getBalanceNumber(ttcBalance).toFixed(8)
             )}
           </Flex>
         </BorderedBox>

@@ -7,6 +7,8 @@ import styled, { css } from 'styled-components'
 interface HotCollectionCardProps {
   bgSrc: string
   avatarSrc?: string
+  cardId?: string
+  tokenId?: string
   collectionName: string
   description: string
   url?: string
@@ -54,6 +56,8 @@ const StyledImage = styled(Image)`
 const CollectionCard: React.FC<HotCollectionCardProps> = ({
   bgSrc,
   avatarSrc,
+  cardId,
+  tokenId,
   collectionName,
   description,
   url,
@@ -74,9 +78,15 @@ const CollectionCard: React.FC<HotCollectionCardProps> = ({
         flexDirection="column"
       >
         {/* <CollectionAvatar src={avatarSrc} width={96} height={96} /> */}
-        <Text bold fontSize="16px" mr="4px">
-          {collectionName}
-        </Text>
+
+        <Flex width="100%" justifyContent="space-between" alignItems="center">
+          <Text bold fontSize="16px" mr="4px">
+            #{cardId} -{tokenId}
+          </Text>
+          <Text bold fontSize="16px" mr="4px">
+            {collectionName}
+          </Text>
+        </Flex>
         <Text color="textSubtle" fontSize="12px" mr="4px">
           {description}
         </Text>

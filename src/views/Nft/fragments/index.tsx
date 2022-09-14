@@ -218,11 +218,12 @@ const Fragment = () => {
     )
   }
   const RenderItem = ({ item, callback }) => {
-    console.log('log===item===', item)
     const [metaData, setMetaData] = useState(null)
+    console.log('log===item===', item)
     useEffect(() => {
       const handleGetMetaData = async () => {
         const url = await nftStageContract.tokenURI(item['tokenId'].toNumber())
+
         const metaData = await getMetaData(url)
         setMetaData(metaData)
       }
@@ -232,6 +233,8 @@ const Fragment = () => {
     return (
       <CollectionCard
         bgSrc={metaData ? metaData.image : '/images/blindbox.jpg'}
+        cardId={item.itemId.toString()}
+        tokenId={item.tokenId.toString()}
         avatarSrc={metaData ? metaData.image : ''}
         collectionName={metaData ? metaData.name : ''}
         description={metaData ? metaData.description : ''}
