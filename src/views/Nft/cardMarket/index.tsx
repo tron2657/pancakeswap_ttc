@@ -160,9 +160,8 @@ const NftCardMarket = () => {
           }
           return -1
         })
-      : []
+      : newList
   }, [stageList, sortDirection, sortField])
-
 
   const fetchMarketItems = async () => {
     setIsLoading(true)
@@ -231,8 +230,10 @@ const NftCardMarket = () => {
     const [metaData, setMetaData] = useState(null)
     useEffect(() => {
       const handleGetMetaData = async () => {
-        const url = await nftCardContract.tokenURI(item['tokenId'].toNumber())
-        const metaData = await getMetaData(url)
+        // const url = await nftCardContract.tokenURI(item['tokenId'].toNumber())
+        // const metaData = await getMetaData(url)
+        const url = await nftCardContract.baseURI()
+        const metaData = await getMetaData(url + '/' + item + '.json')
         setMetaData(metaData)
       }
       handleGetMetaData()
