@@ -60,13 +60,14 @@ const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDis
     enforcer(event.target.value.replace(/,/g, '.'))
   }
   const handleConfirmClick = async () => {
+   
     if (Number(price) < 0.5 || Number(price) > 5) {
       toastError('请将价格设置在0.5-5TTC')
       return
     }
     let _price = Number(price) * Math.pow(10, 18)
     const receipt = await fetchWithCatchTxError(() => {
-      return callWithGasPrice(nftStageContract, 'openBox', [_price.toString()])
+      return callWithGasPrice(nftStageMarketContract, 'openBox', [_price.toString()])
     })
     if (receipt?.status) {
       toastSuccess(
@@ -75,7 +76,6 @@ const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDis
           {t('您成功获得一张碎片NFT!', { symbol: 'TTC' })}
         </ToastDescriptionWithTx>,
       )
-      handleDismiss()
     }
   }
 
@@ -111,7 +111,7 @@ const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDis
               endIcon={pendingTx ? <AutoRenewIcon color="currentColor" spin /> : null}
               onClick={handleConfirmClick}
             >
-              {t('Confirm')}
+              {t('确认开启')}
             </Button>
           ) : (
             <Button

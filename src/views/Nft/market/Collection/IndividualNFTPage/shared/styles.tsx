@@ -15,9 +15,11 @@ export const TwoColumnsContainer = styled(Flex)`
 `
 
 export const RoundedImage = styled(Image)`
-  height: max-content;
+  /* height: max-content; */
+
   border-radius: ${({ theme }) => theme.radii.default};
   overflow: hidden;
+  background-size: cover;
   & > img {
     object-fit: contain;
   }

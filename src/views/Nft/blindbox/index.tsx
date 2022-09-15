@@ -20,7 +20,7 @@ import Link from 'next/link'
 import { CardBody, CardFooter, Button } from '@pancakeswap/uikit'
 import Page from '../../Page'
 import styled from 'styled-components'
-import { useNftStageContract } from 'hooks/useContract'
+import { useNftStageContract, useNftStageMarketContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { useTranslation } from 'contexts/Localization'
 import { MaxUint256 } from '@ethersproject/constants'
@@ -63,10 +63,10 @@ const BlindBox = () => {
   const [isOpened, setIsOpend] = useState(false)
   const [blindUri, setBlindUri] = useState('')
   const nftStageContract = useNftStageContract()
-
+  const nftStageMarketContract = useNftStageMarketContract()
   const handleOpneBox = async () => {
     const receipt = await fetchWithCatchTxError(() => {
-      return callWithGasPrice(nftStageContract, 'openBox', [])
+      return callWithGasPrice(nftStageMarketContract, 'openBox', [])
     })
     if (receipt?.status) {
       toastSuccess(
@@ -82,7 +82,7 @@ const BlindBox = () => {
 
   const checkAccount = async () => {
     try {
-      const whitelistedStatus = await nftStageContract.whiteList(account)
+      const whitelistedStatus = await nftStageMarketContract.whiteList(account)
       console.log('whitelistedStatus==', whitelistedStatus)
       setCanOpen(whitelistedStatus)
     } catch (error) {
@@ -107,7 +107,7 @@ const BlindBox = () => {
   }
 
   const checkOpend = async () => {
-    const _isOpened = await nftStageContract.addressToOpenBox(account)
+    const _isOpened = await nftStageMarketContract.addressToOpenBox(account)
     console.log('log==_isOpened==', _isOpened)
     setIsOpend(_isOpened)
   }
@@ -174,9 +174,11 @@ const BlindBox = () => {
     )
   }
 
-  const RenderOpenBox = (callback) => {
+  const RenderOpenBox = () => {
     const [onPresentBlindBoxPriceModal, closeBlindBoxPriceModal] = useModal(
-      <BlindBoxPriceModal customOnDismiss={callback} />,
+      <BlindBoxPriceModal customOnDismiss={() => {
+        refreshData()
+      }} />,
     )
 
     return (
@@ -188,7 +190,7 @@ const BlindBox = () => {
     )
   }
 
-  const refreshData = () => {
+  const refreshData = async () => {
     getAllToken()
     checkOpend()
   }
@@ -199,7 +201,7 @@ const BlindBox = () => {
           <StyledCard>
             <Box padding="20px">
               <img className="blindbox-img" src={blindUri}></img>
-              <RenderOpenBox callback={refreshData}></RenderOpenBox>
+              <RenderOpenBox ></RenderOpenBox>
               {/* <Button
                 width="100%"
                 mt={20}

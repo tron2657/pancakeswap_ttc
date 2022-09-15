@@ -224,7 +224,7 @@ const Fragment = () => {
       const handleGetMetaData = async () => {
         // const url = await nftStageContract.tokenURI(item['tokenId'].toNumber())
         const url = await nftStageContract.baseURI()
-        const metaData = await getMetaData(url + '/' + item + '.json')
+        const metaData = await getMetaData(url + '/' + item['tokenId'].toString() + '.json')
 
         // const metaData = await getMetaData(url)
         setMetaData(metaData)
@@ -234,7 +234,7 @@ const Fragment = () => {
 
     return (
       <CollectionCard
-        bgSrc={metaData ? metaData.image : '/images/blindbox.jpg'}
+        bgSrc={metaData ? metaData.image : ''}
         cardId={item.itemId.toString()}
         tokenId={item.tokenId.toString()}
         avatarSrc={metaData ? metaData.image : ''}

@@ -240,7 +240,7 @@ const NftCardDetail = ({ tokenId, nft }) => {
                 <Box width="100%">
                     <StyledCard>
                         <Box padding="20px">
-                            <img className="blindbox-img" src={metaData ? metaData.image : '/images/blindbox.jpg'}></img>
+                            <img className="blindbox-img" src={metaData ? metaData.image : ''}></img>
                             <Text color="text" mt={15} fontSize={36}>
                                 #{nft.itemId}-{tokenId}
                             </Text>

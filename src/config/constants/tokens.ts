@@ -2141,7 +2141,7 @@ export const mainnetTokens = defineTokens({
 export const testnetTokens = defineTokens({
   ttc: new Token(
     TESTNET,
-    '0xe3872cE1d46Dd621581ba884f896dbbA11275fdf',
+    '0x872192a2CfCd0319C47021FE1f95A91b5CEa5B15',
     18,
     'TTC',
     'TTC',

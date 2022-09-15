@@ -3,6 +3,8 @@ import { Card, CardBody, Flex, Text, Heading, ProfileAvatar } from '@pancakeswap
 import Image from 'next/image'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import styled, { css } from 'styled-components'
+import { RoundedImage } from 'views/Nft/market/Collection/IndividualNFTPage/shared/styles'
+import PreviewImage from 'views/Nft/market/components/CollectibleCard/PreviewImage'
 
 interface HotCollectionCardProps {
   bgSrc: string
@@ -63,8 +65,8 @@ const CollectionCard: React.FC<HotCollectionCardProps> = ({
   const renderBody = () => (
     <CardBody p="8px">
       {/* <StyledImage src={bgSrc} height={278} width={375} /> */}
-      <img className="img-small" height={278} width={375} src={bgSrc ? bgSrc : '/images/blindbox.jpg'} />
-
+      {/* <img className="img-small" height={278} width={375} src={bgSrc ? bgSrc : '/images/blindbox.jpg'} /> */}
+      <RoundedImage height={355} width={375} src={bgSrc} as={PreviewImage} />
       <Flex
         position="relative"
         // height="95px"
