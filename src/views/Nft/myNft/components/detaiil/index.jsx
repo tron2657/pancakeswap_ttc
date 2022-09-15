@@ -110,8 +110,8 @@ const NftCardDetail = ({ tokenId, nft }) => {
 
     useEffect(() => {
         const handleGetMetaData = async () => {
-            const url = await nftCardContract.tokenURI(tokenId)
-            const metaData = await getMetaData(url)
+            const url = await nftCardContract.baseURI()
+            const metaData = await getMetaData(url + '/' + tokenId + '.json')
             setMetaData(metaData)
         }
         if (account) {
@@ -145,7 +145,7 @@ const NftCardDetail = ({ tokenId, nft }) => {
                         <Box padding="20px">
                             <img className="blindbox-img" src="/images/blindbox.jpg"></img>
                             <Text color="text" mt={15} fontSize={36}>
-                                #{tokenId}
+                            #{nft.itemId}-{tokenId}
                             </Text>
                             <Text color="primary" mt={15} fontSize={20}>
                                 {metaData?.name}

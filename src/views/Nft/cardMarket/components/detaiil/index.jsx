@@ -124,8 +124,11 @@ const NftCardDetail = ({ tokenId, nft }) => {
 
     useEffect(() => {
         const handleGetMetaData = async () => {
-            const url = await nftCardContract.tokenURI(tokenId)
-            const metaData = await getMetaData(url)
+            // const url = await nftCardContract.tokenURI(tokenId)
+            // const metaData = await getMetaData(url)
+            const url = await nftCardContract.baseURI()
+            const metaData = await getMetaData(url + '/' + tokenId + '.json')
+
             setMetaData(metaData)
         }
         if (account) {
@@ -138,12 +141,12 @@ const NftCardDetail = ({ tokenId, nft }) => {
 
 
     const RenderBuyBtn = ({ nft, metaData, callback }) => {
-        const ttc_contract = useTokenContract('0xcF8Af4DF25F71F5187C0B4416108f528a0a88b79')
+        const ttc_contract = useTokenContract(tokens.ttc.address)
         const nftCardContract = useNftCardContract()
         const nftCardMarketContract = useNftCardMarketContract()
 
         const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
-        const { balance: usdtBalance } = useTokenBalance('0xcF8Af4DF25F71F5187C0B4416108f528a0a88b79')
+        const { balance: usdtBalance } = useTokenBalance(tokens.ttc.address)
 
         const { toastSuccess } = useToast()
         const { callWithGasPrice } = useCallWithGasPrice()
@@ -239,7 +242,7 @@ const NftCardDetail = ({ tokenId, nft }) => {
                         <Box padding="20px">
                             <img className="blindbox-img" src={metaData ? metaData.image : '/images/blindbox.jpg'}></img>
                             <Text color="text" mt={15} fontSize={36}>
-                                #{tokenId}
+                                #{nft.itemId}-{tokenId}
                             </Text>
                             <Text color="primary" mt={15} fontSize={20}>
                                 {metaData?.name}

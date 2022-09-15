@@ -233,7 +233,7 @@ const NftCardMarket = () => {
         // const url = await nftCardContract.tokenURI(item['tokenId'].toNumber())
         // const metaData = await getMetaData(url)
         const url = await nftCardContract.baseURI()
-        const metaData = await getMetaData(url + '/' + item + '.json')
+        const metaData = await getMetaData(url + '/' + item['tokenId'].toString() + '.json')
         setMetaData(metaData)
       }
       handleGetMetaData()
@@ -245,6 +245,8 @@ const NftCardMarket = () => {
         avatarSrc={metaData ? metaData.image : ''}
         collectionName={metaData ? metaData.name : ''}
         description={metaData ? metaData.description : ''}
+        tokenId={item.tokenId.toString()}
+        cardId={item.itemId.toString()}
         url={
           '/nfts/market/' +
           item.tokenId.toString() +
