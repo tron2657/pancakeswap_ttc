@@ -152,9 +152,10 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
     onCurrencySelection(Field.INPUT, inputCurrency)
     onCurrencySelection(Field.OUTPUT, outputCurrency)
     onUserInput(Field.INPUT, '0.015')
-    onUserInput(Field.INPUT, '0.015')
+    // onUserInput(Field.INPUT, '0.015')
     const ttc_num = formattedAmounts[Field.OUTPUT]
     setTTCNum(ttc_num)
+
     console.log('ttc_num===', ttc_num)
     let active = durations.findIndex((item) => item.val == detail['day'])
     setActiveIndex(active)
@@ -223,7 +224,13 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
             width="100%"
             onClick={async () => {
               setPendingTx(true)
-              await onConfirm(val, ttcNum, selectDuration, detail['id'])
+              onCurrencySelection(Field.INPUT, inputCurrency)
+              onCurrencySelection(Field.OUTPUT, outputCurrency)
+              onUserInput(Field.INPUT, '0.015')
+              // onUserInput(Field.INPUT, '0.015')
+              const _ttc_num = formattedAmounts[Field.OUTPUT]
+              console.log('ttc_num===', _ttc_num)
+              onConfirm(val, _ttc_num, selectDuration, detail['id'])
               onDismiss?.()
               setPendingTx(false)
             }}
