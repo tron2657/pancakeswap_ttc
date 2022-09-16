@@ -105,8 +105,11 @@ const Synthesis = () => {
     }
     useEffect(() => {
       const handleGetMetaData = async () => {
-        const url = await nftStageContract.tokenURI(itemId)
-        const metaData = await getMetaData(url)
+        // const url = await nftStageContract.tokenURI(itemId)
+        // const metaData = await getMetaData(url)
+
+        const url = await nftStageContract.baseURI()
+        const metaData = await getMetaData(url + '/' + itemId + '.json')
         setMetaData(metaData)
       }
       if (account) {
