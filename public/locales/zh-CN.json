@@ -1732,7 +1732,7 @@
   "Accumulated earning": "累计赚取",
   "Recent Earnings": "最近赚取记录",
   "Recent dividend records": "最近的分红记录",
-  "Receive %value% award": "领取 %value% 的奖励",
+  "Receive %value% award": "领取奖励", 
   "Join": "参加",
   "Buy NFT cards": "购买NFT卡牌",
   "Public row of the whole network": "全网公排",
@@ -1785,6 +1785,6 @@
   "Network-wide NFT": "全网NFT",
   "The whole network ends golden": "全网结束金色",
   "Whole network blue mesh": "全网蓝色网体",
-  "The current number of net body NFT participation": "当前网体NFT参与数量",
+  "The current number of net body NFT participation": "当前蓝色网体NFT参与数量",
   "Whole network golden mesh": "全网金色网体"
 }
