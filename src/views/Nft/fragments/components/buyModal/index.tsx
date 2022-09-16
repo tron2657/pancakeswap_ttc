@@ -144,9 +144,9 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
     <Modal title={t('购买碎片')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
       <Flex flexDirection="column" maxWidth="350px">
         <Flex alignItems="center" mb="16px" justifyContent="space-between">
-          <Box mr="16px">
-            <Flex mt={20} justifyContent="space-between" alignItems="center">
-              <Flex alignItems="center" flex={1}>
+          <Box mr="16px" width="100%">
+            <Flex mt={20} justifyContent="space-between" alignItems="center" width="100%">
+              <Flex alignItems="center" width="100%">
                 {/* <img className="img-small" src={metaData ? metaData.image : '/images/blindbox.jpg'} width={50} /> */}
                 <RoundedImage height={40} width={40} src={metaData ? metaData.image : ''} as={PreviewImage} />
 

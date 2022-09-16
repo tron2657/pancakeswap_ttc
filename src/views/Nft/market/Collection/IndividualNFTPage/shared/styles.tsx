@@ -19,7 +19,8 @@ export const RoundedImage = styled(Image)`
 
   border-radius: ${({ theme }) => theme.radii.default};
   overflow: hidden;
-  background-size: cover;
+  background-size: contain;
+  background-position: center;
   & > img {
     object-fit: contain;
   }
