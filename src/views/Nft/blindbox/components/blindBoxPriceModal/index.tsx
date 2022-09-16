@@ -60,7 +60,6 @@ const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDis
     enforcer(event.target.value.replace(/,/g, '.'))
   }
   const handleConfirmClick = async () => {
-   
     if (Number(price) < 0.5 || Number(price) > 5) {
       toastError('请将价格设置在0.5-5TTC')
       return
@@ -76,6 +75,7 @@ const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDis
           {t('您成功获得一张碎片NFT!', { symbol: 'TTC' })}
         </ToastDescriptionWithTx>,
       )
+      handleDismiss()
     }
   }
 
