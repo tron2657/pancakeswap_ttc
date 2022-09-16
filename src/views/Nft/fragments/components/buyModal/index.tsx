@@ -30,6 +30,8 @@ import {
   useCheckNftApprovalForAllStatus,
   useSetApproveAll,
 } from '../../hook/useApprove'
+import { RoundedImage } from 'views/Nft/market/Collection/IndividualNFTPage/shared/styles'
+import PreviewImage from 'views/Nft/market/components/CollectibleCard/PreviewImage'
 
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -145,7 +147,9 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
           <Box mr="16px">
             <Flex mt={20} justifyContent="space-between" alignItems="center">
               <Flex alignItems="center" flex={1}>
-                <img className="img-small" src={metaData ? metaData.image : '/images/blindbox.jpg'} width={50} />
+                {/* <img className="img-small" src={metaData ? metaData.image : '/images/blindbox.jpg'} width={50} /> */}
+                <RoundedImage height={40} width={40} src={metaData ? metaData.image : ''} as={PreviewImage} />
+
                 <Box ml={10}>
                   <Text color="textSubtle" fontSize={12}>
                     #{nft['itemId'].toNumber()}-{nft['tokenId'].toNumber()}
