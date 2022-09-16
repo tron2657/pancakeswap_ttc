@@ -109,10 +109,13 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(lpBalance)
   }, [lpBalance])
+
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
+      let value = e.currentTarget.value.replace(/,/g, '.')
+      console.log('log==', value)
       if (e.currentTarget.validity.valid) {
-        setVal(e.currentTarget.value.replace(/,/g, '.'))
+        setVal(value)
       }
     },
     [setVal],
@@ -171,9 +174,10 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
         symbol={'tokenName'}
         addLiquidityUrl={'addLiquidityUrl'}
         inputTitle={t('Stake')}
+        showError={Number(val) > Number(detail['out_coin_num']) ? '最大金额不能超过剩余金额' : ''}
       />
 
-      <Flex justifyContent="space-between" mt="8px ">
+      <Flex justifyContent="space-between" mt="12px">
         <Button scale="xs" p="4px 16px" width="auto" variant="tertiary" onClick={() => {}}>
           {t('已质押：')}
           {detail['in_coin_num']}TTC
@@ -222,6 +226,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
         ) : (
           <Button
             width="100%"
+            disabled={Number(val) > Number(detail['out_coin_num'])}
             onClick={async () => {
               setPendingTx(true)
               onCurrencySelection(Field.INPUT, inputCurrency)

@@ -14,6 +14,7 @@ interface ModalInputProps {
   addLiquidityUrl?: string
   inputTitle?: string
   decimals?: number
+  showError?: string
 }
 
 const StyledTokenInput = styled.div<InputProps>`
@@ -45,7 +46,8 @@ const StyledInput = styled(Input)`
 
 const StyledErrorMessage = styled(Text)`
   position: absolute;
-  bottom: -22px;
+  bottom: -15px;
+  left: 10px;
   a {
     display: inline;
   }
@@ -60,6 +62,7 @@ const ModalInput: React.FC<ModalInputProps> = ({
   addLiquidityUrl,
   inputTitle,
   decimals = 18,
+  showError,
 }) => {
   const { t } = useTranslation()
   const isBalanceZero = max === '0' || !max
@@ -96,14 +99,11 @@ const ModalInput: React.FC<ModalInputProps> = ({
           {/* <Text fontSize="16px">{symbol}</Text> */}
         </Flex>
       </StyledTokenInput>
-      {/* {isBalanceZero && (
+      {showError && (
         <StyledErrorMessage fontSize="14px" color="failure">
-          {t('No tokens to stake')}:{' '}
-          <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
-            {t('Get %symbol%', { symbol })}
-          </Link>
+          {t(showError)}
         </StyledErrorMessage>
-      )} */}
+      )}
     </div>
   )
 }
