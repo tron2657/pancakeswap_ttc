@@ -31,6 +31,8 @@ import useCatchTxError from 'hooks/useCatchTxError'
 import BigNumber from 'bignumber.js'
 import SellModal from './components/sellModal'
 import BlindBoxPriceModal from './components/blindBoxPriceModal'
+import { RoundedImage } from 'views/Nft/market/Collection/IndividualNFTPage/shared/styles'
+import PreviewImage from 'views/Nft/market/components/CollectibleCard/PreviewImage'
 
 const Body = styled(CardBody)``
 
@@ -132,8 +134,10 @@ const BlindBox = () => {
     const [metaData, setMetaData] = useState(null)
     useEffect(() => {
       const handleGetMetaData = async () => {
-        const url = await nftStageContract.tokenURI(item)
-        const metaData = await getMetaData(url)
+        // const url = await nftStageContract.tokenURI(item)
+        // const metaData = await getMetaData(url)
+        const url = await nftStageContract.baseURI()
+        const metaData = await getMetaData(url + '/' + item.toString() + '.json')
         setMetaData(metaData)
       }
       if (account) {
@@ -147,10 +151,15 @@ const BlindBox = () => {
     return (
       <Flex mt={20} justifyContent="space-between" alignItems="center">
         <Flex alignItems="center" flex={1}>
-          <img className="img-small" src={metaData ? metaData.image : '/images/blindbox.jpg'} />
+          {/* <img className="img-small" src={metaData ? metaData.image : '/images/blindbox.jpg'} /> */}
+          <RoundedImage height={40} width={40} src={metaData ? metaData.image : ''} as={PreviewImage} />
+
           <Box ml={10}>
             <Text color="textSubtle" fontSize={12}>
               #{item.toNumber()}
+            </Text>
+            <Text color="text" fontSize={12} fontWeight="bold">
+              {metaData ? metaData.name : ''}
             </Text>
             <Text color="text" fontSize={12}>
               {metaData ? metaData.description : ''}
@@ -176,9 +185,11 @@ const BlindBox = () => {
 
   const RenderOpenBox = () => {
     const [onPresentBlindBoxPriceModal, closeBlindBoxPriceModal] = useModal(
-      <BlindBoxPriceModal customOnDismiss={() => {
-        refreshData()
-      }} />,
+      <BlindBoxPriceModal
+        customOnDismiss={() => {
+          refreshData()
+        }}
+      />,
     )
 
     return (
@@ -201,7 +212,7 @@ const BlindBox = () => {
           <StyledCard>
             <Box padding="20px">
               <img className="blindbox-img" src={blindUri}></img>
-              <RenderOpenBox ></RenderOpenBox>
+              <RenderOpenBox></RenderOpenBox>
               {/* <Button
                 width="100%"
                 mt={20}
