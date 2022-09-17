@@ -252,7 +252,7 @@ const MyNftCard = () => {
 
     return (
       <CollectionCard
-        bgSrc={metaData ? metaData.image : '/images/blindbox.jpg'}
+        bgSrc={metaData ? metaData.image : ''}
         avatarSrc={metaData ? metaData.image : ''}
         collectionName={metaData ? metaData.name : ''}
         description={metaData ? metaData.description : ''}

@@ -241,7 +241,7 @@ const NftCardMarket = () => {
 
     return (
       <CollectionCard
-        bgSrc={metaData ? '/images/blindbox.jpg' : ''}
+        bgSrc={metaData ? metaData.image : ''}
         avatarSrc={metaData ? metaData.image : ''}
         collectionName={metaData ? metaData.name : ''}
         description={metaData ? metaData.description : ''}
