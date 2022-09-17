@@ -265,7 +265,7 @@ const NftCardMarket = () => {
         <Flex alignItems="center" justifyContent="space-between" style={{ width: '100%' }}>
           <Box>
             <Text display="inline" fontSize="12px" color="textSubtle">
-              TTC
+              ETI
             </Text>
             <Text display="inline" fontSize="16px" color="text" ml="5px">
               {item.price ? Number(item.price.toString()) / Math.pow(10, 18) : 0}

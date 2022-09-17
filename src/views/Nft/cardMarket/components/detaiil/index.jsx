@@ -141,12 +141,12 @@ const NftCardDetail = ({ tokenId, nft }) => {
 
 
     const RenderBuyBtn = ({ nft, metaData, callback }) => {
-        const ttc_contract = useTokenContract(tokens.ttc.address)
+        const ttc_contract = useTokenContract(tokens.eti.address)
         const nftCardContract = useNftCardContract()
         const nftCardMarketContract = useNftCardMarketContract()
 
-        const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
-        const { balance: usdtBalance } = useTokenBalance(tokens.ttc.address)
+        const { balance: ttcBalance } = useTokenBalance(tokens.eti.address)
+        const { balance: usdtBalance } = useTokenBalance(tokens.eti.address)
 
         const { toastSuccess } = useToast()
         const { callWithGasPrice } = useCallWithGasPrice()
@@ -201,7 +201,7 @@ const NftCardDetail = ({ tokenId, nft }) => {
                 toastSuccess(
                     t('Contract Enabled'),
                     <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-                        {t('您已成功购买!', { symbol: 'TTC' })}
+                        {t('您已成功购买!', { symbol: 'ETI' })}
                     </ToastDescriptionWithTx>,
                 )
                 router.push('/nfts/market')
@@ -249,7 +249,7 @@ const NftCardDetail = ({ tokenId, nft }) => {
                             </Text>
                             <Flex alignItems="center">
                                 <Text color="textSubtle" mt={15} fontSize={16}>
-                                    TTC
+                                    ETI
                                 </Text>
                                 <Text color="text" mt={15} ml={10} fontSize={22} fontWeight={600}>
                                     {Number(nft.price) / Math.pow(10, 18)}

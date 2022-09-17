@@ -120,7 +120,7 @@ export default {
     97: '0xE91dcb2501dc49b9AF23945266CBE0328d0a75B7',
   },
   nftCardMarket: {
-    56: '0xd89eD25D860CfFb25b01bEf399e483c8c7abE6f4',
+    56: '0x42593764b73f1a76339d110633519a0B5719Bc6a',
     97: '0xa04d07dc7665DCa8872A64555d41B0de17649f09',
   },
   nftSale: {

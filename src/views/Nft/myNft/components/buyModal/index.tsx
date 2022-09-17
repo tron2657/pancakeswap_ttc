@@ -59,11 +59,11 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
   const { theme } = useTheme()
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [price, setPrice] = useState('')
-  const ttc_contract = useTokenContract(tokens.ttc.address)
+  const ttc_contract = useTokenContract(tokens.eti.address)
   const nftStageContract = useNftStageContract()
   const nftStageMarketContract = useNftStageMarketContract()
-  const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
-  const { balance: usdtBalance } = useTokenBalance(tokens.ttc.address)
+  const { balance: ttcBalance } = useTokenBalance(tokens.eti.address)
+  const { balance: usdtBalance } = useTokenBalance(tokens.eti.address)
 
   const { toastSuccess } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
@@ -164,7 +164,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
               {t('Pay with')}
             </Text>
             <Text small color="text" fontSize={16}>
-              TTC
+              ETI
             </Text>
           </Flex>
           <Flex justifyContent="space-between" alignItems="center">

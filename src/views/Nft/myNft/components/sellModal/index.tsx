@@ -36,7 +36,7 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
   const { theme } = useTheme()
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [price, setPrice] = useState('')
-  const ttc_contract = useTokenContract(tokens.ttc.address)
+  const ttc_contract = useTokenContract(tokens.eti.address)
   const nftStageContract = useNftStageContract()
   const nftStageMarketContract = useNftStageMarketContract()
   const nftCardContract = useNftCardContract()
@@ -103,7 +103,7 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
       toastSuccess(
         t('Contract Enabled'),
         <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('您已成功挂售!', { symbol: 'TTC' })}
+          {t('您已成功挂售!', { symbol: 'ETI' })}
         </ToastDescriptionWithTx>,
       )
       handleDismiss()

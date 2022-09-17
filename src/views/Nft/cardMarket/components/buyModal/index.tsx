@@ -59,11 +59,11 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
   const { theme } = useTheme()
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [price, setPrice] = useState('')
-  const ttc_contract = useTokenContract(tokens.ttc.address)
+  const ttc_contract = useTokenContract(tokens.eti.address)
   const nftStageContract = useNftStageContract()
   const nftStageMarketContract = useNftStageMarketContract()
-  const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
-  const { balance: usdtBalance } = useTokenBalance(tokens.ttc.address)
+  const { balance: ttcBalance } = useTokenBalance(tokens.eti.address)
+  const { balance: usdtBalance } = useTokenBalance(tokens.eti.address)
 
   const { toastSuccess } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
@@ -124,7 +124,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
       toastSuccess(
         t('Contract Enabled'),
         <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('您已成功购买!', { symbol: 'TTC' })}
+          {t('您已成功购买!', { symbol: 'ETI' })}
         </ToastDescriptionWithTx>,
       )
       handleDismiss()
@@ -164,7 +164,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
               {t('Pay with')}
             </Text>
             <Text small color="text" fontSize={16}>
-              TTC
+              ETI
             </Text>
           </Flex>
           <Flex justifyContent="space-between" alignItems="center">
@@ -177,7 +177,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
           </Flex>
           <Flex justifyContent="space-between" alignItems="center">
             <Text small color="textSubtle">
-              {t('%symbol% in wallet', { symbol: 'TTC' })}
+              {t('%symbol% in wallet', { symbol: 'ETI' })}
             </Text>
             {!account ? (
               <Flex justifySelf="flex-end">
@@ -188,13 +188,13 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
             )}
           </Flex>
         </BorderedBox>
-        <Message p="8px" variant="danger">
+        {/* <Message p="8px" variant="danger">
           <Text>
             {t('Not enough %symbol% to purchase this NFT', {
-              symbol: 'TTC',
+              symbol: 'ETI',
             })}
           </Text>
-        </Message>
+        </Message> */}
         <Flex flexDirection="column" pt="16px" alignItems="center">
           {isTTCApproved ? (
             <Button
