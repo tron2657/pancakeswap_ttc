@@ -177,7 +177,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, fee, customOnDism
               {t('Total payment')}
             </Text>
             <Text display="inline" color="text" fontSize={16}>
-              {(Number(nft['price'].toString()) / Math.pow(10, 18)) * (1 + fee)}
+              {((Number(nft['price'].toString()) / Math.pow(10, 18)) * (1 + fee)).toFixed(4)}
             </Text>
           </Flex>
           <Flex justifyContent="space-between" alignItems="center">

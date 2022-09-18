@@ -257,7 +257,7 @@ const Fragment = () => {
               TTC
             </Text>
             <Text display="inline" fontSize="16px" color="text" ml="5px">
-              {item.price ? (Number(item.price.toString()) / Math.pow(10, 18)) * (1 + fee) : 0}
+              {item.price ? ((Number(item.price.toString()) / Math.pow(10, 18)) * (1 + fee)).toFixed(4) : 0}
             </Text>
           </Box>
           {/* <BNBAmountLabel amount={collection.totalVolumeBNB ? parseFloat(collection.totalVolumeBNB) : 0} /> */}
