@@ -86,6 +86,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
   const { onCurrencySelection, inputCurrency, outputCurrency, onUserInput, formattedAmounts } = useTTCNumber()
   const [ttcNum, setTTCNum] = useState('')
   const { balance: lpBalance } = useTokenBalance(detail['coin_contract2'])
+
   const fullBalance = useMemo(() => {
     return getFullDisplayBalance(lpBalance)
   }, [lpBalance])
@@ -150,7 +151,13 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
         symbol={'tokenName'}
         addLiquidityUrl={'addLiquidityUrl'}
         inputTitle={t('Stake')}
-        showError={Number(val) > Number(detail['out_coin_num']) ? '最大金额不能超过剩余金额' : ''}
+        showError={
+          Number(val) > Number(detail['out_coin_num'])
+            ? '最大金额不能超过剩余金额'
+            : Number(val) > getBalanceNumber(lpBalance)
+            ? '余额不足'
+            : ''
+        }
       />
 
       <Flex justifyContent="space-between" mt="12px ">
@@ -202,7 +209,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
         ) : (
           <Button
             width="100%"
-            disabled={Number(val) > Number(detail['out_coin_num'])}
+            disabled={Number(val) > Number(detail['out_coin_num']) || Number(val) > getBalanceNumber(lpBalance)}
             onClick={async () => {
               setPendingTx(true)
               onCurrencySelection(Field.INPUT, inputCurrency)

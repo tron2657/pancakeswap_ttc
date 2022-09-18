@@ -72,6 +72,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
   // const initData = useFetchInitData()
   // console.log('initData===', initData)
   const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
+  const { balance: coinBalance } = useTokenBalance(farm['coin_contract2'])
   const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(tokens.ttc.address, farm['from_address3'])
   const { isCoinApproved, setCoinLastUpdated } = useCheckCoinApprovalStatus(
     farm['coin_contract2'],
@@ -205,6 +206,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
             onClick={onPresentDeposit}
             variant="secondary"
             disabled={farm['status'] != 2}
+
             // disabled={['history', 'archived'].some((item) => router.pathname.includes(item))}
           >
             {t('Stake')}
@@ -238,12 +240,12 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
       </ActionTitles>
       {!isTTCApproved && (
         <ActionContent>
-          <Button width="100%" disabled={pendingTx} onClick={handleTTCApprove} variant="secondary">
+          <Button width="100%" disabled={pendingTTCTx} onClick={handleTTCApprove} variant="secondary">
             {t('授权TTC')}
           </Button>
         </ActionContent>
       )}
-      {!isCoinApproved && (
+      {isTTCApproved && !isCoinApproved && (
         <ActionContent>
           <Button width="100%" disabled={pendingCoinTx} onClick={handleCoinApprove} variant="secondary">
             {t('Enable Farm')}
