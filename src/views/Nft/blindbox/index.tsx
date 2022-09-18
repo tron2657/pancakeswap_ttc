@@ -57,13 +57,14 @@ const StyledCard = styled(Card)`
 const BlindBox = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const { toastSuccess } = useToast()
+  const { toastSuccess, toastError } = useToast()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const [nftList, setNftList] = useState([])
   const [canOpen, setCanOpen] = useState(false)
   const [isOpened, setIsOpend] = useState(false)
   const [blindUri, setBlindUri] = useState('')
+  const [hasStage, setHasStage] = useState(false)
   const nftStageContract = useNftStageContract()
   const nftStageMarketContract = useNftStageMarketContract()
   const handleOpneBox = async () => {
@@ -114,6 +115,12 @@ const BlindBox = () => {
     setIsOpend(_isOpened)
   }
 
+  const checkHasStage = async () => {
+    const _hasStage = await nftStageMarketContract.hasStage()
+    console.log('log==_hasStage==', _hasStage)
+    setHasStage(_hasStage)
+  }
+
   const getBlindBoxUri = async () => {
     const uri = await nftStageContract.notRevealedUri()
     console.log('log==uri', uri)
@@ -123,6 +130,7 @@ const BlindBox = () => {
     if (account) {
       getBlindBoxUri()
       checkOpend()
+      checkHasStage()
       checkAccount()
       getAllToken()
     }
@@ -193,7 +201,18 @@ const BlindBox = () => {
     )
 
     return (
-      <Button width="100%" mt={20} onClick={onPresentBlindBoxPriceModal} disabled={isOpened}>
+      <Button
+        width="100%"
+        mt={20}
+        onClick={() => {
+          if (!hasStage) {
+            toastError('盲盒已开完!')
+            return
+          }
+          onPresentBlindBoxPriceModal()
+        }}
+        disabled={isOpened}
+      >
         <Flex justifyContent="center" alignItems="center">
           {isOpened ? '已开启' : '开启盲盒'}
         </Flex>

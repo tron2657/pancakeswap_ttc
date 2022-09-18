@@ -89,8 +89,8 @@ const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDis
   return (
     <Modal title={t('确认开启盲盒')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
       <Flex flexDirection="column" maxWidth="350px">
-        <Flex alignItems="center" mb="16px" justifyContent="space-between">
-          <Box width="100%">
+        <Flex alignItems="center" mb="16px" justifyContent="flex-start">
+          <Box width="80%">
             <Input
               ref={inputRef}
               type="text"
@@ -101,6 +101,9 @@ const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDis
               onChange={handleInputChange}
             />
           </Box>
+          <Text ml="8px" color="text">
+            TTC
+          </Text>
         </Flex>
 
         <Flex flexDirection="column" pt="16px" alignItems="center">

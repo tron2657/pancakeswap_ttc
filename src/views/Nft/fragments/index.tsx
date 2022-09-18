@@ -39,7 +39,7 @@ import PageLoader from 'components/Loader/PageLoader'
 import ToggleView from 'components/ToggleView/ToggleView'
 import { CollectionCard } from './components/CollectibleCard'
 import { BNBAmountLabel } from './components/CollectibleCard/styles'
-import { useNftStageContract, useNftStageMarketContract } from 'hooks/useContract'
+import { useNftCardContract, useNftStageContract, useNftStageMarketContract } from 'hooks/useContract'
 import BuyModal from './components/buyModal'
 
 export const ITEMS_PER_PAGE = 9
@@ -95,8 +95,10 @@ const Fragment = () => {
   const [sortDirection, setSortDirection] = useState<boolean>(false)
   const nftStageMarketContract = useNftStageMarketContract()
   const nftStageContract = useNftStageContract()
+  const nftCardContract = useNftCardContract()
   const [isLoading, setIsLoading] = useState(false)
   const [stageList, setStageList] = useState([])
+  const [fee, setFee] = useState(0)
   const { data: collections = [], status } = useSWRImmutable<
     (Collection & Partial<{ lowestPrice: number; highestPrice: number }>)[]
   >(
@@ -172,7 +174,11 @@ const Fragment = () => {
       return json
     }
   }
-
+  const getFee = async () => {
+    const _fee = await nftCardContract.markFee()
+    console.log('log==_fee==', _fee.toNumber())
+    setFee(_fee.toNumber() / 100)
+  }
   useEffect(() => {
     if (isMobile) {
       setTimeout(() => {
@@ -188,6 +194,7 @@ const Fragment = () => {
   useEffect(() => {
     if (account) {
       fetchMarketItems()
+      getFee()
     }
   }, [account])
 
@@ -250,7 +257,7 @@ const Fragment = () => {
               TTC
             </Text>
             <Text display="inline" fontSize="16px" color="text" ml="5px">
-              {item.price ? Number(item.price.toString()) / Math.pow(10, 18) : 0}
+              {item.price ? (Number(item.price.toString()) / Math.pow(10, 18)) * (1 + fee) : 0}
             </Text>
           </Box>
           {/* <BNBAmountLabel amount={collection.totalVolumeBNB ? parseFloat(collection.totalVolumeBNB) : 0} /> */}

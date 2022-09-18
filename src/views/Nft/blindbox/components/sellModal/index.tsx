@@ -117,7 +117,7 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
     <Modal title={t('输入挂卖')} onDismiss={onDismiss} headerBackground={theme.colors.gradients.cardHeader}>
       <Flex flexDirection="column" maxWidth="350px">
         <Flex alignItems="center" mb="16px" justifyContent="space-between">
-          <Box width="100%">
+          <Box width="80%">
             <Input
               ref={inputRef}
               type="text"
@@ -128,6 +128,9 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
               onChange={handleInputChange}
             />
           </Box>
+          <Text ml="8px" color="text">
+            TTC
+          </Text>
         </Flex>
 
         <Flex flexDirection="column" pt="16px" alignItems="center">
