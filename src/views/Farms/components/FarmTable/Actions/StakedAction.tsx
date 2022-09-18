@@ -23,7 +23,13 @@ import WithdrawModal from '../../WithdrawModal'
 import { ActionContainer, ActionContent, ActionTitles } from './styles'
 import { FarmWithStakedValue } from '../../types'
 import StakedLP from '../../StakedLP'
-import { useCheckTTCApprovalStatus, useApproveTTC, useTTCNumber } from 'views/Farms/hooks/useApprove'
+import {
+  useCheckTTCApprovalStatus,
+  useApproveTTC,
+  useCheckCoinApprovalStatus,
+  useApproveCoin,
+  useTTCNumber,
+} from 'views/Farms/hooks/useApprove'
 import tokens from 'config/constants/tokens'
 import useStakeFarms from '../../../hooks/useStakeFarms'
 import useTokenBalance from 'hooks/useTokenBalance'
@@ -31,16 +37,9 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import { PLEDGE_API } from 'config/constants/endpoints'
 import { useFetchInitData, useFetchPledgeList, usePledgeListParams } from 'state/pledge/hooks'
 import { fetchPledgeListAsync, setPlegeListParams } from 'state/pledge/reducer'
-const handleParticipateApi = async (
-  account: string,
-  ttc_num: string,
-  day: any,
-  coin_hash: any,
-  coin_num: any,
-  id: any,
-) => {
+const handleParticipateApi = async (account: string, ttc_num: string, day: any, coin_num: any, id: any) => {
   const res = await fetch(
-    `${PLEDGE_API}/pledge/pledge_buy?address=${account}&ttc_num=${ttc_num}&day=${day}&coin_hash=${coin_hash}&coin_num=${coin_num}&id=${id}`,
+    `${PLEDGE_API}/pledge/pledge_buy?address=${account}&ttc_num=${ttc_num}&day=${day}&coin_num=${coin_num}&id=${id}`,
     {
       method: 'post',
     },
@@ -74,6 +73,12 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
   // console.log('initData===', initData)
   const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
   const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(tokens.ttc.address, farm['from_address3'])
+  const { isCoinApproved, setCoinLastUpdated } = useCheckCoinApprovalStatus(farm['coin_contract2'], farm['put_address'])
+  const { handleCoinApprove: handleCoinApprove, pendingTx: pendingCoinTx } = useApproveCoin(
+    farm['coin_contract2'],
+    farm['put_address'],
+    setCoinLastUpdated,
+  )
   const { handleTTCApprove: handleTTCApprove, pendingTx: pendingTTCTx } = useApproveTTC(
     tokens.ttc.address,
     farm['from_address3'],
@@ -93,26 +98,27 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
       toastError('TTC余额不足')
       return
     }
-    const receipt = await fetchWithCatchTxError(() => {
-      return onStake(amount)
-    })
-    console.log('receipt.transactionHash', receipt.transactionHash)
-    postStake(amount, ttcNum, duration, id, receipt.transactionHash)
-    if (receipt?.status) {
-      toastSuccess(
-        `${t('Staked')}!`,
-        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
-          {t('Your funds have been staked in the farm')}
-        </ToastDescriptionWithTx>,
-      )
 
-      // dispatch(fetchPledgeListAsync({ account: account, params: statePledgeListParams }))
-      // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
-    }
+    postStake(amount, ttcNum, duration, id)
+    // const receipt = await fetchWithCatchTxError(() => {
+    //   return onStake(amount)
+    // })
+
+    // if (receipt?.status) {
+    //   toastSuccess(
+    //     `${t('Staked')}!`,
+    //     <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+    //       {t('Your funds have been staked in the farm')}
+    //     </ToastDescriptionWithTx>,
+    //   )
+
+    //   // dispatch(fetchPledgeListAsync({ account: account, params: statePledgeListParams }))
+    //   // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
+    // }
   }
 
-  const postStake = async (amount: string, ttcNum: string, duration: any, id: any, transactionHash: any) => {
-    const data = await handleParticipateApi(account, ttcNum, duration, transactionHash, amount, id)
+  const postStake = async (amount: string, ttcNum: string, duration: any, id: any) => {
+    const data = await handleParticipateApi(account, ttcNum, duration, amount, id)
     if (data.status) {
       toastSuccess(t(data.msg))
       // setSecondsRemaining(120)
@@ -141,7 +147,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
     )
   }
 
-  if (isTTCApproved) {
+  if (isTTCApproved && isCoinApproved) {
     // if (stakedBalance.gt(0)) {
     //   return (
     //     <ActionContainer>
@@ -227,11 +233,20 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
           {t('Enable Farm')}
         </Text>
       </ActionTitles>
-      <ActionContent>
-        <Button width="100%" disabled={pendingTx} onClick={handleTTCApprove} variant="secondary">
-          {t('Enable')}
-        </Button>
-      </ActionContent>
+      {!isTTCApproved && (
+        <ActionContent>
+          <Button width="100%" disabled={pendingTx} onClick={handleTTCApprove} variant="secondary">
+            {t('授权TTC')}
+          </Button>
+        </ActionContent>
+      )}
+      {!isCoinApproved && (
+        <ActionContent>
+          <Button width="100%" disabled={pendingCoinTx} onClick={handleCoinApprove} variant="secondary">
+            {t('Enable Farm')}
+          </Button>
+        </ActionContent>
+      )}
     </ActionContainer>
   )
 }

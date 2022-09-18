@@ -201,3 +201,57 @@ export const useTTCNumber = () => {
     formattedAmounts: formattedAmounts,
   }
 }
+
+export const useApproveCoin = (contractAddress: string, toAddress: string, setLastUpdated: () => void) => {
+  const { toastSuccess } = useToast()
+  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
+  const { callWithGasPrice } = useCallWithGasPrice()
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const CoinContract = contractAddress
+  const { account } = useWeb3React()
+  const CoinContractApprover = useERC20(CoinContract)
+
+  const handleCoinApprove = useCallback(async () => {
+    const receipt = await fetchWithCatchTxError(() => {
+      return callWithGasPrice(CoinContractApprover, 'approve', [toAddress, MaxUint256])
+    })
+    if (receipt?.status) {
+      toastSuccess(
+        t('Contract Enabled'),
+        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+          {/* {t('You can now stake in the %symbol% pool!', { symbol: earningTokenSymbol })} */}
+        </ToastDescriptionWithTx>,
+      )
+      setLastUpdated()
+      // dispatch(updateUserAllowance({ sousId, account }))
+    }
+  }, [account, dispatch, CoinContract, t, toastSuccess, callWithGasPrice, fetchWithCatchTxError])
+
+  return { handleCoinApprove, pendingTx }
+}
+
+export const useCheckCoinApprovalStatus = (contractAddress, toAddress) => {
+  const CoinContract = contractAddress
+  const usdtContractApprover = useERC20(CoinContract)
+
+  const { account } = useWeb3React()
+  // const { reader: cakeContract } = useCake()
+  // const vaultPoolContract = useVaultPoolContract()
+
+  const key = useMemo<UseSWRContractKey>(
+    () =>
+      account
+        ? {
+            contract: usdtContractApprover,
+            methodName: 'allowance',
+            params: [account, toAddress],
+          }
+        : null,
+    [account, usdtContractApprover, toAddress],
+  )
+
+  const { data, mutate } = useSWRContract(key)
+  console.log('===setTTCLastUpdated', data)
+  return { isCoinApproved: data ? data.gt(0) : false, setCoinLastUpdated: mutate }
+}
