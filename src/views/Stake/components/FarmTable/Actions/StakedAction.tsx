@@ -66,10 +66,13 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
     farm['from_address3'],
     setTTCLastUpdated,
   )
-  const { isCoinApproved, setCoinLastUpdated } = useCheckCoinApprovalStatus(farm['coin_contract2'], farm['put_address'])
+  const { isCoinApproved, setCoinLastUpdated } = useCheckCoinApprovalStatus(
+    farm['coin_contract2'],
+    farm['from_address3'],
+  )
   const { handleCoinApprove: handleCoinApprove, pendingTx: pendingCoinTx } = useApproveCoin(
     farm['coin_contract2'],
-    farm['put_address'],
+    farm['from_address3'],
     setCoinLastUpdated,
   )
 
@@ -191,6 +194,17 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
             {lpSymbol}
           </Text> */}
         </ActionTitles>
+        <ActionContent>
+          <Button
+            width="100%"
+            onClick={onPresentDeposit}
+            variant="secondary"
+            disabled={farm['status'] != 2}
+            // disabled={['history', 'archived'].some((item) => router.pathname.includes(item))}
+          >
+            {t('Stake')}
+          </Button>
+        </ActionContent>
       </ActionContainer>
     )
   }

@@ -73,10 +73,13 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
   // console.log('initData===', initData)
   const { balance: ttcBalance } = useTokenBalance(tokens.ttc.address)
   const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(tokens.ttc.address, farm['from_address3'])
-  const { isCoinApproved, setCoinLastUpdated } = useCheckCoinApprovalStatus(farm['coin_contract2'], farm['put_address'])
+  const { isCoinApproved, setCoinLastUpdated } = useCheckCoinApprovalStatus(
+    farm['coin_contract2'],
+    farm['from_address3'],
+  )
   const { handleCoinApprove: handleCoinApprove, pendingTx: pendingCoinTx } = useApproveCoin(
     farm['coin_contract2'],
-    farm['put_address'],
+    farm['from_address3'],
     setCoinLastUpdated,
   )
   const { handleTTCApprove: handleTTCApprove, pendingTx: pendingTTCTx } = useApproveTTC(
