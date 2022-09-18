@@ -82,7 +82,7 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
   }
 
   const handleSell = async () => {
-    if (Number(price) < 0 || Number(price) > 1) {
+    if (Number(price) <= 0 || Number(price) > 1) {
       toastError('请将价格设置在0-1TTC')
       return
     }

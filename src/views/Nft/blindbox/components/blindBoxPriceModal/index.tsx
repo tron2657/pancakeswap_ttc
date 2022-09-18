@@ -60,7 +60,7 @@ const BlindBoxPriceModal: React.FC<InviteModalProps> = ({ customOnDismiss, onDis
     enforcer(event.target.value.replace(/,/g, '.'))
   }
   const handleConfirmClick = async () => {
-    if (Number(price) < 0 || Number(price) > 1) {
+    if (Number(price) <= 0 || Number(price) > 1) {
       toastError('请将价格设置在0-1TTC')
       return
     }
