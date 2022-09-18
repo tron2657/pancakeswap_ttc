@@ -191,20 +191,6 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
             {lpSymbol}
           </Text> */}
         </ActionTitles>
-        {!isTTCApproved && (
-          <ActionContent>
-            <Button width="100%" disabled={pendingTx} onClick={handleTTCApprove} variant="secondary">
-              {t('授权TTC')}
-            </Button>
-          </ActionContent>
-        )}
-        {!isCoinApproved && (
-          <ActionContent>
-            <Button width="100%" disabled={pendingCoinTx} onClick={handleCoinApprove} variant="secondary">
-              {t('Enable Farm')}
-            </Button>
-          </ActionContent>
-        )}
       </ActionContainer>
     )
   }
@@ -231,11 +217,20 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
           {t('Enable Farm')}
         </Text>
       </ActionTitles>
-      <ActionContent>
-        <Button width="100%" disabled={pendingTTCTx} onClick={handleTTCApprove} variant="secondary">
-          {t('Enable')}
-        </Button>
-      </ActionContent>
+      {!isTTCApproved && (
+        <ActionContent>
+          <Button width="100%" disabled={pendingTx} onClick={handleTTCApprove} variant="secondary">
+            {t('授权TTC')}
+          </Button>
+        </ActionContent>
+      )}
+      {!isCoinApproved && (
+        <ActionContent>
+          <Button width="100%" disabled={pendingCoinTx} onClick={handleCoinApprove} variant="secondary">
+            {t('启用糖浆池')}
+          </Button>
+        </ActionContent>
+      )}
     </ActionContainer>
   )
 }
