@@ -216,7 +216,7 @@ const Fragment = () => {
 
   const RenderBuyBtn = ({ nft, metaData, callback }) => {
     const [onPresentBuyModal, closePresentBuyModal] = useModal(
-      <BuyModal nft={nft} metaData={metaData} customOnDismiss={fetchMarketItems} />,
+      <BuyModal nft={nft} fee={fee} metaData={metaData} customOnDismiss={fetchMarketItems} />,
     )
     return (
       <Button as="a" scale="sm" height="28px" padding="0 12px" disabled={nft['sold']} onClick={onPresentBuyModal}>

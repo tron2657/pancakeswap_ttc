@@ -40,6 +40,7 @@ import { getBalanceNumber } from 'utils/formatBalance'
 interface InviteModalProps extends InjectedModalProps {
   nft: any
   metaData: any
+  fee: number
   customOnDismiss: () => void
 }
 
@@ -54,7 +55,7 @@ const BorderedBox = styled(Box)`
 `
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." characters via in a non-capturing group
 
-const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, onDismiss }) => {
+const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, fee, customOnDismiss, onDismiss }) => {
   console.log('log=====nft', nft)
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
@@ -176,7 +177,7 @@ const BuyModal: React.FC<InviteModalProps> = ({ nft, metaData, customOnDismiss, 
               {t('Total payment')}
             </Text>
             <Text display="inline" color="text" fontSize={16}>
-              {Number(nft['price'].toString()) / Math.pow(10, 18)}
+              {(Number(nft['price'].toString()) / Math.pow(10, 18)) * (1 + fee)}
             </Text>
           </Flex>
           <Flex justifyContent="space-between" alignItems="center">
