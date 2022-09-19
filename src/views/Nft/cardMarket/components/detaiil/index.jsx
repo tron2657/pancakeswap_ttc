@@ -191,6 +191,8 @@ const NftCardDetail = ({ tokenId, nft }) => {
         }
 
         const handleBuy = async () => {
+
+
             const receipt = await fetchWithCatchTxError(() => {
                 return callWithGasPrice(nftCardMarketContract, 'createMarketSale', [
                     nftCardContract.address,

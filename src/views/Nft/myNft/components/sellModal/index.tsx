@@ -91,12 +91,12 @@ const SellModal: React.FC<InviteModalProps> = ({ tokenId, customOnDismiss, onDis
 
   const handleSell = async () => {
     let _price = Number(price) * Math.pow(10, 18)
-    console.log('log======_price', _price)
+    console.log('log======_price', BigInt(_price))
     const receipt = await fetchWithCatchTxError(() => {
       return callWithGasPrice(nftCardMarketContract, 'createMarketItem', [
         nftCardContract.address,
         tokenId,
-        _price.toString(),
+        BigInt(_price).toString(),
       ])
     })
     if (receipt?.status) {
