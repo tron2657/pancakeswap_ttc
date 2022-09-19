@@ -221,7 +221,15 @@ const NftCardMarket = () => {
     )
     return (
       <Button as="a" scale="sm" height="28px" padding="0 12px" disabled={nft['sold']}>
-        {nft['sold'] ? t('已售') : t('Buy')}
+        {nft['owner'] ? t('已售') : t('Buy')}
+      </Button>
+    )
+  }
+
+  const RenderCancelSell = ({ nft }) => {
+    return (
+      <Button as="a" scale="sm" height="28px" padding="0 12px">
+        {t('下架')}
       </Button>
     )
   }
@@ -273,7 +281,7 @@ const NftCardMarket = () => {
           </Box>
           {/* <BNBAmountLabel amount={collection.totalVolumeBNB ? parseFloat(collection.totalVolumeBNB) : 0} /> */}
           {item.seller == account ? (
-            <></>
+            <RenderCancelSell nft={item}></RenderCancelSell>
           ) : (
             <RenderBuyBtn nft={item} metaData={metaData} callback={fetchMarketItems}></RenderBuyBtn>
           )}

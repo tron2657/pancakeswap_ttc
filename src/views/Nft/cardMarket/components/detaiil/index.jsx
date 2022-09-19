@@ -190,6 +190,7 @@ const NftCardDetail = ({ tokenId, nft }) => {
             // handleDismiss()
         }
 
+
         const handleBuy = async () => {
 
 
@@ -209,6 +210,8 @@ const NftCardDetail = ({ tokenId, nft }) => {
                 router.push('/nfts/market')
             }
         }
+
+
         return (
             <Flex flexDirection="column" pt="16px" alignItems="center">
                 {isTTCApproved ? (
@@ -219,6 +222,105 @@ const NftCardDetail = ({ tokenId, nft }) => {
                         onClick={handleConfirmClick}
                     >
                         {t('Buy')}
+                    </Button>
+                ) : (
+                    <Button
+                        mt="8px"
+                        width="100%"
+                        isLoading={pendingTTCTx}
+                        disabled={pendingTTCTx}
+                        onClick={handleTTCApprove}
+                        endIcon={pendingTTCTx ? <AutoRenewIcon color="currentColor" spin /> : null}
+                    >
+                        {t('授权')}
+                    </Button>
+                )}
+            </Flex>
+        )
+    }
+
+    const RenderCancelSellBtn = ({ nft, metaData, callback }) => {
+        const ttc_contract = useTokenContract(tokens.eti.address)
+        const nftCardContract = useNftCardContract()
+        const nftCardMarketContract = useNftCardMarketContract()
+
+        const { balance: ttcBalance } = useTokenBalance(tokens.eti.address)
+        const { balance: usdtBalance } = useTokenBalance(tokens.eti.address)
+
+        const { toastSuccess } = useToast()
+        const { callWithGasPrice } = useCallWithGasPrice()
+        const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
+        const { isTTCApproved, setTTCLastUpdated } = useCheckTTCApprovalStatus(
+            ttc_contract.address,
+            nftCardMarketContract.address,
+        )
+
+        const { handleTTCApprove: handleTTCApprove, pendingTx: pendingTTCTx } = useApproveTTC(
+            ttc_contract.address,
+            nftCardMarketContract.address,
+            setTTCLastUpdated,
+        )
+
+        const { isApprovedForAll, setNftApprovalAllLastUpdated } = useCheckNftApprovalForAllStatus()
+
+        const { handleSetApproveAll: handleSetApproveAll, pendingTx: pendingApproveAllTx } =
+            useSetApproveAll(setNftApprovalAllLastUpdated)
+
+
+        const handleConfirmClick = async () => {
+            if (!isApprovedForAll) {
+                const receipt = await fetchWithCatchTxError(() => {
+                    return callWithGasPrice(nftCardContract, 'setApprovalForAll', [nftCardMarketContract.address, true])
+                })
+                if (receipt?.status) {
+                    toastSuccess(
+                        t('Contract Enabled'),
+                        <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+                            {/* {t('You can now stake in the %symbol% pool!', { symbol: earningTokenSymbol })} */}
+                        </ToastDescriptionWithTx>,
+                    )
+                    handleCancelSell()
+                    // dispatch(updateUserAllowance({ sousId, account }))
+                }
+            } else {
+                handleCancelSell()
+            }
+            // handleSell()
+            // handleDismiss()
+        }
+
+
+
+
+        const handleCancelSell = async () => {
+
+
+            const receipt = await fetchWithCatchTxError(() => {
+                return callWithGasPrice(nftCardMarketContract, 'removeMarketItem', [
+                    nftCardContract.address,
+                    nft['itemId'],
+                ])
+            })
+            if (receipt?.status) {
+                toastSuccess(
+                    t('Contract Enabled'),
+                    <ToastDescriptionWithTx txHash={receipt.transactionHash}>
+                        {t('您已成功下架!', { symbol: 'ETI' })}
+                    </ToastDescriptionWithTx>,
+                )
+                router.push('/nfts/market')
+            }
+        }
+        return (
+            <Flex flexDirection="column" pt="16px" alignItems="center">
+                {isTTCApproved ? (
+                    <Button
+                        width="100%"
+                        isLoading={pendingTx}
+                        endIcon={pendingTx ? <AutoRenewIcon color="currentColor" spin /> : null}
+                        onClick={handleConfirmClick}
+                    >
+                        {t('下架')}
                     </Button>
                 ) : (
                     <Button
@@ -265,7 +367,7 @@ const NftCardDetail = ({ tokenId, nft }) => {
                             </Text>
                             {/* <RenderSellBtn></RenderSellBtn> */}
                             {
-                                nft.seller != account ? <RenderBuyBtn nft={nft} metaData={metaData} callback={() => { }}></RenderBuyBtn> : <></>
+                                nft.seller != account ? <RenderBuyBtn nft={nft} metaData={metaData} callback={() => { }}></RenderBuyBtn> : <RenderCancelSellBtn nft={nft} metaData={metaData} callback={() => { }}></RenderCancelSellBtn>
                             }
 
 
