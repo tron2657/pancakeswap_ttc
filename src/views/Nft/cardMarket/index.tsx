@@ -221,7 +221,7 @@ const NftCardMarket = () => {
     )
     return (
       <Button as="a" scale="sm" height="28px" padding="0 12px" disabled={nft['sold']}>
-        {nft['owner'] ? t('已售') : t('Buy')}
+        {nft['sold'] ? t('已售') : t('Buy')}
       </Button>
     )
   }
