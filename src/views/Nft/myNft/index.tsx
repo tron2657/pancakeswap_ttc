@@ -273,9 +273,9 @@ const MyNftCard = () => {
             <Text display="inline" fontSize="12px" color="textSubtle">
               ETI
             </Text>
-            <Text display="inline" fontSize="16px" color="text" ml="5px">
+            {/* <Text display="inline" fontSize="16px" color="text" ml="5px">
               {item.price ? Number(item.price.toString()) / Math.pow(10, 18) : 0}
-            </Text>
+            </Text> */}
           </Box>
           {/* <BNBAmountLabel amount={collection.totalVolumeBNB ? parseFloat(collection.totalVolumeBNB) : 0} /> */}
           <RenderSellBtn nft={item} metaData={metaData} callback={getAllNftCard}></RenderSellBtn>
