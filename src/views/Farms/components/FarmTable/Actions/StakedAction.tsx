@@ -21,6 +21,8 @@ import useUnstakeFarms from '../../../hooks/useUnstakeFarms'
 import DepositModal from '../../DepositModal'
 import WithdrawModal from '../../WithdrawModal'
 import { ActionContainer, ActionContent, ActionTitles } from './styles'
+import queryString from 'query-string'
+
 import { FarmWithStakedValue } from '../../types'
 import StakedLP from '../../StakedLP'
 import {
@@ -38,10 +40,22 @@ import { PLEDGE_API } from 'config/constants/endpoints'
 import { useFetchInitData, useFetchPledgeList, usePledgeListParams } from 'state/pledge/hooks'
 import { fetchPledgeListAsync, setPlegeListParams } from 'state/pledge/reducer'
 const handleParticipateApi = async (account: string, ttc_num: string, day: any, coin_num: any, id: any) => {
+  let _data = {
+    address: account,
+    ttc_num: ttc_num,
+    day: day,
+    coin_num: coin_num,
+    id: id,
+  }
+
   const res = await fetch(
     `${PLEDGE_API}/pledge/pledge_buy?address=${account}&ttc_num=${ttc_num}&day=${day}&coin_num=${coin_num}&id=${id}`,
     {
       method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: queryString.stringify(_data),
     },
   )
   if (res.ok) {
