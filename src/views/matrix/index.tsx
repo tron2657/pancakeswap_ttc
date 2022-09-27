@@ -280,15 +280,15 @@ const MatrixPage = ({ initData, account, code, callback }) => {
       // const invite = await getInviteListApi(account)
       const invite = [
         {
-          num: 18,
+          num: 180,
           name: t('Share rewards'),
         },
         {
-          num: 10,
+          num: 30,
           name: t('White reward'),
         },
         {
-          num: 8,
+          num: 26,
           name: t('Yellow reward'),
         },
         {

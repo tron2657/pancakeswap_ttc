@@ -39,10 +39,10 @@ const MatrixAboutage = () => {
           {t('TTC matrix NFT application ecological synthesis dividend mechanism:')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          {t('Synthetic white NFT: take 3 * 10usdt = 30usdt')}
+          {t('Synthetic white NFT: take 3 * 30usdt = 90usdt')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          {t('Synthetic yellow NFT: take 9 * 8usdt = 72 usdt')}
+          {t('Synthetic yellow NFT: take 9 * 26usdt = 234 usdt')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
           {t(
@@ -60,7 +60,7 @@ const MatrixAboutage = () => {
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
           {t(
-            'Total: 8958usdt (recommended by full invitation, according to the current price, the synthetic gold NFT can end with about 8-9 TTCs)',
+            'Total: 9180usdt (recommended by full invitation, according to the current price, the synthetic gold NFT can end with about 8-9 TTCs)',
           )}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
