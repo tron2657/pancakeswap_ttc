@@ -186,7 +186,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
       <Flex justifyContent="space-between" mt="12px">
         <Button scale="xs" p="4px 16px" width="auto" variant="tertiary" onClick={() => {}}>
           {t('已质押：')}
-          {detail['in_coin_num']}TTC
+          {detail['in_coin_num']}  {detail['coin_name2']}
         </Button>
       </Flex>
       <Text mt="24px" color="secondary" bold fontSize="12px" textTransform="uppercase">
