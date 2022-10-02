@@ -175,7 +175,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
         addLiquidityUrl={'addLiquidityUrl'}
         inputTitle={t('Stake')}
         showError={
-          Number(val) > Number(detail['out_coin_num'])
+          Number(val)*Number(detail['profit']) > Number(detail['out_coin_num'])
             ? '最大金额不能超过剩余金额'
             : Number(val) > getBalanceNumber(lpBalance)
             ? '余额不足'
