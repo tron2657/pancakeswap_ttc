@@ -232,7 +232,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ onConfirm, onDismiss, detai
         ) : (
           <Button
             width="100%"
-            disabled={Number(val) > Number(detail['out_coin_num']) || Number(val) > getBalanceNumber(lpBalance)}
+            disabled={Number(val)*Number(detail['profit']) > Number(detail['out_coin_num']) || Number(val) > getBalanceNumber(lpBalance)}
             onClick={async () => {
               setPendingTx(true)
               onCurrencySelection(Field.INPUT, inputCurrency)
