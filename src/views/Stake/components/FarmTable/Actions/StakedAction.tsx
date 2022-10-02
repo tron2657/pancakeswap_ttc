@@ -33,7 +33,7 @@ const handleParticipateApi = async (account: string, ttc_num: string, day: any, 
     coin_num: coin_num,
     id: id,
   }
-  const res = await fetch(`${PLEDGE_API}/ple  dge/pledge_buy`, {
+  const res = await fetch(`${PLEDGE_API}/pledge/pledge_buy`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
