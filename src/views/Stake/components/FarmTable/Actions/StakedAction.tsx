@@ -33,7 +33,7 @@ const handleParticipateApi = async (account: string, ttc_num: string, day: any, 
     coin_num: coin_num,
     id: id,
   }
-  const res = await fetch(`${PLEDGE_API}/ple  dge/pledge_buy`, {
+  const res = await fetch(`${PLEDGE_API}/pledge/pledge_buy`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -94,12 +94,15 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ farm }) => {
 
   const statePledgeListParams = useFetchPledgeList()
   const handleStake = async (amount: string, ttcNum: string, duration: any, id: any) => {
+ 
     console.log('amount==', amount, 'ttcNum===', ttcNum, 'duration===', duration, 'id===', id)
 
-    // if (Number(amount) > Number(farm.out_coin_num)) {
-    //   toastError('最大金额不能超过 剩余金额')
-    //   return
-    // }
+    const money=Number(amount)*Number(farm.profit) ;
+ 
+    if (money > Number(farm.out_coin_num)) {        
+      toastError('最大金额不能超过 剩余金额' )
+      return
+    }
     if (getBalanceNumber(ttcBalance) < Number(ttcNum)) {
       toastError('TTC余额不足')
       return

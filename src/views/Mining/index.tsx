@@ -353,7 +353,7 @@ const Mining = ({ initData, account, callback }) => {
               </Text>
             </Flex>
             {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
-
+ 
             <Text textAlign="center" onClick={onEarnListMobileModal} small mt={'8px'} color="primary">
               {t('Recent Earnings')}
             </Text>
