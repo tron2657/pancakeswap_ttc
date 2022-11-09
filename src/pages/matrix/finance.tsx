@@ -22,7 +22,7 @@ const getRegtApi = async (account: string) => {
   let _data = {
     address: account,
   }
-  const res = await fetch(`${PLEDGE_API}/user/app_reg`, {
+  const res = await fetch(`${TTC_API}/user/app_reg`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -47,7 +47,7 @@ const CurrentMatrixFinancePage = () => {
   useEffect(() => {
     async function init() {
       if (account) {
-        await getRegtApi(account)
+        // await getRegtApi(account)
         const _data = await getInitDataApi(account)
 
         if (_data.status) {
