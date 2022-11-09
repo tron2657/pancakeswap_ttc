@@ -292,15 +292,15 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           name: t('Yellow reward'),
         },
         {
-          num: 16,
+          num: 4,
           name: t('Red reward'),
         },
         {
-          num: 20,
+          num: 5,
           name: t('Blue reward'),
         },
         {
-          num: 28,
+          num: 7,
           name: t('Gold Award'),
         },
       ]
@@ -364,7 +364,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
       </Link>
       <Box mt="10px">
         <Text color="#fff" fontSize="14px" textAlign="center">
-          {t('Please add MX (matrix) contract address for card slot, and air drop 120 pieces')}
+          {t('Please add MX (matrix) contract address for card slot, and air drop 131 pieces')}
         </Text>
         <Flex mt="10px" flexWrap="wrap" justifyContent="center" alignItems="center">
           <Text color="#fff" fontSize="14px" fontWeight="600" mr="5px">
@@ -379,6 +379,16 @@ const MatrixPage = ({ initData, account, code, callback }) => {
             tooltipTop={20}
           />
         </Flex>
+      </Box>
+      <Box mt="10px">
+        <Link href="/matrix/finance" passHref>
+          {/* <Text color="#fff" fontSize="16px" textAlign="center">
+          我的点位
+        </Text> */}
+          <Button className="border-btn" type="button" scale="sm">
+            MX销毁理财
+          </Button>
+        </Link>
       </Box>
       <Box mb="20px">
         <Link href="/matrix/about" passHref>
