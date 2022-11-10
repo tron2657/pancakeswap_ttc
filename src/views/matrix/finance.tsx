@@ -185,17 +185,6 @@ const getMyListApi = async (account: string) => {
   console.error('Failed to fetch NFT collections', res.statusText)
   return null
 }
-const getMySNodeApi = async (account: string) => {
-  const res = await fetch(`${TTC_API}/user/my_s_node?address=${account}`, {
-    method: 'get',
-  })
-  if (res.ok) {
-    const json = await res.json()
-    return json
-  }
-  console.error('Failed to fetch NFT collections', res.statusText)
-  return null
-}
 
 const getMxInfoApi = async (account: string) => {
   const res = await fetch(`${TTC_API}/pledge/pledge_info?address=${account}`, {
@@ -274,7 +263,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
     })
     // console.log('receipt.transactionHash', receipt.transactionHash)
     if (receipt?.status) {
-      postStake(amount, ttcNum, receipt.transactionHash)
+      postStake(amount, ttc_num, receipt.transactionHash)
       toastSuccess(
         `${t('Transferd')}!`,
         <ToastDescriptionWithTx txHash={receipt.transactionHash}>
@@ -455,7 +444,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
             return (
               <Flex justifyContent="space-between" alignItems="center" mb="15px">
                 <Text color="#fff" fontSize="16px" textAlign="center">
-                  {format(item.add_time, 'yyyy-MM-dd')}
+                  {format(item['add_time'] * 1000, 'yyyy-MM-dd')}
                 </Text>
                 <Text color="#fff" fontSize="16px" textAlign="center">
                   {item.price} TTC
