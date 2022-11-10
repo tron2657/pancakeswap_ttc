@@ -151,7 +151,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
         href: '/matrix',
       },
       {
-        label: t('易经BOC'),
+        label: t('TTC-OTC'),
         href: 'https://bookofchanges.mysxl.cn/',
         type: DropdownMenuItemType.EXTERNAL_LINK,
       },
