@@ -381,7 +381,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
         </Flex>
       </Box>
       <Box mt="10px">
-        <Link href="/matrix/finance" passHref>
+        <Link href={initData.is_order == 1 ? '/matrix/finance' : ''} passHref aria-disabled={true}>
           {/* <Text color="#fff" fontSize="16px" textAlign="center">
           我的点位
         </Text> */}
