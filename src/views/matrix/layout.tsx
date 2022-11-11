@@ -89,7 +89,7 @@ const MatrixLayOut = ({ initData, account, showShare, children }) => {
             fontSize="46px"
             fontWeight="600"
           >
-            MATRIX
+            MATRIX 2.0
           </Text>
           <p>
             <Text display="inline-block" color="#fff" fontSize="20px" fontWeight="600">

@@ -50,17 +50,17 @@ const MatrixAboutage = () => {
           )}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          {t('Synthetic red NFT: take 27 * 16usdt = 432usdt')}
+          {t('Synthetic red NFT: take 27 * 4usdt = 108usdt')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          {t('Synthetic blue NFT: take 81 * 20usdt = 1620usdt')}
+          {t('Synthetic blue NFT: take 81 * 5usdt = 405usdt')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
-          {t('合成金色NFT：拿243个*28USDT=6804USDT')}
+          {t('合成金色NFT：拿243个*7USDT=1701USDT')}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">
           {t(
-            'Total: 9180usdt (recommended by full invitation, according to the current price, the synthetic gold NFT can end with about 8-9 TTCs)',
+            'Total: 2538usdt (recommended by full invitation, according to the current price, the synthetic gold NFT can end with about 8-9 TTCs)',
           )}
         </Text>
         <Text color="#fff" fontSize="16px" textAlign="center" mb="18px">

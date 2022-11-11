@@ -386,7 +386,7 @@ const MatrixPage = ({ initData, account, code, callback }) => {
           我的点位
         </Text> */}
           <Button className="border-btn" type="button" scale="sm">
-            MX销毁理财
+            MX销毁收益
           </Button>
         </Link>
       </Box>

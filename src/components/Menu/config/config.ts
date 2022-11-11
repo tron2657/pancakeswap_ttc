@@ -152,7 +152,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
       },
       {
         label: t('TTC-OTC'),
-        href: 'https://bookofchanges.mysxl.cn/',
+        href: '：https://www.usdtc2c.vip/',
         type: DropdownMenuItemType.EXTERNAL_LINK,
       },
       // {
