@@ -447,7 +447,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
                   {format(item['add_time'] * 1000, 'yyyy-MM-dd')}
                 </Text>
                 <Text color="#fff" fontSize="16px" textAlign="center">
-                  {item.price} ETI
+                  {item['reat'] == 1 ? '+' : '-'} {item.price} ETI
                 </Text>
               </Flex>
             )
