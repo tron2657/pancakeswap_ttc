@@ -371,13 +371,13 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
       </MatrixTop>
       <Box>
         <Text mb="5px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
-          {t('MX余额')}： {getBalanceNumber(usdtBalance)}个
+          {t('MX余额')}： {getBalanceNumber(usdtBalance)}U
         </Text>
         <Text mb="5px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
           {t('剩余待产')}： {mxInfo?.out_coin_num}个
         </Text>
         <Text mb="20px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
-          {t('可提ETI奖励')}： {mxInfo?.eti_coin}个
+          {t('ETI奖励')}： {mxInfo?.eti_coin}个
         </Text>
       </Box>
       {!isTTCApproved ? (
@@ -447,7 +447,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
                   {format(item['add_time'] * 1000, 'yyyy-MM-dd')}
                 </Text>
                 <Text color="#fff" fontSize="16px" textAlign="center">
-                  {item.price} TTC
+                  {item.price} ETI
                 </Text>
               </Flex>
             )
