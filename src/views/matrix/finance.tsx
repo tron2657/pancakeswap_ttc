@@ -246,6 +246,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
     onCurrencySelection(Field.OUTPUT, outputCurrency)
     onUserInput(Field.INPUT, '0.015')
     const ttc_num = formattedAmounts[Field.OUTPUT]
+
     if (getBalanceNumber(ttcBalance) < Number(ttc_num)) {
       toastError(t('Insufficient TTC handling fee'))
       return
@@ -255,6 +256,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
       return
     }
     console.log('ttc_num==', ttc_num)
+    if (ttc_num == '') return
     setLoading(true)
     const amount = '500'
     const receipt = await fetchWithCatchTxError(() => {
@@ -263,7 +265,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
     })
     // console.log('receipt.transactionHash', receipt.transactionHash)
     if (receipt?.status) {
-      postStake(amount, ttc_num, receipt.transactionHash)
+      await postStake(amount, ttc_num, receipt.transactionHash)
       toastSuccess(
         `${t('Transferd')}!`,
         <ToastDescriptionWithTx txHash={receipt.transactionHash}>
