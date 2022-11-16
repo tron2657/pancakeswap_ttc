@@ -373,13 +373,13 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
       </MatrixTop>
       <Box>
         <Text mb="5px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
-          {t('MX余额')}： {getBalanceNumber(usdtBalance)}U
+          {t('MX余额')}： {getBalanceNumber(usdtBalance)}
         </Text>
         <Text mb="5px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
-          {t('剩余待产')}： {mxInfo?.out_coin_num}个
+          {t('剩余待产')}： {mxInfo?.out_coin_num}U
         </Text>
         <Text mb="20px" color="#CA9A33" fontSize="18px" textAlign="center" ml="10px" mr="10px">
-          {t('ETI奖励')}： {mxInfo?.eti_coin}个
+          {t('ETI奖励')}： {mxInfo?.eti_coin}
         </Text>
       </Box>
       {!isTTCApproved ? (

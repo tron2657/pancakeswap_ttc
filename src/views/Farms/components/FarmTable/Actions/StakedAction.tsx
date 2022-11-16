@@ -48,16 +48,13 @@ const handleParticipateApi = async (account: string, ttc_num: string, day: any, 
     id: id,
   }
 
-  const res = await fetch(
-    `${PLEDGE_API}/pledge/pledge_buy?address=${account}&ttc_num=${ttc_num}&day=${day}&coin_num=${coin_num}&id=${id}`,
-    {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: queryString.stringify(_data),
+  const res = await fetch(`${PLEDGE_API}/pledge/pledge_buy`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-  )
+    body: queryString.stringify(_data),
+  })
   if (res.ok) {
     const json = await res.json()
 
