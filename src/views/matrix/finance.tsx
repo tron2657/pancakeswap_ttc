@@ -258,7 +258,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
     console.log('ttc_num==', ttc_num)
     if (ttc_num == '') return
     setLoading(true)
-    const amount = '500'
+    const amount = '1000'
     const receipt = await fetchWithCatchTxError(() => {
       setLoading(false)
       return onTransfer(amount)
@@ -359,7 +359,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
           </p> */}
         </BoxWrapper>
         <Text color="#D77C0C" fontSize="20px" fontWeight="600" mt="10px">
-          {t('固定销毁500MX')}
+          {t('固定销毁1000MX')}
         </Text>
         <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
           {t('每个地址只能参与一次')}
