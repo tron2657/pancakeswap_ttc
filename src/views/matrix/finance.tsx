@@ -251,7 +251,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
       toastError(t('Insufficient TTC handling fee'))
       return
     }
-    if (getBalanceNumber(usdtBalance) < 500) {
+    if (getBalanceNumber(usdtBalance) < 1000) {
       toastError(t('MX 余额不足'))
       return
     }
@@ -365,7 +365,7 @@ const MatrixFinancePage = ({ initData, account, callback }) => {
           {t('每个地址只能参与一次')}
         </Text>
         <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
-          {t('销毁500MX，赚取价值3000U的ETI')}
+          {t('销毁1000MX，赚取价值6000U的ETI')}
         </Text>
         <Text color="#fff" fontSize="16px" fontWeight="600" mt="26px">
           {t('1年产完')}
