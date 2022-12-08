@@ -28,6 +28,14 @@ export const mainnetTokens = defineTokens({
     'ETI',
     'https://ttcswap.finance/',
   ),
+  lt: new Token(
+    MAINNET,
+    '0x649774f991D493Bf14c1D9CA3310099958071519',
+    18,
+    'LT',
+    'LT',
+    'https://ttcswap.finance/',
+  ),
   wbnb: new Token(
     MAINNET,
     '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',

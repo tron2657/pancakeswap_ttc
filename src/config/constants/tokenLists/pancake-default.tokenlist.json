@@ -27,7 +27,14 @@
       "logoURI": "https://ttcswap.finance/images/tokens/ETI_LOGO.png"
     },
  
-  
+    {
+      "name": "LaoTzu",
+      "symbol": "LT",
+      "address": "0x649774f991D493Bf14c1D9CA3310099958071519",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "https://ttcswap.finance/images/tokens/LT_LOGO.png"
+    },
     {
       "name": "Tether USD",
       "symbol": "USDT",

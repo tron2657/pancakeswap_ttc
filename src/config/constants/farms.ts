@@ -77,6 +77,19 @@ const farms: SerializedFarmConfig[] = [
     token: serializedTokens.busd,
     quoteToken: serializedTokens.wbnb,
   },
+
+  {
+    pid: 600,
+    v1pid: 600,
+    lpSymbol: 'TTC-LT LP',
+    lpAddresses: {
+      97: '',
+      56: '0xb85127cd1d2fdaF82937446ACAC076A0af90935b',
+    },
+    token: serializedTokens.ttc,
+    quoteToken: serializedTokens.lt,
+  },
+
   //    * V3 by order of release (some may be out of PID order due to multiplier boost)
   // {
   //   pid: 38,
